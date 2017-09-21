@@ -12,7 +12,7 @@ class Node {
     this.ID = ID;
     this.x = x;
     this.y = y;
-    this.diam = 15;
+    this.diam = 8;
   }
 
   //void addDestination(Node destination) {
@@ -59,7 +59,7 @@ class Node {
       fill(255, 0, 0);
     }
     strokeWeight(2);
-    ellipse(x, y, 5, 5);
+    ellipse(x, y, this.diam, this.diam);
     text(ID, x, y-15);
   }
 

@@ -50,4 +50,8 @@ class BodyPoint {
     stroke(255, 0, 0);
     line(point.x, point.y, next.x, next.y);
   }
+  
+  float angleBetween() {
+    return atan2((next.y - point.y),(next.x - point.x));
+  }
 }

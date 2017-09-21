@@ -72,16 +72,29 @@ PVector offset;
 PVector nodeOffset;
 float sc = 1.0;
 
+
+float elbowLAngle = 0;
+float elbowRAngle = 0;
+float handRAngle = 0;
+float handLAngle = 0;
+float kneeLAngle = 0;
+float kneeRAngle = 0;
+float footLAngle = 0;
+float footRAngle = 0;
+float spineAngle = 0;
+
+
 void setup() {
   graphL = new GraphList(100);
   size(640, 480);
 
-  //initFFT();
+  initFFT();
 
-  initKinect();
 
   lines = new ArrayList<Line>();
+  graphL.loadGraph();
 
+  initKinect();
   initBodyPoints();
 }
 
@@ -89,7 +102,7 @@ void setup() {
 //--------------------------------------------------------------
 void draw() {
   background(0);
-  //updateFFT();
+  updateFFT();
   //drawFFT();
   //graphL.display();
   drawKinect();
@@ -98,27 +111,30 @@ void draw() {
   stroke(0, 0, 255);
   //graphL.display();
 
-  drawBody();
-  drawConstellation();
+
   for (int i = 0; i < lines.size(); i++) {
-    //lines.get(i).displayPercent(bands[i%bands.length]/10);
+    lines.get(i).displayPercent(bands[i%bands.length]/10);
     //lines.get(i).twinkle();
     //lines.get(i).pulseLeftToRight((millis())%(width+300)-150, (millis())%(width+300));
   }
 
-  //  if (mode == ADD_EDGES) {
-  //    graphL.display();
-  //    graphL.drawLineToCurrent(mouseX, mouseY);
-  //  } else if (mode == ADD_NODES) {
-  //    graphL.display();
-  //    fill(255, 0, 0);
-  //    ellipse(mouseX, mouseY, 20, 20);
-  //  } else if (mode == KINECT_TIMESHOT) {
-  //    // text of time remaining?
-  //  } else if (mode == VISUALIZE) {
-  //    graphL.display();
-  //  }
-
+  if (mode == ADD_EDGES) {
+    graphL.display();
+    graphL.drawLineToCurrent(mouseX, mouseY);
+  } else if (mode == ADD_NODES) {
+    graphL.display();
+    fill(255, 0, 0);
+    ellipse(mouseX, mouseY, 20, 20);
+  } else if (mode == KINECT_TIMESHOT) {
+    // text of time remaining?
+  } else if (mode == VISUALIZE) {
+    //graphL.display();
+  }
+  
+  
+  //drawBody();
+  
+  drawConstellation();
   fill(255);
   text(frameRate, 100, 100);
 }
@@ -198,7 +214,8 @@ void drawKinect() {
       KJoint[] joints = skeleton.getJoints();
 
       color col  = skeleton.getIndexColor();
-      setBody(joints);
+      //setBody(joints);
+      setBodyAngles(joints);
     }
   }
 }
@@ -226,105 +243,7 @@ void drawBody() {
   }
 }
 
-void drawConstellation() {
-  if (graphL.nodes.size() > 20) {
-    stroke(255, 0, 0);
-    fill(255, 0, 0);
-    ArrayList<Node> bodyNodes = new ArrayList<Node>(); 
 
-    for (int j = 0; j < 5; j++) {
-      if (j == 0) bodyNodes = graphL.getConstellationPath(graphL.nodes.get(11), bodyPoints[0].next);
-      else {
-        if (bodyNodes.size() > 0) bodyNodes = graphL.getConstellationPath(bodyNodes.get(bodyNodes.size()-1), bodyPoints[j].next);
-      }
-      for (int i = 0; i < bodyNodes.size()-1; i++) {
-        line(bodyNodes.get(i).getX(), bodyNodes.get(i).getY(), bodyNodes.get(i+1).getX(), bodyNodes.get(i+1).getY());
-      }
-    }
-  }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// FFT
-
-void stop() {
-  myAudio.close();
-  minim.stop();  
-  super.stop();
-}
-
-// modified from Adafruit Industries Neopixel Library
-color Wheel(int WheelPos) {
-  WheelPos = 255 - WheelPos;
-  if (WheelPos < 85) {
-    return color(255 - WheelPos * 3, 0, WheelPos * 3);
-  } else if (WheelPos < 170) {
-    WheelPos -= 85;
-    return color(0, WheelPos * 3, 255 - WheelPos * 3);
-  } else {
-    WheelPos -= 170;
-    return color(WheelPos * 3, 255 - WheelPos * 3, 0);
-  }
-}  
-
-void initFFT() {
-  minim   = new Minim(this);
-  myAudio = minim.loadFile("song.wav");
-  myAudio.play();
-
-  myAudioFFT = new FFT(myAudio.bufferSize(), myAudio.sampleRate());
-  myAudioFFT.linAverages(myAudioRange);
-  myAudioFFT.window(FFT.GAUSS);
-  bands = new int[bandBreaks.length];
-}
-
-
-void updateFFT() {
-  myAudioFFT.forward(myAudio.mix);
-
-  int bandIndex = 0;
-  while (bandIndex < bands.length) {
-    float temp = 0;
-    int startB = 0; 
-    int endB = 0;
-    if (bandIndex == 0) {
-      startB = -1;
-      endB = bandBreaks[bandIndex];
-    } else if (bandIndex < bandBreaks.length) {
-      startB = bandBreaks[bandIndex-1];
-      endB = bandBreaks[bandIndex];
-    }
-    for (int j = startB+1; j <= endB; j++) {
-      temp += myAudioFFT.getAvg(j);
-    }
-    temp /= endB - startB;
-    temp *= myAudioAmp*myAudioIndexAmp;
-    bands[bandIndex] = int(temp*(bandIndex+.5));
-    bandIndex++;
-  }
-  myAudioIndexAmp = myAudioIndex;
-  myAudioIndexAmp2 = myAudioIndex2;
-}
-
-void drawFFT() {
-  int bandIndex = 0;
-  while (bandIndex < bandBreaks.length) {
-    fill(255, 5);
-    if (!transparentMode) fill (Wheel(int(bandIndex*(255.0/bandBreaks.length))));
-    else fill (Wheel(int(bandIndex*(255.0/bandBreaks.length))), 5);
-    rect( xStart + (bandIndex*xSpacing), yStart+200, rectSize, bands[bandIndex]);
-    bandIndex++;
-  }
-
-  //stroke(#FF3300); noFill();
-  //line(stageMargin, stageMargin+myAudioMax+200, 880-stageMargin, stageMargin+myAudioMax+200);
-
-  //if(mouseX > stageMargin && mouseX < stageWidth+stageMargin) {
-  //  stroke(0);
-  //  fill(0);
-  //  text((int)map(mouseX, stageMargin, stageWidth+stageMargin, 0, 256), mouseX, mouseY);
-  //}
-}
 
 
 
@@ -367,4 +286,73 @@ void initBodyPoints() {
   for (int i = 0; i < bodyPoints.length; i++) {
     bodyPoints[i] = new BodyPoint();
   }
+}
+
+
+void setBodyAngles(KJoint[] joints) {
+  elbowLAngle = getJointAngle(joints[KinectPV2.JointType_ElbowLeft], joints[ KinectPV2.JointType_ShoulderLeft]);
+  
+  elbowRAngle = getJointAngle(joints[KinectPV2.JointType_ElbowRight], joints[ KinectPV2.JointType_ShoulderRight]);
+  
+  handRAngle = getJointAngle(joints[KinectPV2.JointType_ElbowRight], joints[ KinectPV2.JointType_WristRight]);
+  handLAngle = getJointAngle(joints[KinectPV2.JointType_ElbowLeft], joints[ KinectPV2.JointType_WristLeft]);
+  kneeLAngle = getJointAngle(joints[KinectPV2.JointType_HipLeft], joints[ KinectPV2.JointType_KneeLeft]);
+  kneeRAngle = getJointAngle(joints[KinectPV2.JointType_HipRight], joints[ KinectPV2.JointType_KneeRight]);
+  footLAngle = getJointAngle(joints[KinectPV2.JointType_KneeLeft], joints[ KinectPV2.JointType_AnkleLeft]);
+  footRAngle = getJointAngle(joints[KinectPV2.JointType_KneeRight], joints[ KinectPV2.JointType_AnkleRight]);
+  spineAngle = getJointAngle(joints[KinectPV2.JointType_SpineMid], joints[ KinectPV2.JointType_SpineShoulder]);
+}
+
+void drawConstellation() {
+  // draw skirt
+  fill(0, 255, 255);
+  stroke(0, 255, 255);
+  graphL.drawLine(new int[]{17, 25, 24, 23, 17});
+
+  // draw top
+  // lean right
+  if (degrees(spineAngle) > 105) {
+    graphL.drawLine(new int[]{17, 9, 19, 17});
+  } else if (degrees(spineAngle) < 80) {
+    graphL.drawLine(new int[]{17, 11, 15, 17});
+  } else {
+    graphL.drawLine(new int[]{17, 11, 10, 9, 17});
+    graphL.drawLine(9, getRElbowNode(9));
+     graphL.drawLine(11, getLElbowNode(11));
+  }
+  println( degrees(elbowLAngle));
+}
+
+int getRElbowNode(int shoulder) {
+  if (shoulder == 9) {
+    float deg = degrees(elbowRAngle);
+    if (deg < 0) deg += 360;
+    if (deg > 300 && deg < 330) return 5;
+    else if (deg > 250) return 4;
+    else if (deg < 60 && deg > 20) return 19;
+    else if (deg > 330 || deg < 20) return 6;
+    else return -1;
+  }
+  return -1;
+}
+
+int getLElbowNode(int shoulder) {
+  if (shoulder == 11) {
+    float deg = degrees(elbowLAngle);
+    if (deg < 0) deg += 360;
+    if (deg > 300 && deg < 330) return 3;
+    else if (deg > 250) return 2;
+    else if (deg < 250 && deg > 190) return 1;
+    else if (deg > 90) return 15;
+    else return -1;
+  }
+  return -1;
+}
+
+void drawSkirt() {
+  // 3 nodes
+}
+
+float getJointAngle(KJoint j1, KJoint j2) {
+  return atan2((j1.getY() - j2.getY()),(j1.getX() - j2.getX()));
 }
