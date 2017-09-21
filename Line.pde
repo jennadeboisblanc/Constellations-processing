@@ -9,6 +9,12 @@ class Line {
     leftToRight();
   }
   
+   Line(Node n1, Node n2) {
+    this.p1.set(n1.getX(), n1.getY());
+    this.p2.set(n2.getX(), n2.getY());
+    leftToRight();
+  }
+  
   Line(int x1, int y1, int x2, int y2) {
     this.p1 = new PVector(x1, y1);
     this.p2 = new PVector(x2, y2);

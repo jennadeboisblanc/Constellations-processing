@@ -68,6 +68,10 @@ BodyPoint [] bodyPoints;
 
 ArrayList<Line> lines;
 
+PVector offset;
+PVector nodeOffset;
+float sc = 1.0;
+
 void setup() {
   graphL = new GraphList(100);
   size(640, 480);
@@ -92,26 +96,28 @@ void draw() {
 
   fill(0, 0, 255);
   stroke(0, 0, 255);
-  graphL.display();
+  //graphL.display();
 
+  drawBody();
+  drawConstellation();
   for (int i = 0; i < lines.size(); i++) {
     //lines.get(i).displayPercent(bands[i%bands.length]/10);
     //lines.get(i).twinkle();
     //lines.get(i).pulseLeftToRight((millis())%(width+300)-150, (millis())%(width+300));
   }
 
-  if (mode == ADD_EDGES) {
-    graphL.display();
-    graphL.drawLineToCurrent(mouseX, mouseY);
-  } else if (mode == ADD_NODES) {
-    graphL.display();
-    fill(255, 0, 0);
-    ellipse(mouseX, mouseY, 20, 20);
-  } else if (mode == KINECT_TIMESHOT) {
-    // text of time remaining?
-  } else if (mode == VISUALIZE) {
-    graphL.display();
-  }
+  //  if (mode == ADD_EDGES) {
+  //    graphL.display();
+  //    graphL.drawLineToCurrent(mouseX, mouseY);
+  //  } else if (mode == ADD_NODES) {
+  //    graphL.display();
+  //    fill(255, 0, 0);
+  //    ellipse(mouseX, mouseY, 20, 20);
+  //  } else if (mode == KINECT_TIMESHOT) {
+  //    // text of time remaining?
+  //  } else if (mode == VISUALIZE) {
+  //    graphL.display();
+  //  }
 
   fill(255);
   text(frameRate, 100, 100);
@@ -192,10 +198,7 @@ void drawKinect() {
       KJoint[] joints = skeleton.getJoints();
 
       color col  = skeleton.getIndexColor();
-      fill(col);
-      stroke(col);
-
-      drawBody(joints);
+      setBody(joints);
     }
   }
 }
@@ -218,16 +221,27 @@ void readKinect() {
 //}
 
 void drawBody() {
+  for (int i = 0; i < bodyPoints.length; i++) {
+    bodyPoints[i].display();
+  }
 }
 
 void drawConstellation() {
-  // body first
-  //for (int i = 0; i < 5; i++) {
-  //  Node start = graphL.nodes.get(10);
+  if (graphL.nodes.size() > 20) {
+    stroke(255, 0, 0);
+    fill(255, 0, 0);
+    ArrayList<Node> bodyNodes = new ArrayList<Node>(); 
 
-
-  //  graphL.nodeList[10].getNearestNode(bodyPoints[0].angleToNext, bodyPoints[0].distance)
-  //}
+    for (int j = 0; j < 5; j++) {
+      if (j == 0) bodyNodes = graphL.getConstellationPath(graphL.nodes.get(11), bodyPoints[0].next);
+      else {
+        if (bodyNodes.size() > 0) bodyNodes = graphL.getConstellationPath(bodyNodes.get(bodyNodes.size()-1), bodyPoints[j].next);
+      }
+      for (int i = 0; i < bodyNodes.size()-1; i++) {
+        line(bodyNodes.get(i).getX(), bodyNodes.get(i).getY(), bodyNodes.get(i+1).getX(), bodyNodes.get(i+1).getY());
+      }
+    }
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -317,6 +331,11 @@ void drawFFT() {
 //draw the body
 void setBody(KJoint[] joints) {
   // body
+  if (graphL.nodes.size() >= 11) {
+    offset.set(joints[KinectPV2.JointType_ShoulderLeft].getX(), joints[KinectPV2.JointType_ShoulderLeft].getY());
+    sc = 2;
+    nodeOffset.set(graphL.nodes.get(11).getX(), graphL.nodes.get(11).getY());
+  }
   bodyPoints[0].set(joints[KinectPV2.JointType_ShoulderLeft], joints[KinectPV2.JointType_ShoulderRight]);
   bodyPoints[1].set(joints[KinectPV2.JointType_ShoulderRight], joints[KinectPV2.JointType_SpineMid]);
   bodyPoints[2].set(joints[KinectPV2.JointType_SpineMid], joints[KinectPV2.JointType_HipRight]);
@@ -329,40 +348,23 @@ void setBody(KJoint[] joints) {
   // right arm
   bodyPoints[8].set(joints[KinectPV2.JointType_ShoulderRight], joints[ KinectPV2.JointType_ElbowRight]);
   bodyPoints[9].set( joints[ KinectPV2.JointType_ElbowRight], joints[KinectPV2.JointType_WristRight]);
-  
+
   // left leg
   bodyPoints[10].set(joints[KinectPV2.JointType_HipLeft], joints[ KinectPV2.JointType_KneeLeft]);
   bodyPoints[11].set( joints[ KinectPV2.JointType_KneeLeft], joints[KinectPV2.JointType_AnkleLeft]);
-  
+
   // right leg
-  bodyPoints[12].set(joints[KinectPV2.JointType_HipLeft], joints[ KinectPV2.JointType_KneeLeft]);
-  bodyPoints[13].set( joints[ KinectPV2.JointType_KneeLeft], joints[KinectPV2.JointType_AnkleLeft]);
+  bodyPoints[12].set(joints[KinectPV2.JointType_HipRight], joints[ KinectPV2.JointType_KneeRight]);
+  bodyPoints[13].set( joints[ KinectPV2.JointType_KneeRight], joints[KinectPV2.JointType_AnkleRight]);
 
   //drawJoint(joints, KinectPV2.JointType_Head);
 }
 
-//draw a single joint
-void drawJoint(KJoint[] joints, int jointType) {
-  pushMatrix();
-  translate(joints[jointType].getX(), joints[jointType].getY(), joints[jointType].getZ());
-  ellipse(0, 0, 25, 25);
-  popMatrix();
-}
-
-//draw a bone from two joints
-void drawBone(KJoint[] joints, int jointType1, int jointType2) {
-  pushMatrix();
-  translate(joints[jointType1].getX(), joints[jointType1].getY());
-  ellipse(0, 0, 25, 25);
-  popMatrix();
-  line(joints[jointType1].getX(), joints[jointType1].getY(), joints[jointType1].getZ(), joints[jointType2].getX(), joints[jointType2].getY(), joints[jointType2].getZ());
-}
-
-
 void initBodyPoints() {
+  offset = new PVector(0, 0);
+  nodeOffset = new PVector(0, 0);
   bodyPoints = new BodyPoint[14];
-  for (int i = 0; i < 14; i++) {
-    bodyPoints[i].point = new PVector(0, 0);
-    bodyPoints[i].next = new PVector(0, 0);
+  for (int i = 0; i < bodyPoints.length; i++) {
+    bodyPoints[i] = new BodyPoint();
   }
 }

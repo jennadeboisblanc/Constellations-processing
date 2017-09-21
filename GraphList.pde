@@ -320,4 +320,37 @@ class GraphList {
       // only add adjnodes if they have a greater id than the current node (nodes.get(i).hasAdjacent
     }
   }
+  
+  int getClosestNode(int index, PVector goal) {
+    int closest = -1;
+    Node n = nodes.get(index);
+    float dis = n.getDistance(goal);
+    List<Integer> edgeList = getEdge(index);
+    if (edgeList != null) {
+      for (int j = 0; j < edgeList.size(); j++) {
+        Node n2 = nodes.get(edgeList.get(j));
+        float dis2 = n2.getDistance(goal);
+        if (dis2 < dis) {
+          dis = dis2;
+          closest = edgeList.get(j);
+        }
+      }
+    }
+    return closest;
+  }
+  
+  ArrayList<Node> getConstellationPath(Node n, PVector goal) {
+    int index = parseInt(n.ID);
+    ArrayList<Node> path = new ArrayList<Node>();
+    int closest = getClosestNode(index, goal);
+    while(closest > -1) {
+      path.add(nodes.get(closest));
+      closest = getClosestNode(closest, goal);
+    }
+    return path;
+  }
+  
+
+    
+  
 }

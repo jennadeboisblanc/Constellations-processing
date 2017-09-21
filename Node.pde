@@ -45,6 +45,11 @@ class Node {
   int getY() {
     return this.y;
   }
+  
+  float getDistance(PVector goal) {
+    PVector myPt = new PVector(x, y);
+    return myPt.dist(goal);
+  }
 
   //--------------------------------------------------------------
   // display
@@ -101,5 +106,7 @@ class Node {
     String s = ID + " " + getX() + " " + getY();
     return s;
   }
+  
+
 
 }
