@@ -12,7 +12,7 @@ class Node {
     this.ID = ID;
     this.x = x;
     this.y = y;
-    this.diam = 8;
+    this.diam = 15;
   }
 
   //void addDestination(Node destination) {

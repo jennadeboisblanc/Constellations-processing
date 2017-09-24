@@ -10,6 +10,7 @@ int         myNumBands       = 11;
 int         myAudioMax       = 100;
 int[]       bandBreaks       = {20, 50, 60, 80, 100, 150, 175, 200, 225, 255};
 int[]       bands;
+int[]       bandMax          = {141, 132, 265, 208, 197, 282, 214, 119, 120, 76};
 
 float       myAudioAmp       = 170.0;
 float       myAudioIndex     = 0.2;
@@ -40,6 +41,8 @@ float       x2Spacing        = rect2Size;
 
 // ************************************************************************************
 
+int pulseIndex = 0;
+int lastCheckedPulse = 0;
 
 /*
   Thomas Sanchez Lengeling.
@@ -60,6 +63,7 @@ int ADD_NODES = 1;
 int ADD_EDGES = 2;
 int MOVE_NODES = 3;
 int KINECT_TIMESHOT = 4;
+int SET_LINEZ = 5;
 int mode = VISUALIZE;
 
 int timesFile = 0;
@@ -71,6 +75,7 @@ ArrayList<Line> lines;
 PVector offset;
 PVector nodeOffset;
 float sc = 1.0;
+int lineIndex = 0;
 
 
 float elbowLAngle = 0;
@@ -105,18 +110,15 @@ void draw() {
   updateFFT();
   //drawFFT();
   //graphL.display();
-  drawKinect();
+  //drawKinect();
 
   fill(0, 0, 255);
   stroke(0, 0, 255);
   //graphL.display();
 
-
-  for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayPercent(bands[i%bands.length]/10);
-    //lines.get(i).twinkle();
-    //lines.get(i).pulseLeftToRight((millis())%(width+300)-150, (millis())%(width+300));
-  }
+  colorMode(RGB);
+  stroke(255);
+  fill(255);
 
   if (mode == ADD_EDGES) {
     graphL.display();
@@ -128,13 +130,43 @@ void draw() {
   } else if (mode == KINECT_TIMESHOT) {
     // text of time remaining?
   } else if (mode == VISUALIZE) {
-    //graphL.display();
+    for (int i = 0; i < lines.size(); i++) {
+      strokeWeight(4);
+      //lines.get(i).displayPercentWid(bands[i%bands.length]*1.0/bandMax[i%bands.length]);
+      //lines.get(i).twinkle();
+      //lines.get(i).pulseLeftToRight((millis())%(width+300)-150, (millis())%(width+300));
+      lines.get(i).displayBandZ(2);
+    }
+    //pulseLineBack(500);
+    //pulseLineRight(50, 80);
+    //pulseLineLeft(50, 80);
+    //pulseLineUp(50, 60);
+    //pulseLineDown(50, 60);
+  } else if (mode == SET_LINEZ) {
+    for (int i = 0; i < lines.size(); i++) {
+      strokeWeight(4);
+      Line l = lines.get(i);
+      if (l.mouseOver()) {
+        stroke(255);
+        fill(255);
+      } else if(i == lineIndex) {
+        colorMode(RGB);
+        stroke(0, 255, 255);
+        fill(0, 255, 255);
+      }
+      else {
+        colorMode(HSB);
+        stroke(map(l.zIndex, 0, 9, 0, 255), 255, 255);
+        fill(map(l.zIndex, 0, 9, 0, 255), 255, 255);
+      }
+      l.display();
+    }
   }
-  
-  
+
+
   //drawBody();
-  
-  drawConstellation();
+
+  //drawConstellation();
   fill(255);
   text(frameRate, 100, 100);
 }
@@ -148,10 +180,17 @@ void keyPressed() {
   else if (key == 'a') mode = ADD_NODES;
   else if (key == 'e') mode = ADD_EDGES;
   else if (key == 'm') mode = MOVE_NODES;
+  else if (key == 'z') {
+    println("set lines");
+    mode = SET_LINEZ;
+  }
   else if (key == 'v') {
     mode = VISUALIZE;
   } else if (key == 'p') {
     graphL.printGraph();
+    for (int i = 0; i < bandMax.length; i++) {
+      println(bandMax[i]);
+    }
   } else if (key == 't') {
     mode = KINECT_TIMESHOT;
     // TODO ?
@@ -161,6 +200,10 @@ void keyPressed() {
       else if (keyCode == DOWN) graphL.moveCurrentNode(0, 1);
       else if (keyCode == RIGHT) graphL.moveCurrentNode(1, 0);
       else if (keyCode == LEFT) graphL.moveCurrentNode(-1, 0);
+    }
+  } else if (mode == SET_LINEZ) {
+    if (key > '0' && key < '9') {
+      lines.get(lineIndex).zIndex = parseInt(key);
     }
   }
 }
@@ -181,6 +224,14 @@ void mouseReleased() {
     graphL.checkNodeClick(mouseX, mouseY);
   } else if (mode == ADD_EDGES) {
     graphL.checkEdgeClick(mouseX, mouseY);
+  } else if (mode == SET_LINEZ) {
+    for (int i = 0; i < lines.size(); i++) {
+      if (lines.get(i).mouseOver()) {
+        lineIndex = i;
+        println(lineIndex);
+        break;
+      }
+    }
   }
 }
 
@@ -291,9 +342,9 @@ void initBodyPoints() {
 
 void setBodyAngles(KJoint[] joints) {
   elbowLAngle = getJointAngle(joints[KinectPV2.JointType_ElbowLeft], joints[ KinectPV2.JointType_ShoulderLeft]);
-  
+
   elbowRAngle = getJointAngle(joints[KinectPV2.JointType_ElbowRight], joints[ KinectPV2.JointType_ShoulderRight]);
-  
+
   handRAngle = getJointAngle(joints[KinectPV2.JointType_ElbowRight], joints[ KinectPV2.JointType_WristRight]);
   handLAngle = getJointAngle(joints[KinectPV2.JointType_ElbowLeft], joints[ KinectPV2.JointType_WristLeft]);
   kneeLAngle = getJointAngle(joints[KinectPV2.JointType_HipLeft], joints[ KinectPV2.JointType_KneeLeft]);
@@ -318,9 +369,8 @@ void drawConstellation() {
   } else {
     graphL.drawLine(new int[]{17, 11, 10, 9, 17});
     graphL.drawLine(9, getRElbowNode(9));
-     graphL.drawLine(11, getLElbowNode(11));
+    graphL.drawLine(11, getLElbowNode(11));
   }
-  println( degrees(elbowLAngle));
 }
 
 int getRElbowNode(int shoulder) {
@@ -354,5 +404,83 @@ void drawSkirt() {
 }
 
 float getJointAngle(KJoint j1, KJoint j2) {
-  return atan2((j1.getY() - j2.getY()),(j1.getX() - j2.getX()));
+  return atan2((j1.getY() - j2.getY()), (j1.getX() - j2.getX()));
+}
+
+void pulseLineRight(int rate, int bandSize) {
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex+= bandSize;
+    if (pulseIndex > width) {
+      pulseIndex = -bandSize;
+    }
+    lastCheckedPulse = millis();
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    strokeWeight(4);
+    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize);
+  }
+}
+
+void pulseLineLeft(int rate, int bandSize) {
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex-=bandSize;
+    if (pulseIndex < -bandSize) {
+      pulseIndex = width;
+    }
+    lastCheckedPulse = millis();
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize);
+  }
+}
+
+void pulseLineUp(int rate, int bandSize) {
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex-=bandSize;
+    if (pulseIndex < -bandSize) {
+      pulseIndex = height;
+    }
+    lastCheckedPulse = millis();
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize);
+  }
+}
+
+void pulseLineDown(int rate, int bandSize) {
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex+=bandSize;
+    if (pulseIndex > height) {
+      pulseIndex = -bandSize;
+    }
+    lastCheckedPulse = millis();
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize);
+  }
+}
+
+void pulseLineBack(int rate) {
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex++;
+    if (pulseIndex > 9) {
+      pulseIndex = -1;
+    }
+    lastCheckedPulse = millis();
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayBandZ(pulseIndex);
+  }
+}
+
+void saveLineZ() {
+  processing.data.JSONObject json;
+  json = new processing.data.JSONObject();
+
+  processing.data.JSONArray lineZs = new processing.data.JSONArray();      
+  for (int j = 0; j < lines.size(); j++) {
+    lineZs.setInt(j, lines.get(j).zIndex);
+  }
+  json.setJSONArray("lineZs", lineZs);
+  saveJSONObject(json, "data/" + lines + ".json");
 }

@@ -37,7 +37,7 @@ class GraphList {
   void setDirectedEdge(int to, int from) {
     //println(to + " " + from);
     if (to > nodeList.size() || from > nodeList.size()) {
-      System.out.println("The vertices does not exists");
+      //System.out.println("The vertices does not exists");
     } else {
       List<Integer> sls = nodeList.get(to);
       sls.add(from);
@@ -131,6 +131,7 @@ class GraphList {
       saveJSONObject(json2, "data/" + n.ID + ".json");
       h++;
     }
+    saveLineZs();
   }
 
 
@@ -166,6 +167,7 @@ class GraphList {
       nodes.add(tempNodes.get(i));
     }
     addLines();
+    setLineZs();
   }
 
   void addNode(int mx, int my) {
@@ -177,7 +179,7 @@ class GraphList {
     return (currentNodeIndex > -1);
   }
 
-  void  moveCurrentNode(int dx, int dy) {
+  void moveCurrentNode(int dx, int dy) {
     nodes.get(currentNodeIndex).move(dx, dy);
   }
 
@@ -215,30 +217,6 @@ class GraphList {
   void checkNodeClick(int mx, int my) {
     currentNodeIndex = getClickedNode(mx, my);
   }
-
-
-
-  //  void save() {
-  //    nodesFile.open("nodes.txt", ofFileWriteOnly);
-  //    nodesFile << numNodes << endl;
-  //    for (int i = 0; i < nodes.size(); i++) {
-  //      nodesFile << nodes.get(i).printData():: << stdendl;
-  //    }
-  //    nodesFile.close();
-
-  //    int v;
-  //::    adjacencyFile.open("nodeList.txt", ofFileWriteOnly);
-  //    for (v = 0; v < vertexCount; ++v) {
-  //      AdjListNode* tmp = nodeList[v].head;    //tmp has the address of (0,1..)vertex head
-  //      adjacencyFile <<"\n" << v;
-  //      while (tmp) {
-  //        adjacencyFile <<" "<< tmp->data;
-  //        tmp = tmp->next;
-  //      }
-  //    }
-  //    adjacencyFile.close();
-  //  }
-
 
   int getCurrentNode() {
     //cout << currentNodeIndex << std::endl;
@@ -303,6 +281,7 @@ class GraphList {
   }
 
   void addLines() {
+    int l = 0;
     for (int i = 0; i < nodes.size(); i++) {
       Node n = nodes.get(i);
       List<Integer> edgeList = getEdge(i);
@@ -311,9 +290,10 @@ class GraphList {
         {
           int nextEdge = edgeList.get(j);
           if (nextEdge > i) {
-            println(i + " " + nextEdge);
+            //println(i + " " + nextEdge);
             Node n2 = nodes.get(nextEdge);
-            lines.add(new Line(n.getX(), n.getY(), n2.getX(), n2.getY()));
+            lines.add(new Line(n.getX(), n.getY(), n2.getX(), n2.getY(), l));
+            l++;
           }
         }
       }
@@ -356,9 +336,31 @@ class GraphList {
       line(nodes.get(path[i]).getX(), nodes.get(path[i]).getY(), nodes.get(path[i+1]).getX(), nodes.get(path[i+1]).getY());
     }
   }
-  
+
   void drawLine(int n1, int n2) {
     if (n1 >=0 && n2 >= 0) 
       line(nodes.get(n1).getX(), nodes.get(n1).getY(), nodes.get(n2).getX(), nodes.get(n2).getY());
+  }
+
+  void setLineZs() {
+    processing.data.JSONObject json;
+    json = loadJSONObject("data/lines.json");
+
+    processing.data.JSONArray lineZs = json.getJSONArray("lineZs");
+    for (int j = 0; j < lines.size(); j++) {
+      lines.get(j).zIndex = lineZs.getInt(j);
+    }
+  }
+
+  void saveLineZs() {
+    processing.data.JSONObject json;
+    json = new processing.data.JSONObject();
+    processing.data.JSONArray lineZs = new processing.data.JSONArray();      
+
+    for (int j = 0; j < lines.size(); j++) {
+      lineZs.setInt(j, lines.get(j).zIndex);
+    }
+    json.setJSONArray("lineZs", lineZs);
+    saveJSONObject(json, "data/lines.json");
   }
 }

@@ -31,6 +31,7 @@ void initFFT() {
   myAudioFFT.linAverages(myAudioRange);
   myAudioFFT.window(FFT.GAUSS);
   bands = new int[bandBreaks.length];
+  //bandMax =  new int[bandBreaks.length];
 }
 
 
@@ -55,6 +56,9 @@ void updateFFT() {
     temp /= endB - startB;
     temp *= myAudioAmp*myAudioIndexAmp;
     bands[bandIndex] = int(temp*(bandIndex+.5));
+    //if (bands[bandIndex] > bandMax[bandIndex]) {
+    //  bandMax[bandIndex] = bands[bandIndex];
+    //}
     bandIndex++;
   }
   myAudioIndexAmp = myAudioIndex;
