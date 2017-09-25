@@ -5,6 +5,7 @@ class Line {
   int zIndex = 0;
   float ang;
   int id;
+  int constellationG = 0;
 
   Line(PVector p1, PVector p2, int id) {
     this.p1 = p1;
@@ -66,6 +67,17 @@ class Line {
     strokeWeight(sw);
     line(p1.x, p1.y, p2.x, p2.y);
   }
+  
+  void fftConstellation(float c, float per) {
+    per = constrain(per, 0, 1.0);
+    int sw = int(map(per, 0, 1.0, 0, 5));
+    sw = constrain(sw, 0, 5);
+    if (sw < 1) noStroke();
+    else {
+      strokeWeight(sw);
+    }
+    if (constellationG == c)line(p1.x, p1.y, p2.x, p2.y);
+  }
 
   void twinkle() {
     float ang = PVector.angleBetween(p2, p1);
@@ -97,6 +109,38 @@ class Line {
       display();
     }
   }
+  
+  void displayConstellation(int num) {
+    if (constellationG == num) {
+      display();
+    }
+  }
+  
+  void displayAngle(int start, int end) {
+    if (end < -360) {
+      if (ang >= radians(start) || ang < end + 360) {
+        display();
+      }
+    }
+    else if (ang >= radians(start) && ang < radians(end)) {
+      display();
+    }
+  }
+  
+  void displayEqualizer(int[] bandH) {
+    if (p1.x >= 0 && p1.x < width/4) {
+      displayBandY(0, bandH[0]);
+    }
+    else if (p1.x >= width/4 && p1.x < width/2) {
+      displayBandY(0, bandH[1]);
+    }
+    else if (p1.x >= width/2 && p1.x < width*3.0/4) {
+      displayBandY(0, bandH[2]);
+    }
+    else {
+      displayBandY(0, bandH[3]);
+    }
+  }
 
   // www.jeffreythompson.org/collision-detection/line-point.php
   boolean mouseOver() {
@@ -114,5 +158,15 @@ class Line {
       return true;
     }
     return false;
+  }
+  
+  void setConstellationG(int k) {
+    constellationG = k;
+    println("constellation of " + id + " is now " + k);
+  }
+  
+  void setZIndex(int k) {
+    zIndex = k;
+    println("zIndex of " + id + " is now " + k); 
   }
 }

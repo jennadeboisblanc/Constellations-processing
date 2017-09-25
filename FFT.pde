@@ -1,3 +1,46 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+
+Minim       minim;
+AudioPlayer myAudio;
+FFT         myAudioFFT;
+
+int         myAudioRange     = 256;
+int         myNumBands       = 11;
+int         myAudioMax       = 100;
+int[]       bandBreaks       = {20, 50, 60, 80, 100, 150, 175, 200, 225, 255};
+int[]       bands;
+int[]       bandMax          = {141, 132, 265, 208, 197, 282, 214, 119, 120, 76};
+int[]       fourBandsMax     = {averageBands(bandMax[0], bandMax[1], bandMax[2]), averageBands(bandMax[3], bandMax[4]), averageBands(bandMax[5], bandMax[6]), averageBands(bandMax[7], bandMax[8], bandMax[9])};
+
+float       myAudioAmp       = 170.0;
+float       myAudioIndex     = 0.2;
+float       myAudioIndexAmp  = myAudioIndex;
+float       myAudioIndexStep = 0.55;
+
+float       myAudioAmp2       = 30.0;
+float       myAudioIndex2     = 0.05;
+float       myAudioIndexAmp2  = 0.05;
+float       myAudioIndexStep2 = 0.025;
+
+boolean     showSpectrum     = true;
+boolean     transparentMode  = false;
+// ************************************************************************************
+
+int         stageMargin      = 100;
+int         stageWidth       = (880) - (2*stageMargin);
+int         stageHeight      = 700;
+
+int         rectSize         = stageWidth/(bandBreaks.length);
+float       rect2Size        = stageWidth/256.0;
+
+float       xStart           = stageMargin;
+float       yStart           = stageMargin;
+int         xSpacing         = rectSize;
+float       x2Spacing        = rect2Size;
+
+
+// ************************************************************************************
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // FFT
@@ -59,6 +102,15 @@ void updateFFT() {
     //if (bands[bandIndex] > bandMax[bandIndex]) {
     //  bandMax[bandIndex] = bands[bandIndex];
     //}
+    //if (equalizer) {
+    //  fourBands[0] = bands[0];
+    //  fourBands[3] = bands[bands.length -1];
+    //  for (int i = 1; i < 4; i++) {
+    //    fourBands[i-1] = 0;
+    //    fourBands[i-1] += bands[2*i-1];
+    //    fourBands[i-1] += bands[2*i];
+    //    fourBands[i-1] /= 2;
+    //}
     bandIndex++;
   }
   myAudioIndexAmp = myAudioIndex;
@@ -83,4 +135,12 @@ void drawFFT() {
   //  fill(0);
   //  text((int)map(mouseX, stageMargin, stageWidth+stageMargin, 0, 256), mouseX, mouseY);
   //}
+}
+
+int averageBands(int v1, int v2, int v3) {
+  return (v1 + v2 + v3) /3;
+}
+
+int averageBands(int v1, int v2) {
+  return (v1 + v2) / 2;
 }

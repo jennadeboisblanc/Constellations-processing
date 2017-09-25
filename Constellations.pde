@@ -1,45 +1,3 @@
-import ddf.minim.*;
-import ddf.minim.analysis.*;
-
-Minim       minim;
-AudioPlayer myAudio;
-FFT         myAudioFFT;
-
-int         myAudioRange     = 256;
-int         myNumBands       = 11;
-int         myAudioMax       = 100;
-int[]       bandBreaks       = {20, 50, 60, 80, 100, 150, 175, 200, 225, 255};
-int[]       bands;
-int[]       bandMax          = {141, 132, 265, 208, 197, 282, 214, 119, 120, 76};
-
-float       myAudioAmp       = 170.0;
-float       myAudioIndex     = 0.2;
-float       myAudioIndexAmp  = myAudioIndex;
-float       myAudioIndexStep = 0.55;
-
-float       myAudioAmp2       = 30.0;
-float       myAudioIndex2     = 0.05;
-float       myAudioIndexAmp2  = 0.05;
-float       myAudioIndexStep2 = 0.025;
-
-boolean     showSpectrum     = true;
-boolean     transparentMode  = false;
-// ************************************************************************************
-
-int         stageMargin      = 100;
-int         stageWidth       = (880) - (2*stageMargin);
-int         stageHeight      = 700;
-
-int         rectSize         = stageWidth/(bandBreaks.length);
-float       rect2Size        = stageWidth/256.0;
-
-float       xStart           = stageMargin;
-float       yStart           = stageMargin;
-int         xSpacing         = rectSize;
-float       x2Spacing        = rect2Size;
-
-
-// ************************************************************************************
 
 int pulseIndex = 0;
 int lastCheckedPulse = 0;
@@ -64,7 +22,11 @@ int ADD_EDGES = 2;
 int MOVE_NODES = 3;
 int KINECT_TIMESHOT = 4;
 int SET_LINEZ = 5;
+int SET_CONST = 6;
 int mode = VISUALIZE;
+
+int stringMode = 0;
+long stringChecked = 0;
 
 int timesFile = 0;
 
@@ -101,6 +63,9 @@ void setup() {
 
   initKinect();
   initBodyPoints();
+
+  //resetConstellationG();
+  //resetZIndex();
 }
 
 
@@ -130,18 +95,7 @@ void draw() {
   } else if (mode == KINECT_TIMESHOT) {
     // text of time remaining?
   } else if (mode == VISUALIZE) {
-    for (int i = 0; i < lines.size(); i++) {
-      strokeWeight(4);
-      //lines.get(i).displayPercentWid(bands[i%bands.length]*1.0/bandMax[i%bands.length]);
-      //lines.get(i).twinkle();
-      //lines.get(i).pulseLeftToRight((millis())%(width+300)-150, (millis())%(width+300));
-      lines.get(i).displayBandZ(2);
-    }
-    //pulseLineBack(500);
-    //pulseLineRight(50, 80);
-    //pulseLineLeft(50, 80);
-    //pulseLineUp(50, 60);
-    //pulseLineDown(50, 60);
+    cycleModes(3000);
   } else if (mode == SET_LINEZ) {
     for (int i = 0; i < lines.size(); i++) {
       strokeWeight(4);
@@ -149,20 +103,37 @@ void draw() {
       if (l.mouseOver()) {
         stroke(255);
         fill(255);
-      } else if(i == lineIndex) {
+      } else if (i == lineIndex) {
         colorMode(RGB);
         stroke(0, 255, 255);
         fill(0, 255, 255);
-      }
-      else {
+      } else {
         colorMode(HSB);
         stroke(map(l.zIndex, 0, 9, 0, 255), 255, 255);
         fill(map(l.zIndex, 0, 9, 0, 255), 255, 255);
       }
       l.display();
     }
+  } else if (mode == SET_CONST) {
+    background(50);
+    for (int i = 0; i < lines.size(); i++) {
+      strokeWeight(4);
+      Line l = lines.get(i);
+      if (l.mouseOver()) {
+        stroke(255);
+        fill(255);
+      } else if (i == lineIndex) {
+        colorMode(RGB);
+        stroke(0, 255, 255);
+        fill(0, 255, 255);
+      } else {
+        colorMode(HSB);
+        stroke(map(l.constellationG, 0, 9, 0, 255), 255, 255);
+        fill(map(l.constellationG, 0, 9, 0, 255), 255, 255);
+      }
+      l.display();
+    }
   }
-
 
   //drawBody();
 
@@ -183,8 +154,10 @@ void keyPressed() {
   else if (key == 'z') {
     println("set lines");
     mode = SET_LINEZ;
-  }
-  else if (key == 'v') {
+  } else if (key == 'c') {
+    mode = SET_CONST;
+    println("set constellations");
+  } else if (key == 'v') {
     mode = VISUALIZE;
   } else if (key == 'p') {
     graphL.printGraph();
@@ -202,8 +175,15 @@ void keyPressed() {
       else if (keyCode == LEFT) graphL.moveCurrentNode(-1, 0);
     }
   } else if (mode == SET_LINEZ) {
-    if (key > '0' && key < '9') {
-      lines.get(lineIndex).zIndex = parseInt(key);
+    println(parseInt(key));
+    int k = parseInt(key) - 48;
+    if (k > 0 && k < 9) {
+      lines.get(lineIndex).setZIndex(k);
+    }
+  } else if (mode == SET_CONST) {
+    int k = parseInt(key) - 48;
+    if (k > 0 && k < 9) {
+      lines.get(lineIndex).setConstellationG(k);
     }
   }
 }
@@ -224,11 +204,11 @@ void mouseReleased() {
     graphL.checkNodeClick(mouseX, mouseY);
   } else if (mode == ADD_EDGES) {
     graphL.checkEdgeClick(mouseX, mouseY);
-  } else if (mode == SET_LINEZ) {
+  } else if (mode == SET_LINEZ || mode == SET_CONST) {
     for (int i = 0; i < lines.size(); i++) {
       if (lines.get(i).mouseOver()) {
         lineIndex = i;
-        println(lineIndex);
+        println("l index " + lineIndex + " " + lines.get(i).id);
         break;
       }
     }
@@ -416,7 +396,6 @@ void pulseLineRight(int rate, int bandSize) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    strokeWeight(4);
     lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize);
   }
 }
@@ -447,6 +426,32 @@ void pulseLineUp(int rate, int bandSize) {
   }
 }
 
+void rotateAngle(int rate, int angleGap) {
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex+= angleGap;
+    if (pulseIndex > -70 ) {
+      pulseIndex = -280;
+    }
+    lastCheckedPulse = millis();
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap);
+  }
+}
+
+void rotateAngleCounter(int rate, int angleGap) {
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex-= angleGap;
+    if (pulseIndex < -280 ) {
+      pulseIndex = -70;
+    }
+    lastCheckedPulse = millis();
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap);
+  }
+}
+
 void pulseLineDown(int rate, int bandSize) {
   if (millis() - lastCheckedPulse > rate) {
     pulseIndex+=bandSize;
@@ -473,14 +478,107 @@ void pulseLineBack(int rate) {
   }
 }
 
-void saveLineZ() {
-  processing.data.JSONObject json;
-  json = new processing.data.JSONObject();
-
-  processing.data.JSONArray lineZs = new processing.data.JSONArray();      
-  for (int j = 0; j < lines.size(); j++) {
-    lineZs.setInt(j, lines.get(j).zIndex);
+void cycleConstellation(int rate) {
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex++;
+    if (pulseIndex > 9) {
+      pulseIndex = 1;
+    }
+    lastCheckedPulse = millis();
   }
-  json.setJSONArray("lineZs", lineZs);
-  saveJSONObject(json, "data/" + lines + ".json");
+  showConstellationLine(pulseIndex);
+}
+
+void fftConstellations(int rate) {
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex = int(random(0, 9));
+    lastCheckedPulse = millis();
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).fftConstellation(pulseIndex, bands[0]*1.0/bandMax[0]);
+  }
+}
+
+void showConstellationLine(int l) {
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayConstellation(l);
+  }
+}
+
+void linePercentW() {
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayPercentWid(bands[i%bands.length]*1.0/bandMax[i%bands.length]);
+  }
+}
+
+void lineEqualizer() {
+  int [] fourBands = new int[4];
+  fourBands[0] = averageBands(bands[0], bands[1], bands[2]);
+  fourBands[1] = averageBands(bands[3], bands[4]);
+  fourBands[2] = averageBands(bands[5], bands[6]);
+  fourBands[3] = averageBands(bands[7], bands[8], bands[9]);
+
+  for (int i = 0; i < 4; i++) {
+    fourBands[i] = int(map(fourBands[i]*1.0/fourBandsMax[i], 0, .5, 0, height));
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayEqualizer(fourBands);
+  }
+}
+
+void cycleModes(int rate) {
+   if (millis() - stringChecked > rate) {
+    stringMode = int(random(0, 11));
+    stringChecked = millis();
+  }
+  stroke(200);
+  fill(200);
+  strokeWeight(2);
+  switch(stringMode) {
+    case 0:
+      linePercentW();
+      break;
+     case 1:
+      lineEqualizer();
+      break;
+     case 2:
+      rotateAngleCounter(100, 20);
+      break;
+     case 3:
+      rotateAngle(100, 20);
+      break;
+     case 4:
+      pulseLineBack(500);
+      break;
+     case 5:
+       pulseLineRight(90, 80);
+       break;
+     case 6:
+       pulseLineLeft(90, 80);
+       break;
+     case 7: 
+       pulseLineUp(90, 80);
+       break;
+     case 8:
+       pulseLineDown(90, 80);
+       break;
+     case 9:
+       cycleConstellation(150);
+       break;
+     case 10:
+      fftConstellations(650);
+      break;
+  }
+}
+
+void resetZIndex() {
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).setZIndex(0);
+  }
+}
+
+void resetConstellationG() {
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).setConstellationG(0);
+  }
 }
