@@ -140,6 +140,7 @@ class GraphList {
     processing.data.JSONObject graphJson;
     graphJson = loadJSONObject("data/graph.json");
     int numNodes = graphJson.getInt("nodeNum");
+    println(numNodes);
     resetList();
 
     // create the nodes from JSON file
@@ -167,7 +168,7 @@ class GraphList {
       nodes.add(tempNodes.get(i));
     }
     addLines();
-    setLineValues();
+    //setLineValues();
   }
 
   void addNode(int mx, int my) {
@@ -370,4 +371,4 @@ class GraphList {
     json.setJSONArray("constellationG", constellationG);
     saveJSONObject(json, "data/lines.json");
   }
-}
+}            
