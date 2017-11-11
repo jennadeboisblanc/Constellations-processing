@@ -66,6 +66,7 @@ void checkScene() {
     if (deltaScenes[currentScene + 1].hasStarted(songReading)) {
       currentScene++;
       deltaScenes[currentScene].setModes();
+      
     }
   }
 }

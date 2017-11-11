@@ -40,7 +40,8 @@ PImage whale, hand, orchid, moth, owl;
 
 
 void setup() {
-  fullScreen();
+  //fullScreen();
+  size(800, 400);
   lines = new ArrayList<Line>();
   graphL = new GraphList(100);
   graphL.loadGraph();
@@ -55,7 +56,7 @@ void setup() {
   //initKinect();
   //initBodyPoints();
 
-  //myServer = new Server(this, 5204);
+  myServer = new Server(this, 5204);
 
 
 
@@ -76,12 +77,22 @@ void draw() {
   //updateFFT();
 
   if (mode == VISUALIZE) {
-    airBenderY();
-    //checkScene();
-    //playMode();
+    //airBenderY();
+    checkScene();
+    playMode();
   } else {
     settingFunctions();
   }
+
+  sendPanel();
+}
+
+void sendPanel() {
+  byte x = byte(constrain(int(map(random(-2, 2), -2, 2, 0, 255)), 0, 255));
+  byte b = byte(constrain(map(bands[0], 0, bandMax[0], 0, 255), 0, 255));
+  byte[] sendArray = {47, byte(panelMode), x, x, x, b, b, b, b, b};
+  myServer.write(sendArray);
+  //println(sendArray);
 }
 
 //--------------------------------------------------------------

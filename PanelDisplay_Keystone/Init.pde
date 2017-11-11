@@ -3,7 +3,7 @@
 float smallSideActualH = 8.0;
 float bigSideActualH = 4.0*12;
 float sideRatio;
-float startH = 400;
+float startH = 100;
 float bigSideH;
 float smallGap;
 float smallSideH;

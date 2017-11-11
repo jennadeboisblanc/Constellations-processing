@@ -36,7 +36,8 @@ int SYMBOLS = 12;
 int mode = UPDOWN;
 
 void setup() {
-  fullScreen(P3D);
+  //fullScreen(P3D);
+  size(1200, 400, P3D);
   init();
   dataBytes = new byte[10];
 }
@@ -45,8 +46,9 @@ void checkData() {
 if (myClient.available() > 0) { 
     int byteCount = myClient.readBytes(dataBytes); 
     if (byteCount > 0 ) {
-      if (dataBytes[0] == 49) {
-        setMode(dataBytes[1]);
+      if (dataBytes[0] == 47) {
+        //setMode(dataBytes[1]);
+        println("getting data");
       }
       else {
         //myClient.clear();

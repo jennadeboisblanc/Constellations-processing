@@ -20,12 +20,6 @@ class Scene {
     visualMode = visualM;
     kinectMode = kinectM;
     panelMode = panelM;
-    sendPanel();
-  }
-
-  void sendPanel() {
-    byte[] sendArray = {byte(visualM), byte(kinectM), byte(panelM)};
-    //myServer.write(sendArray);
   }
 
   void setKinectMode() {
