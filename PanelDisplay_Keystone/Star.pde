@@ -19,7 +19,11 @@ class Star {
   void displaySymbol(int i, float sc) {
     o.image(symbolImages[i], x-symbolImages[i].width/2*sc, y-symbolImages[i].height/2*sc, symbolImages[i].width *sc, 
       symbolImages[i].height *sc);
-    pulseStar();
+  }
+  
+   void displayConstellation(int i, float sc) {
+     PImage c = constellationImages[i];
+    o.image(c, x-c.width/2*sc, y-c.height/2*sc, c.width *sc, c.height *sc);
   }
 
   void move(int x, int y) {

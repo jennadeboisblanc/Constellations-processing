@@ -1,7 +1,7 @@
 // Client lib
 import processing.net.*; 
 Client myClient; 
-int dataIn; 
+byte dataBytes[];
 
 // Keystone lib
 import deadpixel.keystone.*;
@@ -10,22 +10,14 @@ CornerPinSurface surface;
 PGraphics o;
 PImage moth;
 
-// Blackout variables
-float smallSideActualH = 8.0;
-float bigSideActualH = 4.0*12;
-float sideRatio;
-float startH = 400;
-float bigSideH;
-float smallGap;
-float smallSideH;
-int canvasW = 1200;
-int canvasH = 800;
-boolean trim = false;
-boolean outline = false;
-
 Star stars[];
 Square squares[];
-Constellation constellations[];
+Star symbols[];
+PImage symbolImages[];
+Star constellations[];
+PImage constellationImages[];
+String constellationNames[] = {"owl", "moth", "handeye", "whale", "orchid"}; 
+ConstellationLine constellationLines[];
 
 // Modes
 int STARS = 1;
@@ -41,54 +33,38 @@ int CONSTELLATION = 10;
 int VORONOI = 11;
 int SYMBOLS = 12;
 
-int mode = SYMBOLS;
-Star symbols[];
-PImage symbolImages[];
+int mode = UPDOWN;
 
 void setup() {
-  rectMode(CENTER);
-  ellipseMode(CENTER);
-  imageMode(CENTER);
   fullScreen(P3D);
-  canvasH = height;
-  canvasW = width;
+  init();
+  dataBytes = new byte[10];
+}
 
-  stars = new Star[150];
-  for (int i = 0; i < stars.length; i++) {
-    stars[i] = new Star(int(random(canvasW)), int(random(canvasH)));
-  }
-  squares = new Square[10];
-  for (int i = 0; i < squares.length; i++) {
-    squares[i] = new Square(i * 200, int(startH), 900);//int(random(100, 300)));
-  }
-  constellations = new Constellation[10];
-  for (int i = 0; i < constellations.length; i++) {
-    constellations[i] = new Constellation(i*200, int(startH));//int(random(100, 300)));
-  }
+void checkData() {
+if (myClient.available() > 0) { 
+    int byteCount = myClient.readBytes(dataBytes); 
+    if (byteCount > 0 ) {
+      if (dataBytes[0] == 49) {
+        setMode(dataBytes[1]);
+      }
+      else {
+        //myClient.clear();
+      }
+    } 
+  } 
+}
 
-  ks = new Keystone(this);
-  surface = ks.createCornerPinSurface(canvasW, canvasH, 20);
-  o = createGraphics(canvasW, canvasH, P3D);
-
-  moth = loadImage("moth.png");
-  sideRatio = canvasW/(22.0*12);
-  bigSideH = sideRatio * bigSideActualH;
-  smallSideH = sideRatio * smallSideActualH;
-  smallGap = (bigSideH -smallSideH) / 2;
-
-  symbols = new Star[6];
-  symbolImages = new PImage[6];
-  for (int i = 0; i < 6; i++) {
-    symbolImages[i] = loadImage("symbols/c" + i + ".png");
-    symbols[i] = new Star(i * 200 + 200, int(startH) +170);
+void setMode(int b) {
+  if (b > 0 && b < 12) {
+    mode = b;
   }
 }
 
 void draw() {  
   PVector surfaceMouse = surface.getTransformedMouse();
   o.beginDraw();
-  o.background(0);
-
+  if (clearBackground()) o.background(0);
   o.stroke(255);
   o.fill(255);
   if (mode == LINE) {
@@ -107,11 +83,23 @@ void draw() {
   } else if (mode == VORONOI) {
     drawVoronoi();
   } else if (mode == CONSTELLATION) {
-    drawConstellations();
-    moveConstellations(5);
+    drawConstellationLines();
+    moveConstellationLines(3);
+    drawConstellationImages();
+    //pulseConstellations();
+  } else if (mode == MOTH) {
+    drawConstellationImages(1);
+    moveConstellationImages(5);
   } else if (mode == SYMBOLS) {
     drawSymbols();
     //moveSymbols(5);
+    pulseSymbols();
+  } else if (mode == SOLITARE) {
+    constellationLines[3].display();
+    constellationLines[0].display();
+    moveConstellationLines(5);
+  } else if (mode == UPDOWN) {
+    updown();
   }
 
   if (trim) {
@@ -123,6 +111,8 @@ void draw() {
   o.endDraw();
   background(0);  
   surface.render(o);
+  
+  checkData();
 }
 
 void drawBlackout() {
@@ -218,15 +208,15 @@ void drawStripedSquares() {
   }
 }
 
-void drawConstellations() {
-  for (int i = 0; i < constellations.length; i++) {
-    constellations[i].display();
+void drawConstellationLines() {
+  for (int i = 0; i < constellationLines.length; i++) {
+    constellationLines[i].display();
   }
 }
 
-void moveConstellations(int speed) {
-  for (int i = 0; i < constellations.length; i++) {
-    constellations[i].move(speed);
+void moveConstellationLines(int speed) {
+  for (int i = 0; i < constellationLines.length; i++) {
+    constellationLines[i].move(speed);
   }
 }
 
@@ -236,8 +226,71 @@ void drawSymbols() {
   }
 }
 
+
+void drawConstellationImages(int ind) {
+  for (int i = 0; i < constellations.length; i++) {
+    constellations[i].displayConstellation(ind, .2);
+  }
+}
+
+void drawConstellationImages() {
+  for (int i = 0; i < constellations.length; i++) {
+    constellations[i].displayConstellation(i, .2);
+  }
+}
+
+void moveConstellationImages(int speed) {
+  for (int i = 0; i < constellations.length; i++) {
+    constellations[i].move(speed, 0);
+  }
+}
+
+void pulseConstellations() {
+  for (int i = 0; i < constellations.length; i++) {
+    constellations[i].pulseStar();
+  }
+}
+
+void pulseSymbols() {
+  for (int i = 0; i < symbols.length; i++) {
+    symbols[i].pulseStar();
+  }
+}
+
 void moveSymbols(int speed) {
   for (int i = 0; i < symbols.length; i++) {
     symbols[i].move(speed, 0);
   }
+}
+
+void solitare() {
+}
+
+boolean clearBackground() {
+  return mode != SOLITARE;
+}
+
+float getBandHeight(int ind) {
+  if (ind >= 0 && ind < 5) {
+    return map(dataBytes[ind + 5], 0, 255, 0, 300);
+  }
+  return 0;
+}
+
+float getKinectX() {
+  return map(dataBytes[2], 0, 255, 0, 300);
+}
+
+float getKinectY() {
+  return map(dataBytes[3], 0, 255, -bigSideH/2, bigSideH/2);
+}
+
+float getKinectZ() {
+  return map(dataBytes[4], 0, 255, 0, 300);
+}
+
+void updown() {
+  o.stroke(255);
+  o.strokeWeight(5);
+  o.line(0, startH + smallGap + smallSideH/2, width, startH + getKinectY());
 }

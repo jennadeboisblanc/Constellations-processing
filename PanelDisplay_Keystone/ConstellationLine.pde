@@ -1,11 +1,13 @@
-class Constellation {
+class ConstellationLine {
 
   ArrayList<PVector> points;
   int x, y;
+  float angle;
 
-  Constellation(int x, int y) {
+  ConstellationLine(int x, int y) {
     this.x = x;
     this.y = y;
+    this.angle = random(2 * PI);
     points = new ArrayList<PVector>();
     points.add(new PVector(0, 0));
     randomPoints();
@@ -18,6 +20,8 @@ class Constellation {
     o.strokeWeight(3);
     o.fill(255);
     o.translate(x, y);
+    o.rotateZ(this.angle);
+    angle += .01;
     for (int i = 0; i < points.size()-1; i++) {
       o.ellipse(points.get(i).x, points.get(i).y, dotS, dotS);
       o.line(points.get(i).x, points.get(i).y, points.get(i+1).x, points.get(i+1).y);
