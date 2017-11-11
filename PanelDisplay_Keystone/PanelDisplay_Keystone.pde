@@ -6,8 +6,14 @@ PImage moth;
 
 PGraphics o;
 
+float smallSideActualH = 8.0;
+float bigSideActualH = 4.0*12;
+float sideRatio;
+float startH = 400;
+
 int canvasW = 1200;
 int canvasH = 800;
+
 
 Star stars[];
 
@@ -18,7 +24,9 @@ int LINES = 2;
 void setup() {
   // Keystone will only work with P3D or OPENGL renderers, 
   // since it relies on texture mapping to deform
-  fullScreen(1200, 800, P3D);
+  fullScreen(P3D);
+  canvasH = height;
+  canvasW = width;
   
   stars = new Star[150];
   for (int i = 0; i < 150; i++) {
@@ -35,6 +43,8 @@ void setup() {
   // (The o buffer can be P2D or P3D)
   moth = loadImage("moth.png");
   o = createGraphics(canvasW, canvasH, P3D);
+  
+  sideRatio = canvasW/(22.0*12);
 }
 
 void draw() {
@@ -49,14 +59,18 @@ void draw() {
   o.background(0);
   
   // white outline
-  drawOutline();
+  //drawOutline();
   
   //drawMoths();
+  o.stroke(255);
+  o.fill(255);
   drawLines(-1);
   drawStars();
  
   //moveStars(mouseX - pmouseX, 0);
   moveStars(-3, 0);
+  
+  drawBlackout();
   o.endDraw();
 
   // most likely, you'll want a black background to minimize
@@ -65,6 +79,25 @@ void draw() {
  
   // render the scene, transformed using the corner pin surface
   surface.render(o);
+}
+
+void drawBlackout() {
+  o.pushMatrix();
+  o.translate(0, 0, 2);
+  o.fill(0);
+  o.stroke(0);
+  float bigSideH = sideRatio * bigSideActualH;
+  float smallSideH = sideRatio * smallSideActualH;
+  float smallGap = (bigSideH -smallSideH) / 2;
+  // top triangle
+  o.triangle(0, startH, width, startH, 0, smallGap+startH);
+  // bottom triangle
+  o.triangle(0, smallGap + smallSideH + startH, width, bigSideH + startH, 0, bigSideH + startH);
+  // bottom rectangl
+  o.rect(0, smallGap*2 + smallSideH + startH, width, height - (smallGap*2 + smallSideH));
+  // top rectangle
+  o.rect(0, 0, width, startH);
+  o.popMatrix();
 }
 
 void keyPressed() {
