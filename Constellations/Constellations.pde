@@ -4,9 +4,6 @@ boolean NEW_GRAPH = false;
 import processing.net.*;
 Server myServer;
 import java.util.ArrayList;
-import KinectPV2.KJoint;
-import KinectPV2.*;  // Thomas Sanchez Lengeling http://codigogenerativo.com/
-KinectPV2 kinect;
 GraphList graphL;
 
 ///////////////////////////////////////
@@ -44,19 +41,19 @@ void setup() {
   size(800, 400);
   lines = new ArrayList<Line>();
   graphL = new GraphList(100);
-  graphL.loadGraph();
+  //graphL.loadGraph();
   //else {
   //  resetConstellationG();
   //  resetZIndex();
   //}
 
 
-  initFFT();
+  //initFFT();
 
-  //initKinect();
+  initKinect();
   //initBodyPoints();
 
-  myServer = new Server(this, 5204);
+ // myServer = new Server(this, 5204);
 
 
 
@@ -76,21 +73,28 @@ void draw() {
   background(0);
   //updateFFT();
 
-  if (mode == VISUALIZE) {
-    //airBenderY();
-    checkScene();
-    playMode();
-  } else {
-    settingFunctions();
-  }
+  //if (mode == VISUALIZE) {
+  //  //airBenderY();
+  //  checkScene();
+  //  playMode();
+  //} else {
+  //  settingFunctions();
+  //}
 
-  sendPanel();
+  //sendPanel();
+  drawKinect();
+  noFill();
+  stroke(255);
+  strokeWeight(4);
+  rect(0, height/2, 255+100, 100);
+  noStroke();
+  fill(0, 255, getHandPanelY());
+  rect(int(getHandPanelY()), height/2, 100, 100);
 }
 
 void sendPanel() {
-  byte x = byte(constrain(int(map(random(-2, 2), -2, 2, 0, 255)), 0, 255));
   byte b = byte(constrain(map(bands[0], 0, bandMax[0], 0, 255), 0, 255));
-  byte[] sendArray = {47, byte(panelMode), x, x, x, b, b, b, b, b};
+  byte[] sendArray = {47, byte(panelMode), getHandPanelX(), getHandPanelY(), getHandPanelZ(), b, b, b, b, b};
   myServer.write(sendArray);
   //println(sendArray);
 }

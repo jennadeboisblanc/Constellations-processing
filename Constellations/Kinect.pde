@@ -1,3 +1,7 @@
+
+import KinectPV2.KJoint;
+import KinectPV2.*;  // Thomas Sanchez Lengeling http://codigogenerativo.com/
+KinectPV2 kinect;
 float elbowLAngle = 0;
 float elbowRAngle = 0;
 float handRAngle = 0;
@@ -7,7 +11,9 @@ float kneeRAngle = 0;
 float footLAngle = 0;
 float footRAngle = 0;
 float spineAngle = 0;
-float handRDist = 0;
+float handRZ = 0;
+float handRY = 0;
+float handRX = 0;
 
 BodyPoint [] bodyPoints;
 
@@ -91,7 +97,10 @@ void setBodyAngles(KJoint[] joints) {
   footRAngle = getJointAngle(joints[KinectPV2.JointType_KneeRight], joints[ KinectPV2.JointType_AnkleRight]);
   spineAngle = getJointAngle(joints[KinectPV2.JointType_SpineMid], joints[ KinectPV2.JointType_SpineShoulder]);
 
-  handRDist = joints[KinectPV2.JointType_ShoulderRight].getZ() - joints[KinectPV2.JointType_WristRight].getZ();
+  handRZ = joints[KinectPV2.JointType_ShoulderRight].getZ() - joints[KinectPV2.JointType_WristRight].getZ();
+  handRX = joints[KinectPV2.JointType_WristRight].getX() - joints[KinectPV2.JointType_ShoulderRight].getX();
+  handRY = joints[KinectPV2.JointType_WristRight].getY() - joints[KinectPV2.JointType_ShoulderRight].getY();
+  //println(joints[KinectPV2.JointType_ShoulderRight].getZ() + " " + handRZ);
 }
 
 void pulseLineRight(int rate, int bandSize) {
@@ -134,8 +143,7 @@ void pulseLineUp(int rate, int bandSize) {
 }
 
 void drawKinect() {
-  //get the skeletons as an Arraylist of KSkeletons
-  ArrayList<KSkeleton> skeletonArray =  kinect.getSkeletonDepthMap();
+ ArrayList<KSkeleton> skeletonArray =  kinect.getSkeleton3d();
 
   //individual joints
   for (int i = 0; i < skeletonArray.size(); i++) {
@@ -145,31 +153,22 @@ void drawKinect() {
       KJoint[] joints = skeleton.getJoints();
 
       color col  = skeleton.getIndexColor();
+      
+      //println(joints[KinectPV2.JointType_HandRight].getZ());
+      background(col);
+  
       //setBody(joints);
       setBodyAngles(joints);
     }
   }
 }
 
-void readKinect() {
-}
-
-
 //--------------------------------------------------------------
 void initKinect() {
   kinect = new KinectPV2(this);
-
-  //Enables depth and Body tracking (mask image)
-  kinect.enableDepthMaskImg(true);
-  kinect.enableSkeletonDepthMap(true);
-
+  //enable 3d  with (x,y,z) position
+  kinect.enableSkeleton3DMap(true);
   kinect.init();
-}
-
-//--------------------------------------------------------------
-void updateKinect() {
-  //kinect.update();
-  //setBody();
 }
 
 //--------------------------------------------------------------
@@ -177,4 +176,20 @@ void updateKinect() {
 
 float getJointAngle(KJoint j1, KJoint j2) {
   return atan2((j1.getY() - j2.getY()), (j1.getX() - j2.getX()));
+}
+
+byte getHandPanelZ() {
+  //println(handRZ);
+  int z = constrain(int(map(handRZ, -.25, 0.7, 0, 255)), 0, 254);
+  return byte(z);
+}
+
+byte getHandPanelX() {
+  int x = constrain(int(map(handRX, -1.0, 1.0, 0, 255)), 0, 255);
+  return byte(x);
+}
+
+byte getHandPanelY() {
+  int y = constrain(int(map(handRY, -1.0, 1.0, 0, 255)), 0, 255);
+  return byte(y);
 }

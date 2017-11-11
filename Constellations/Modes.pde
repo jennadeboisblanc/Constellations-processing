@@ -282,7 +282,7 @@ boolean withinRange(float actual, float ideal, float range) {
 
 
 void airBenderZ() {
-  int band = constrain(int(map(handRDist, 0, 50, 0, 8)), 0, 8);
+  int band = constrain(int(map(handRZ, 0, 50, 0, 8)), 0, 8);
 
   for (int i = 0; i < lines.size(); i++) {
     lines.get(i).displayBandZ(band);
