@@ -1,3 +1,6 @@
+boolean NEW_GRAPH = false;
+
+//////////////////////////////////////////////////////////
 import processing.net.*;
 Server myServer;
 import java.util.ArrayList;
@@ -38,20 +41,23 @@ PImage whale, hand, orchid, moth, owl;
 
 void setup() {
   fullScreen();
+  lines = new ArrayList<Line>();
   graphL = new GraphList(100);
+  graphL.loadGraph();
+  //else {
+  //  resetConstellationG();
+  //  resetZIndex();
+  //}
+
 
   initFFT();
-
-  lines = new ArrayList<Line>();
-  graphL.loadGraph();
 
   //initKinect();
   //initBodyPoints();
 
   //myServer = new Server(this, 5204);
 
-  //resetConstellationG();
-  //resetZIndex();
+
 
 
   whale = loadImage("whale.png");
@@ -67,11 +73,12 @@ void setup() {
 //--------------------------------------------------------------
 void draw() {
   background(0);
-  updateFFT();
+  //updateFFT();
 
   if (mode == VISUALIZE) {
-    checkScene();
-    playMode();
+    airBenderY();
+    //checkScene();
+    //playMode();
   } else {
     settingFunctions();
   }
@@ -99,9 +106,6 @@ void keyPressed() {
     for (int i = 0; i < bandMax.length; i++) {
       println(bandMax[i]);
     }
-  } else if (key == 't') {
-    mode = KINECT_TIMESHOT;
-    // TODO ?
   } else if (mode == MOVE_NODES) {
     if (graphL.hasCurrentNode()) {
       if (keyCode == UP) graphL.moveCurrentNode(0, -1);

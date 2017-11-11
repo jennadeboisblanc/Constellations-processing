@@ -63,7 +63,6 @@ void checkScene() {
     int songMinutes = myAudio.position() / 1000 / 60;
     int songSeconds = myAudio.position() / 1000 % 60;
     float songReading = songMinutes + (songSeconds / 100.0);
-    println(songReading + " " + currentScene);
     if (deltaScenes[currentScene + 1].hasStarted(songReading)) {
       currentScene++;
       deltaScenes[currentScene].setModes();
@@ -100,6 +99,12 @@ void rotateAngle(int rate, int angleGap) {
   }
   for (int i = 0; i < lines.size(); i++) {
     lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap);
+  }
+}
+
+void displayLines() {
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).display();
   }
 }
 

@@ -134,13 +134,17 @@ class GraphList {
     saveLineValues();
   }
 
+  void createNewLines() {
+    lines = new ArrayList<Line>();
+    addLines();
+  }
 
   void loadGraph() {
 
     processing.data.JSONObject graphJson;
     graphJson = loadJSONObject("data/graph.json");
     int numNodes = graphJson.getInt("nodeNum");
-    println(numNodes);
+    //println(numNodes);
     resetList();
 
     // create the nodes from JSON file
@@ -168,7 +172,7 @@ class GraphList {
       nodes.add(tempNodes.get(i));
     }
     addLines();
-    //setLineValues();
+    setLineValues();
   }
 
   void addNode(int mx, int my) {
@@ -245,38 +249,6 @@ class GraphList {
   }
 
 
-  //void setAngles() {
-  //  int v;
-  //  for (v = 0; v < vertexCount; ++v) {
-  //    int x0 = nodes.get(v).getX();
-  //    int y0 = nodes.get(v).getY();
-  //    // TODO
-  //    AdjListNode* tmp = nodeList[v].head;    //tmp has the address of (0,1..)vertex head
-  //    while (tmp)
-  //    {
-  //      int n = tmp->data;
-  //      int x1 = nodes.get(n).getX();
-  //      int y1 = nodes.get(n).getY();
-  //      tmp->angle = getAngle(x0, y0, x1, y1);
-  //      tmp = tmp->next;
-  //    }
-  //  }
-  //}
-
-  //void setPoints() {
-  //  int v;
-  //  for (v = 0; v < vertexCount; ++v) {
-  //    // TODO
-  //    AdjListNode* tmp = nodeList[v].head;    //tmp has the address of (0,1..)vertex head
-  //    while (tmp)
-  //    {
-  //      int n = tmp->data;
-  //      tmp->pt = ofVec2f(nodes.get(n).getX(), nodes.get(n).getY());
-  //      tmp = tmp->next;
-  //    }
-  //    cout << endl;
-  //  }
-  //}
 
   float getAngle(int x0, int y0, int x1, int y1) {
     return atan2((y1 - y0)*1.0, (x1 - x0)*1.0);
@@ -350,12 +322,17 @@ class GraphList {
 
     processing.data.JSONArray lineZs = json.getJSONArray("lineZs");
     processing.data.JSONArray constellationG = json.getJSONArray("constellationG");
-    println("settin line z- size is " + lines.size());
     for (int j = 0; j < lines.size(); j++) {
-      lines.get(j).zIndex = lineZs.getInt(j);
-      lines.get(j).constellationG = constellationG.getInt(j);
+      if (j >= lineZs.size()) {
+        lines.get(j).zIndex = 0;
+        lines.get(j).constellationG = 0;
+      } else {
+        lines.get(j).zIndex = lineZs.getInt(j);
+        lines.get(j).constellationG = constellationG.getInt(j);
+      }
     }
   }
+
 
   void saveLineValues() {
     processing.data.JSONObject json;
@@ -363,6 +340,9 @@ class GraphList {
     processing.data.JSONArray lineZs = new processing.data.JSONArray();  
     processing.data.JSONArray constellationG = new processing.data.JSONArray();  
 
+    if (lines.size() == 0) {
+      addLines();
+    }
     for (int j = 0; j < lines.size(); j++) {
       lineZs.setInt(j, lines.get(j).zIndex);
       constellationG.setInt(j, lines.get(j).constellationG);
@@ -371,4 +351,4 @@ class GraphList {
     json.setJSONArray("constellationG", constellationG);
     saveJSONObject(json, "data/lines.json");
   }
-}            
+}
