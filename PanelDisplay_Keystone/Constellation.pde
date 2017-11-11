@@ -62,7 +62,6 @@ class Constellation {
         yp += len * sin(newAng);
       }
       points.add(new PVector(xp, yp));
-      println(xp + " " + yp);
     }
   }
 }

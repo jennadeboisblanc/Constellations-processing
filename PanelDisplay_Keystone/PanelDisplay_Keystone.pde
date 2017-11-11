@@ -1,5 +1,3 @@
-boolean trim = false;
-
 // Client lib
 import processing.net.*; 
 Client myClient; 
@@ -18,8 +16,12 @@ float bigSideActualH = 4.0*12;
 float sideRatio;
 float startH = 400;
 float bigSideH;
+float smallGap;
+float smallSideH;
 int canvasW = 1200;
 int canvasH = 800;
+boolean trim = false;
+boolean outline = false;
 
 Star stars[];
 Square squares[];
@@ -45,6 +47,8 @@ PImage symbolImages[];
 
 void setup() {
   rectMode(CENTER);
+  ellipseMode(CENTER);
+  imageMode(CENTER);
   fullScreen(P3D);
   canvasH = height;
   canvasW = width;
@@ -58,7 +62,7 @@ void setup() {
     squares[i] = new Square(i * 200, int(startH), 900);//int(random(100, 300)));
   }
   constellations = new Constellation[10];
-   for (int i = 0; i < constellations.length; i++) {
+  for (int i = 0; i < constellations.length; i++) {
     constellations[i] = new Constellation(i*200, int(startH));//int(random(100, 300)));
   }
 
@@ -69,11 +73,14 @@ void setup() {
   moth = loadImage("moth.png");
   sideRatio = canvasW/(22.0*12);
   bigSideH = sideRatio * bigSideActualH;
-  
+  smallSideH = sideRatio * smallSideActualH;
+  smallGap = (bigSideH -smallSideH) / 2;
+
   symbols = new Star[6];
+  symbolImages = new PImage[6];
   for (int i = 0; i < 6; i++) {
-    symbolImages[i] = loadImage("symbols/const" + i + "_w.svg");
-    symbols[i] = new Star(i * 200, int(startH));
+    symbolImages[i] = loadImage("symbols/c" + i + ".png");
+    symbols[i] = new Star(i * 200 + 200, int(startH) +170);
   }
 }
 
@@ -81,9 +88,6 @@ void draw() {
   PVector surfaceMouse = surface.getTransformedMouse();
   o.beginDraw();
   o.background(0);
-
-  // white outline
-  //drawOutline();
 
   o.stroke(255);
   o.fill(255);
@@ -107,10 +111,15 @@ void draw() {
     moveConstellations(5);
   } else if (mode == SYMBOLS) {
     drawSymbols();
-    moveSymbols(5);
+    //moveSymbols(5);
   }
 
-  if (trim) drawBlackout();
+  if (trim) {
+    drawBlackout();
+  } else if (outline) {
+    //drawBoxOutline();
+    drawBlackoutOutline();
+  }
   o.endDraw();
   background(0);  
   surface.render(o);
@@ -121,8 +130,6 @@ void drawBlackout() {
   o.translate(0, 0, 2);
   o.fill(0);
   o.stroke(0);
-  float smallSideH = sideRatio * smallSideActualH;
-  float smallGap = (bigSideH -smallSideH) / 2;
   // top triangle
   o.triangle(0, startH, width, startH, 0, smallGap+startH);
   // bottom triangle
@@ -154,14 +161,30 @@ void keyPressed() {
   case 'b':
     trim = !trim;
     break;
+  case 'o':
+    outline = !outline;
+    break;
   }
 }
 
-void drawOutline() {
+void drawBoxOutline() {
   o.stroke(255);
   o.noFill();
   o.strokeWeight(4);
   o.rect(2, 2, canvasW - 2, canvasH - 2);
+}
+
+void drawBlackoutOutline() {
+  o.pushMatrix();
+  translate(0, 0, 2);
+  o.noFill();
+  o.stroke(255);
+  o.strokeWeight(4);
+  o.line(2, startH + smallGap - 2, width-2, startH+2);
+  o.line(width-2, startH-2, width - 2, bigSideH + 2, 2, startH + smallGap + smallSideH + 2);
+  o.line(width-2, startH + bigSideH+2, 2, startH + smallGap + smallSideH -2);
+  o.line(2, startH + smallGap + smallSideH + 2, 2, startH + smallGap -2);
+  o.popMatrix();
 }
 
 void drawMoths() {
