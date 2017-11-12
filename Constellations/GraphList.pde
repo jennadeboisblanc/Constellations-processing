@@ -275,6 +275,8 @@ class GraphList {
     }
   }
 
+  // returns the ID of the edge that is closest in distance to starting (index)
+  // node; returns -1 if the current node is closer than its edges to the goal
   int getClosestNode(int index, PVector goal) {
     int closest = -1;
     Node n = nodes.get(index);
@@ -293,6 +295,28 @@ class GraphList {
     return closest;
   }
 
+
+  // returns the ID of the edge that is closest in distance to starting (index)
+  // node; returns -1 if the current node is closer than its edges to the goal
+  int getClosestForcedNode(int index, int previous, PVector goal) {
+    int closest = -1;
+    float dis = 99999999;
+    List<Integer> edgeList = getEdge(index);
+    if (edgeList != null) {
+      for (int j = 0; j < edgeList.size(); j++) {
+        if (edgeList.get(j) != previous) {
+          Node n2 = nodes.get(edgeList.get(j));
+          float dis2 = n2.getDistance(goal);
+          if (dis2 < dis) {
+            dis = dis2;
+            closest = edgeList.get(j);
+          }
+        }
+      }
+    }
+    return closest;
+  }
+
   ArrayList<Node> getConstellationPath(Node n, PVector goal) {
     int index = parseInt(n.ID);
     ArrayList<Node> path = new ArrayList<Node>();
@@ -304,10 +328,53 @@ class GraphList {
     return path;
   }
 
+  ArrayList<Node> getConstellationPath(int index, PVector goal) {
+    //int index = parseInt(n.ID);
+    ArrayList<Node> path = new ArrayList<Node>();
+    //ArrayList<Integer> path2 = new ArrayList<Integer>();
+    int closest = getClosestNode(index, goal);
+    while (closest > -1) {
+      //path2.add(closest);
+      path.add(nodes.get(closest));
+      closest = getClosestNode(closest, goal);
+    }
+    return path;
+  }
 
-  void drawLine(int[] path) {
-    for (int i = 0; i < path.length-1; i++) {
-      line(nodes.get(path[i]).getX(), nodes.get(path[i]).getY(), nodes.get(path[i+1]).getX(), nodes.get(path[i+1]).getY());
+  ArrayList<Node> getConstellationForcedPath(int index, PVector goal) {
+    ArrayList<Node> path = new ArrayList<Node>();
+    path.add(nodes.get(index));
+    int closest = getClosestForcedNode(index, -1, goal);
+    int previous = index;
+    int numJumps = 0;
+    while (closest > -1 && numJumps < 4) {
+      numJumps++;
+      path.add(nodes.get(closest));
+      int next = getClosestForcedNode(closest, previous, goal);
+      previous = closest;
+      closest = next;
+    }
+    return path;
+  }
+
+
+  void drawPathLines(ArrayList<Node> path) {
+    for (int i = 0; i < path.size()-1; i++) {
+      line(path.get(i).getX(), path.get(i).getY(), path.get(i+1).getX(), path.get(i+1).getY());
+    }
+  }
+
+  void drawOrganicPath(int start, PVector goal) {
+    ArrayList<Node> path = getConstellationForcedPath(start, goal);
+    drawPathLines(path);
+    //int end = getClosestForcedNode(start, 0, goal);
+    //drawLine(start, end);
+    ellipse(nodes.get(start).getX(), nodes.get(start).getY(), 20, 20);
+  }
+
+  void drawIDLine(ArrayList<Integer> path) {
+    for (int i = 0; i < path.size()-1; i++) {
+      line(nodes.get(path.get(i)).getX(), nodes.get(path.get(i)).getY(), nodes.get(path.get(i+1)).getX(), nodes.get(path.get(i+1)).getY());
     }
   }
 

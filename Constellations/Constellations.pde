@@ -38,19 +38,19 @@ PImage whale, hand, orchid, moth, owl;
 
 void setup() {
   //fullScreen();
-  size(800, 400);
+  size(1200, 800);
   lines = new ArrayList<Line>();
   graphL = new GraphList(100);
-  //graphL.loadGraph();
+  graphL.loadGraph();
   //else {
   //  resetConstellationG();
   //  resetZIndex();
   //}
 
 
-  //initFFT();
+  initFFT();
 
-  initKinect();
+  //initKinect();
   //initBodyPoints();
 
  // myServer = new Server(this, 5204);
@@ -73,23 +73,23 @@ void draw() {
   background(0);
   //updateFFT();
 
-  //if (mode == VISUALIZE) {
-  //  //airBenderY();
-  //  checkScene();
-  //  playMode();
-  //} else {
-  //  settingFunctions();
-  //}
+  if (mode == VISUALIZE) {
+    //airBenderY();
+    checkScene();
+    playMode();
+  } else {
+    settingFunctions();
+  }
 
+  //stroke(255);
+  //fill(255);
+  //graphL.display();
+  stroke(0, 255, 255);
+  fill(0, 255, 255);
+  graphL.drawOrganicPath(17, new PVector(mouseX, mouseY));
   //sendPanel();
-  drawKinect();
-  noFill();
-  stroke(255);
-  strokeWeight(4);
-  rect(0, height/2, 255+100, 100);
-  noStroke();
-  fill(0, 255, getHandPanelY());
-  rect(int(getHandPanelY()), height/2, 100, 100);
+  //drawKinect();
+  //testKinect();
 }
 
 void sendPanel() {

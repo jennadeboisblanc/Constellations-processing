@@ -14,6 +14,9 @@ float spineAngle = 0;
 float handRZ = 0;
 float handRY = 0;
 float handRX = 0;
+float handRDZ = 0;
+float handRDY = 0;
+float handRDX = 0;
 
 BodyPoint [] bodyPoints;
 
@@ -24,7 +27,7 @@ void drawConstellationFirst() {
     ArrayList<Node> bodyNodes = new ArrayList<Node>(); 
 
     for (int j = 0; j < 5; j++) {
-      if (j == 0) bodyNodes = graphL.getConstellationPath(graphL.nodes.get(11), bodyPoints[0].next);
+      if (j == 0) bodyNodes = graphL.getConstellationPath(11, bodyPoints[0].next);
       else {
         if (bodyNodes.size() > 0) bodyNodes = graphL.getConstellationPath(bodyNodes.get(bodyNodes.size()-1), bodyPoints[j].next);
       }
@@ -97,9 +100,13 @@ void setBodyAngles(KJoint[] joints) {
   footRAngle = getJointAngle(joints[KinectPV2.JointType_KneeRight], joints[ KinectPV2.JointType_AnkleRight]);
   spineAngle = getJointAngle(joints[KinectPV2.JointType_SpineMid], joints[ KinectPV2.JointType_SpineShoulder]);
 
-  handRZ = joints[KinectPV2.JointType_ShoulderRight].getZ() - joints[KinectPV2.JointType_WristRight].getZ();
-  handRX = joints[KinectPV2.JointType_WristRight].getX() - joints[KinectPV2.JointType_ShoulderRight].getX();
-  handRY = joints[KinectPV2.JointType_WristRight].getY() - joints[KinectPV2.JointType_ShoulderRight].getY();
+  //handRZ = joints[KinectPV2.JointType_ShoulderRight].getZ() - joints[KinectPV2.JointType_WristRight].getZ();
+  handRX = joints[KinectPV2.JointType_WristRight].getX();
+  handRY = joints[KinectPV2.JointType_WristRight].getY();
+
+  handRDZ = joints[KinectPV2.JointType_ShoulderRight].getZ() - joints[KinectPV2.JointType_WristRight].getZ();
+  handRDX = joints[KinectPV2.JointType_WristRight].getX() - joints[KinectPV2.JointType_ShoulderRight].getX();
+  handRDY = joints[KinectPV2.JointType_WristRight].getY() - joints[KinectPV2.JointType_ShoulderRight].getY();
   //println(joints[KinectPV2.JointType_ShoulderRight].getZ() + " " + handRZ);
 }
 
@@ -143,7 +150,7 @@ void pulseLineUp(int rate, int bandSize) {
 }
 
 void drawKinect() {
- ArrayList<KSkeleton> skeletonArray =  kinect.getSkeleton3d();
+  ArrayList<KSkeleton> skeletonArray =  kinect.getSkeleton3d();
 
   //individual joints
   for (int i = 0; i < skeletonArray.size(); i++) {
@@ -153,12 +160,12 @@ void drawKinect() {
       KJoint[] joints = skeleton.getJoints();
 
       color col  = skeleton.getIndexColor();
-      
-      //println(joints[KinectPV2.JointType_HandRight].getZ());
-      background(col);
-  
+
       //setBody(joints);
       setBodyAngles(joints);
+      
+      stroke(col);
+      drawOrganicConstellation();
     }
   }
 }
@@ -173,6 +180,16 @@ void initKinect() {
 
 //--------------------------------------------------------------
 
+void testKinect() {
+
+  noFill();
+  stroke(255);
+  strokeWeight(4);
+  rect(0, height/2, 255+100, 100);
+  noStroke();
+  fill(0, 255, getHandPanelY());
+  rect(int(getHandPanelY()), height/2, 100, 100);
+}
 
 float getJointAngle(KJoint j1, KJoint j2) {
   return atan2((j1.getY() - j2.getY()), (j1.getX() - j2.getX()));
@@ -189,7 +206,19 @@ byte getHandPanelX() {
   return byte(x);
 }
 
+PVector getHandMapped() {
+  float x = map(handRX, -2.0, 2.0, 0, width);
+  float y = map(handRY, -2.0, 2.0, height, 0);
+  PVector h = new PVector(x, y);
+  return h;
+}
+
+
 byte getHandPanelY() {
   int y = constrain(int(map(handRY, -1.0, 1.0, 0, 255)), 0, 255);
   return byte(y);
+}
+
+void drawOrganicConstellation() {
+  graphL.drawOrganicPath(11, getHandMapped());
 }
