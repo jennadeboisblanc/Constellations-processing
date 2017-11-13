@@ -1,5 +1,6 @@
 class Node {
   int x, y, diam;
+  boolean hide = false;
   String ID;
 
 
@@ -45,7 +46,7 @@ class Node {
   int getY() {
     return this.y;
   }
-  
+
   float getDistance(PVector goal) {
     PVector myPt = new PVector(x, y);
     return myPt.dist(goal);
@@ -54,12 +55,18 @@ class Node {
   //--------------------------------------------------------------
   // display
   void display() {
-    fill(255);
-    if (mouseOver()) {
-      fill(255, 0, 0);
+    if (!hide) {
+      fill(255);
+      if (mouseOver()) {
+        fill(255, 0, 0);
+      }
+      strokeWeight(2);
+      ellipse(x, y, this.diam, this.diam);
+      text(ID, x, y-15);
     }
-    strokeWeight(2);
-    ellipse(x, y, this.diam, this.diam);
+  }
+  
+  void displayLabel() {
     text(ID, x, y-15);
   }
 
@@ -106,7 +113,4 @@ class Node {
     String s = ID + " " + getX() + " " + getY();
     return s;
   }
-  
-
-
 }

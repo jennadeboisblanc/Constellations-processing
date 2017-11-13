@@ -33,6 +33,25 @@ class GraphList {
     }
   }
 
+  void removeEdges(int index) {
+    List<Integer> adjacentNodes = nodeList.get(index);
+    if (adjacentNodes != null) {
+      for (int j = 0; j < adjacentNodes.size(); j++) {
+        int adjNodeID = adjacentNodes.get(j);
+        List<Integer> secondAdjacentNodes = nodeList.get(adjNodeID);  // list of nodes of an adjacent node (adjacent to one being removed)
+        for (int k = secondAdjacentNodes.size() - 1; k >= 0; k--) {    // go through second list; if one of the items is the original index, remove it
+          if (secondAdjacentNodes.get(k) == index) {
+            nodeList.get(adjNodeID).remove(k);
+            //println("removing " + index + " from " + k);
+          }
+        }
+        //println(adjNodeID + " size: " + nodeList.get(adjNodeID).size());
+      }
+    }
+    // reset node list
+    nodeList.put(index, new LinkedList<Integer>());
+  }
+
   // use this for loading graph to prevent duplicates
   void setDirectedEdge(int to, int from) {
     //println(to + " " + from);
@@ -70,26 +89,38 @@ class GraphList {
 
       List<Integer> edgeList = getEdge(v);
       if (edgeList != null) {
-        for (int j = 0; j < edgeList.size(); j++) 
-        {
+        for (int j = 0; j < edgeList.size(); j++) {
+          //println("edge " + j + " " + edgeList.get(j) + " " + edgeList.size());
           Node n2 = nodes.get(edgeList.get(j));
           line(x1, y1, n2.getX(), n2.getY());
         }
       }
     }
   }
-  
+
   void displayNodes() {
-    for (int v = 0; v < nodes.size(); ++v) {
-      int x1, y1;
-      Node n = nodes.get(v); // could get to the point where this call isn't necessary- just tmp->x, tmp->y (that x, y is saved 2x)
-      n.display();
-      x1 = n.getX();
-      y1 = n.getY();
-      strokeWeight(2);
-      nodes.get(v).display();
+    for (int i = 0; i < nodes.size(); i++) {
+      nodes.get(i).display();
     }
   }
+  
+  void displayNodeLabels() {
+     for (int i = 0; i < nodes.size(); i++) {
+      nodes.get(i).displayLabel();
+    }
+  }
+
+  //void displayNodes() {
+  //  for (int v = 0; v < nodes.size(); ++v) {
+  //    int x1, y1;
+  //    Node n = nodes.get(v); // could get to the point where this call isn't necessary- just tmp->x, tmp->y (that x, y is saved 2x)
+  //    n.display();
+  //    x1 = n.getX();
+  //    y1 = n.getY();
+  //    strokeWeight(2);
+  //    nodes.get(v).display();
+  //  }
+  //}
 
   void printGraph() {
     for (int v = 0; v < nodes.size(); ++v) {
@@ -191,6 +222,13 @@ class GraphList {
     nodes.add(new Node(nodes.size() + "", mx, my));
   }
 
+  void removeNode(int index) {
+    removeEdges(index);
+    nodes.get(index).hide = true;
+    deleteLines(index);
+    printGraph();
+  }
+
 
   boolean hasCurrentNode() {
     return (currentNodeIndex > -1);
@@ -236,6 +274,14 @@ class GraphList {
 
   void checkNodeClick(int mx, int my) {
     currentNodeIndex = getClickedNode(mx, my);
+  }
+
+  void checkDeleteNodeClick(int mx, int my) {
+    currentNodeIndex = getClickedNode(mx, my);
+    if (currentNodeIndex > -1) {
+      removeNode(currentNodeIndex);
+      currentNodeIndex = -1;
+    }
   }
 
   int getCurrentNode() {
@@ -464,12 +510,12 @@ class GraphList {
       saveJSONObject(json2, "data/graph/line" + i + ".json");
     }
   }
-  
+
   void loadLines() {
     processing.data.JSONObject json;
     json = loadJSONObject("data/graph/lines.json");
     int linesNum = json.getInt("linesNum");
- 
+
     for (int i = 0; i < linesNum; i++) {
       processing.data.JSONObject lineJson = loadJSONObject("data/graph/line" + i + ".json");
       int id1 = lineJson.getInt("id1");
@@ -480,7 +526,7 @@ class GraphList {
       int y2 = lineJson.getInt("y2");
       int z = lineJson.getInt("z");
       int cg = lineJson.getInt("cg");
-      
+
       lines.add(new Line(x1, y1, x2, y2, id1, id2));
       lines.get(i).zIndex = z;
       lines.get(i).constellationG = cg;

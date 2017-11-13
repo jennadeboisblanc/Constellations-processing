@@ -180,9 +180,17 @@ class Line {
   }
 
   void displayByIDs(int id1, int id2) {
-    if ((this.id1 == id1 && this.id2 == id2) || (this.id2 == id1 && this.id1 == id2)) {
+    if (findByID(id1, id2)) {
       display();
     }
+  }
+  
+  boolean findByID(int id1, int id2) {
+    return (this.id1 == id1 && this.id2 == id2) || (this.id2 == id1 && this.id1 == id2);
+  }
+  
+  boolean findByID(int id) {
+    return (this.id1 == id || this.id2 == id);
   }
   
   int getX1() {

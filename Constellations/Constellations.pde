@@ -13,6 +13,8 @@ int ADD_NODES = 1;
 int ADD_EDGES = 2;
 int MOVE_NODES = 3;
 int MOVE_LINES = 4;
+int DELETE_LINES = 7;
+int DELETE_NODES = 8;
 int SET_LINEZ = 5;
 int SET_CONST = 6;
 int mode = MOVE_LINES;
@@ -53,7 +55,7 @@ void setup() {
   //initKinect();
   //initBodyPoints();
 
- // myServer = new Server(this, 5204);
+  // myServer = new Server(this, 5204);
 
 
 
@@ -109,6 +111,7 @@ void keyPressed() {
   else if (key == 'e') mode = ADD_EDGES;
   else if (key == 'm') mode = MOVE_LINES;
   else if (key == 'n') mode = MOVE_NODES;
+  else if (key == 'd') mode = DELETE_NODES;
   else if (key == 'z') {
     println("set lines");
     mode = SET_LINEZ;
@@ -175,13 +178,13 @@ void mouseReleased() {
   if (mode == ADD_NODES) {
     graphL.display();
     graphL.addNode(mouseX, mouseY);
-  } 
-  else if (mode == MOVE_NODES) {
+  } else if (mode == MOVE_NODES) {
     graphL.display();
     graphL.checkNodeClick(mouseX, mouseY);
-  } 
-  else if (mode == ADD_EDGES) {
+  } else if (mode == ADD_EDGES) {
     graphL.checkEdgeClick(mouseX, mouseY);
+  } else if (mode == DELETE_NODES) {
+    graphL.checkDeleteNodeClick(mouseX, mouseY);
   } else if (mode == SET_LINEZ || mode == SET_CONST || mode == MOVE_LINES) {
     for (int i = 0; i < lines.size(); i++) {
       if (lines.get(i).mouseOver()) {
@@ -248,6 +251,14 @@ void linesDisplay(int brightness) {
   }
 }
 
+void deleteLines(int index) {
+  for (int i = lines.size() - 1; i >=0; i--) {
+    if (lines.get(i).findByID(index)) {
+      lines.remove(i);
+    }
+  }
+}
+
 void settingFunctions() {
 
   if (mode == ADD_EDGES) {
@@ -260,6 +271,8 @@ void settingFunctions() {
     stroke(255, 255, 0);
     fill(255);
     ellipse(mouseX, mouseY, 20, 20);
+  } else if (mode == DELETE_NODES) {
+    graphL.display();
   } else if (mode == MOVE_NODES || mode == MOVE_LINES) {
     graphL.displayNodes();
     linesDisplay(255);
