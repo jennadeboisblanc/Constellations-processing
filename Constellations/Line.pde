@@ -4,28 +4,31 @@ class Line {
   PVector p2;
   int zIndex = 0;
   float ang;
-  int id;
+  int id1, id2;
   int constellationG = 0;
 
-  Line(PVector p1, PVector p2, int id) {
+  Line(PVector p1, PVector p2, int id1, int id2) {
     this.p1 = p1;
     this.p2 = p2;
     initLine();
-    this.id = id;
+    this.id1 = id1;
+    this.id2 = id2;
   }
 
-  Line(Node n1, Node n2, int id) {
+  Line(Node n1, Node n2, int id1, int id2) {
     this.p1.set(n1.getX(), n1.getY());
     this.p2.set(n2.getX(), n2.getY());
     initLine();
-    this.id = id;
+    this.id1 = id1;
+    this.id2 = id2;
   }
 
-  Line(int x1, int y1, int x2, int y2, int id) {
+  Line(int x1, int y1, int x2, int y2, int id1, int id2) {
     this.p1 = new PVector(x1, y1);
     this.p2 = new PVector(x2, y2);
     initLine();
-    this.id = id;
+    this.id1 = id1;
+    this.id2 = id2;
   }
 
   void initLine() {
@@ -36,6 +39,16 @@ class Line {
 
   void display() {
     line(p1.x, p1.y, p2.x, p2.y);
+  }
+
+  void moveP1(int x, int y) {
+    p1.x += x;
+    p1.y += y;
+  }
+
+  void moveP2(int x, int y) {
+    p2.x += x;
+    p2.y += y;
   }
 
   void leftToRight() {
@@ -67,7 +80,7 @@ class Line {
     strokeWeight(sw);
     line(p1.x, p1.y, p2.x, p2.y);
   }
-  
+
   void fftConstellation(float c, float per) {
     per = constrain(per, 0, 1.0);
     int sw = int(map(per, 0, 1.0, 0, 5));
@@ -97,47 +110,43 @@ class Line {
       display();
     }
   }
-  
+
   void displayBandZ(int start, int end) {
     if (zIndex >= start && zIndex < end) {
       display();
     }
   }
-  
+
   void displayBandZ(int band) {
     if (zIndex == band) {
       display();
     }
   }
-  
+
   void displayConstellation(int num) {
     if (constellationG == num) {
       display();
     }
   }
-  
+
   void displayAngle(int start, int end) {
     if (end < -360) {
       if (ang >= radians(start) || ang < end + 360) {
         display();
       }
-    }
-    else if (ang >= radians(start) && ang < radians(end)) {
+    } else if (ang >= radians(start) && ang < radians(end)) {
       display();
     }
   }
-  
+
   void displayEqualizer(int[] bandH) {
     if (p1.x >= 0 && p1.x < width/4) {
       displayBandY(0, bandH[0]);
-    }
-    else if (p1.x >= width/4 && p1.x < width/2) {
+    } else if (p1.x >= width/4 && p1.x < width/2) {
       displayBandY(0, bandH[1]);
-    }
-    else if (p1.x >= width/2 && p1.x < width*3.0/4) {
+    } else if (p1.x >= width/2 && p1.x < width*3.0/4) {
       displayBandY(0, bandH[2]);
-    }
-    else {
+    } else {
       displayBandY(0, bandH[3]);
     }
   }
@@ -159,14 +168,36 @@ class Line {
     }
     return false;
   }
-  
+
   void setConstellationG(int k) {
     constellationG = k;
-    println("constellation of " + id + " is now " + k);
+    println("constellation of " + id1 + "" + id2 + " is now " + k);
   }
-  
+
   void setZIndex(int k) {
     zIndex = k;
-    println("zIndex of " + id + " is now " + k); 
+    println("zIndex of " + id1 + "" + id2 + " is now " + k);
+  }
+
+  void displayByIDs(int id1, int id2) {
+    if ((this.id1 == id1 && this.id2 == id2) || (this.id2 == id1 && this.id1 == id2)) {
+      display();
+    }
+  }
+  
+  int getX1() {
+    return int(p1.x);
+  }
+  
+  int getX2() {
+    return int(p2.x);
+  }
+  
+  int getY1() {
+    return int(p1.y);
+  }
+  
+  int getY2() {
+    return int(p2.y);
   }
 }
