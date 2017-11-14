@@ -3,6 +3,9 @@ class Line {
   PVector p1;
   PVector p2;
   int zIndex = 0;
+  int z1 = 0;
+  int z2 = 0;
+  float zAve = 0;
   float ang;
   int id1, id2;
   int constellationG = 0;
@@ -13,6 +16,7 @@ class Line {
     initLine();
     this.id1 = id1;
     this.id2 = id2;
+    updateZ();
   }
 
   Line(Node n1, Node n2, int id1, int id2) {
@@ -21,6 +25,7 @@ class Line {
     initLine();
     this.id1 = id1;
     this.id2 = id2;
+    updateZ();
   }
 
   Line(int x1, int y1, int x2, int y2, int id1, int id2) {
@@ -29,8 +34,15 @@ class Line {
     initLine();
     this.id1 = id1;
     this.id2 = id2;
+    updateZ();
   }
-
+  
+  void updateZ() {
+    z1 = graphL.nodes.get(id1).z;
+    z2 = graphL.nodes.get(id2).z;
+    zAve = (z1 *1.0 + z2)/2.0;
+  }
+   
   void initLine() {
     leftToRight();
     ang = atan2(this.p1.y - this.p2.y, this.p1.x - this.p2.x);
@@ -49,6 +61,13 @@ class Line {
   void moveP2(int x, int y) {
     p2.x += x;
     p2.y += y;
+  }
+
+  void displayZDepth() {
+    colorMode(HSB, 255);
+    stroke(map(zAve, 0, 9, 0, 255), 255, 255);
+    display();
+    colorMode(RGB, 255);
   }
 
   void leftToRight() {
@@ -112,13 +131,13 @@ class Line {
   }
 
   void displayBandZ(int start, int end) {
-    if (zIndex >= start && zIndex < end) {
+    if (z1 >= start && z1 < end) {
       display();
     }
   }
 
   void displayBandZ(int band) {
-    if (zIndex == band) {
+    if (z1 == band) {
       display();
     }
   }

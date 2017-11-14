@@ -13,11 +13,11 @@ int ADD_NODES = 1;
 int ADD_EDGES = 2;
 int MOVE_NODES = 3;
 int MOVE_LINES = 4;
-int DELETE_LINES = 7;
 int DELETE_NODES = 8;
+int SET_NODES_Z = 7;
 int SET_LINEZ = 5;
 int SET_CONST = 6;
-int mode = MOVE_LINES;
+int mode = SET_NODES_Z;
 
 int currentScene = -1;
 int visualMode = -1;
@@ -88,7 +88,7 @@ void draw() {
   //graphL.display();
   stroke(0, 255, 255);
   fill(0, 255, 255);
-  //graphL.drawOrganicPath(17, new PVector(mouseX, mouseY));
+  graphL.drawOrganicPath(17, new PVector(mouseX, mouseY));
   //sendPanel();
   //drawKinect();
   //testKinect();
@@ -112,12 +112,9 @@ void keyPressed() {
   else if (key == 'm') mode = MOVE_LINES;
   else if (key == 'n') mode = MOVE_NODES;
   else if (key == 'd') mode = DELETE_NODES;
-  else if (key == 'z') {
-    println("set lines");
-    mode = SET_LINEZ;
-  } else if (key == 'c') {
+  else if (key == 'z') mode = SET_NODES_Z;
+  else if (key == 'c') {
     mode = SET_CONST;
-    println("set constellations");
   } else if (key == 'v') {
     mode = VISUALIZE;
   } else if (key == 'p') {
@@ -149,6 +146,14 @@ void keyPressed() {
     int k = parseInt(key) - 48;
     if (k > 0 && k < 9) {
       lines.get(lineIndex).setZIndex(k);
+    }
+  } else if (mode == SET_NODES_Z) {
+    if (graphL.hasCurrentNode()) {
+      println(parseInt(key));
+      int k = parseInt(key) - 48;
+      if (k > 0 && k < 9) {
+        graphL.setCurrentNodeZ(k);
+      }
     }
   } else if (mode == SET_CONST) {
     int k = parseInt(key) - 48;
@@ -193,13 +198,11 @@ void mouseReleased() {
         break;
       }
     }
+  } else if (mode == SET_NODES_Z) {
+    graphL.checkNodeClick(mouseX, mouseY);
+    updateLineZs();
   }
 }
-
-
-
-
-
 
 void setLines() {
   for (int i = 0; i < lines.size(); i++) {
@@ -220,6 +223,7 @@ void setLines() {
     l.display();
   }
 }
+
 
 
 void setConst() {
@@ -243,6 +247,18 @@ void setConst() {
   }
 }
 
+void updateLineZs() {
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).updateZ();
+  }
+}
+
+void displayLineZDepth() {
+  for (Line line : lines) {
+    line.displayZDepth();
+  }
+}
+
 void linesDisplay(int brightness) {
   for (int i = 0; i < lines.size(); i++) {
     stroke(brightness);
@@ -259,23 +275,44 @@ void deleteLines(int index) {
   }
 }
 
-void settingFunctions() {
+void displayBox(int hue, String title) {
+  colorMode(HSB, 255);
+  fill(hue, 255, 255);
+  noStroke();
+  rect(0, height-50, width, 50);
+  fill(255);
+  stroke(255);
+  textSize(30);
+  text(title, 30, height-15);
+  colorMode(RGB, 255);
+}
 
+void settingFunctions() {
+  graphL.displayNodes();
+  graphL.displayNodeLabels();
+  linesDisplay(255);
+  
   if (mode == ADD_EDGES) {
-    graphL.displayNodes();
-    linesDisplay(255);
     graphL.drawLineToCurrent(mouseX, mouseY);
-  } else if (mode == ADD_NODES) {
-    graphL.displayNodes();
-    linesDisplay(255);
-    stroke(255, 255, 0);
-    fill(255);
+    displayBox(0, "ADD EDGES");
+  } 
+  else if (mode == ADD_NODES) {
     ellipse(mouseX, mouseY, 20, 20);
-  } else if (mode == DELETE_NODES) {
+    displayBox(20, "ADD NODES");
+  } 
+  else if (mode == DELETE_NODES) {
     graphL.display();
-  } else if (mode == MOVE_NODES || mode == MOVE_LINES) {
-    graphL.displayNodes();
-    linesDisplay(255);
-  } else if (mode == SET_LINEZ) setLines();
-  else if (mode == SET_CONST) setConst();
+    displayBox(50, "DELETE NODES");
+  } 
+  else if (mode == MOVE_NODES || mode == MOVE_LINES) {
+    graphL.displayCurrentNode();
+    displayBox(70, "MOVE");
+  } else if (mode == SET_NODES_Z) {
+    displayLineZDepth();
+    displayBox(100, "SET NODES Z");
+    graphL.displayCurrentNode();
+  } else if (mode == SET_CONST) {
+    setConst();
+    displayBox(140, "SET CONSTELLATIONS");
+  }
 }

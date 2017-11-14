@@ -110,18 +110,6 @@ class GraphList {
     }
   }
 
-  //void displayNodes() {
-  //  for (int v = 0; v < nodes.size(); ++v) {
-  //    int x1, y1;
-  //    Node n = nodes.get(v); // could get to the point where this call isn't necessary- just tmp->x, tmp->y (that x, y is saved 2x)
-  //    n.display();
-  //    x1 = n.getX();
-  //    y1 = n.getY();
-  //    strokeWeight(2);
-  //    nodes.get(v).display();
-  //  }
-  //}
-
   void printGraph() {
     for (int v = 0; v < nodes.size(); ++v) {
       fill(255);
@@ -160,6 +148,7 @@ class GraphList {
       json2.setString("ID", n.ID);
       json2.setInt("x", n.x);
       json2.setInt("y", n.y);
+      json2.setInt("z", n.z);
 
       // adjacent node names
       processing.data.JSONArray adjacentNodes = new processing.data.JSONArray();      
@@ -197,8 +186,9 @@ class GraphList {
       String name = nodeJson.getString("ID");
       int x = nodeJson.getInt("x");
       int y = nodeJson.getInt("y");
-
-      tempNodes.add(new Node(name, x, y));
+      int z = nodeJson.getInt("z");
+      tempNodes.add(new Node(name, x, y, z));
+      //tempNodes.add(new Node(name, x, y));
     }
 
     // create the edges from JSON file
@@ -207,7 +197,6 @@ class GraphList {
       processing.data.JSONArray adjNodes = nodeJson.getJSONArray("adjacentNodes");
       for (int j = 0; j < adjNodes.size(); j++) {
         setDirectedEdge(i, parseInt(adjNodes.getString(j)));
-        //tempNodes.get(i).addDestination(tempNodes.get(parseInt(adjNodes.getString(j))));
       }
     }
 
@@ -224,7 +213,7 @@ class GraphList {
 
   void removeNode(int index) {
     removeEdges(index);
-    nodes.get(index).hide = true;
+    nodes.get(index).move(-100, -100);
     deleteLines(index);
     printGraph();
   }
@@ -236,6 +225,18 @@ class GraphList {
 
   void moveCurrentNode(int dx, int dy) {
     nodes.get(currentNodeIndex).move(dx, dy);
+  }
+  
+  void displayCurrentNode() {
+    if (hasCurrentNode()) {
+      fill(0, 255, 0);
+      stroke(0, 255, 0);
+      nodes.get(currentNodeIndex).display();
+    }
+  }
+  
+  void setCurrentNodeZ(int zp) {
+    nodes.get(currentNodeIndex).z = zp;
   }
 
   int getClickedNode(int mx, int my) {
@@ -378,6 +379,26 @@ class GraphList {
     }
     return closest;
   }
+  
+  int getClosestForcedNodeZ(int index, int previous, PVector goal) {
+    int closest = -1;
+    float dis = 99999999;
+    List<Integer> edgeList = getEdge(index);
+    // sort first by z, then by disf
+    if (edgeList != null) {
+      for (int j = 0; j < edgeList.size(); j++) {
+        if (edgeList.get(j) != previous) {
+          Node n2 = nodes.get(edgeList.get(j));
+          float dis2 = n2.getDistance(goal);
+          if (dis2 < dis) {
+            dis = dis2;
+            closest = edgeList.get(j);
+          }
+        }
+      }
+    }
+    return closest;
+  }
 
   ArrayList<Node> getConstellationPath(Node n, PVector goal) {
     int index = parseInt(n.ID);
@@ -471,23 +492,6 @@ class GraphList {
       line(nodes.get(n1).getX(), nodes.get(n1).getY(), nodes.get(n2).getX(), nodes.get(n2).getY());
   }
 
-  //void setLineValues() {
-  //  processing.data.JSONObject json;
-  //  json = loadJSONObject("data/graph/lines.json");
-
-  //  processing.data.JSONArray lineZs = json.getJSONArray("lineZs");
-  //  processing.data.JSONArray constellationG = json.getJSONArray("constellationG");
-  //  for (int j = 0; j < lines.size(); j++) {
-  //    if (j >= lineZs.size()) {
-  //      lines.get(j).zIndex = 0;
-  //      lines.get(j).constellationG = 0;
-  //    } else {
-  //      lines.get(j).zIndex = lineZs.getInt(j);
-  //      lines.get(j).constellationG = constellationG.getInt(j);
-  //    }
-  //  }
-  //}
-
   void saveLines() {
     processing.data.JSONObject json;
     json = new processing.data.JSONObject();
@@ -504,7 +508,7 @@ class GraphList {
       json2.setInt("y1", l.getY1());
       json2.setInt("x2", l.getX2());
       json2.setInt("y2", l.getY2());
-      json2.setInt("z", l.zIndex);
+      json2.setInt("z1", l.zIndex);
       json2.setInt("cg", l.constellationG);
 
       saveJSONObject(json2, "data/graph/line" + i + ".json");
@@ -524,32 +528,12 @@ class GraphList {
       int y1 = lineJson.getInt("y1");
       int x2 = lineJson.getInt("x2");
       int y2 = lineJson.getInt("y2");
-      int z = lineJson.getInt("z");
+      //int z = lineJson.getInt("z");
       int cg = lineJson.getInt("cg");
 
       lines.add(new Line(x1, y1, x2, y2, id1, id2));
-      lines.get(i).zIndex = z;
+      //lines.get(i).zIndex = z;
       lines.get(i).constellationG = cg;
     }
-  }
-
-  void saveLineValues() {
-    processing.data.JSONObject json;
-    json = new processing.data.JSONObject();
-    processing.data.JSONArray lineZs = new processing.data.JSONArray(); 
-    //processing.data.JSONArray lineXs = new processing.data.JSONArray(); 
-    //processing.data.JSONArray lineYs = new processing.data.JSONArray(); 
-    processing.data.JSONArray constellationG = new processing.data.JSONArray();  
-
-    if (lines.size() == 0) {
-      addLines();
-    }
-    for (int j = 0; j < lines.size(); j++) {
-      lineZs.setInt(j, lines.get(j).zIndex);
-      constellationG.setInt(j, lines.get(j).constellationG);
-    }
-    json.setJSONArray("lineZs", lineZs);
-    json.setJSONArray("constellationG", constellationG);
-    saveJSONObject(json, "data/graph/lines.json");
   }
 }

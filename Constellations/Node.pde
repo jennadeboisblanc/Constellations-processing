@@ -1,6 +1,5 @@
 class Node {
-  int x, y, diam;
-  boolean hide = false;
+  int x, y, z, diam;
   String ID;
 
 
@@ -8,11 +7,16 @@ class Node {
   Node() {
     // default
   }
-
+  
   Node(String ID, int x, int y) {
+    this(ID, x, y, 0);
+  }
+
+  Node(String ID, int x, int y, int z) {
     this.ID = ID;
     this.x = x;
     this.y = y;
+    this.z = z;
     this.diam = 15;
   }
 
@@ -55,18 +59,16 @@ class Node {
   //--------------------------------------------------------------
   // display
   void display() {
-    if (!hide) {
-      fill(255);
-      if (mouseOver()) {
-        fill(255, 0, 0);
-      }
-      strokeWeight(2);
-      ellipse(x, y, this.diam, this.diam);
-      text(ID, x, y-15);
+    fill(255);
+    if (mouseOver()) {
+      fill(255, 0, 0);
     }
+    strokeWeight(2);
+    ellipse(x, y, this.diam, this.diam);
   }
-  
+
   void displayLabel() {
+    textSize(10);
     text(ID, x, y-15);
   }
 
