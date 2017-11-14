@@ -88,7 +88,7 @@ void draw() {
   //graphL.display();
   stroke(0, 255, 255);
   fill(0, 255, 255);
-  graphL.drawOrganicPath(17, new PVector(mouseX, mouseY));
+  graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
   //sendPanel();
   //drawKinect();
   //testKinect();

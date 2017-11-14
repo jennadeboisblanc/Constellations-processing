@@ -380,7 +380,7 @@ class GraphList {
     return closest;
   }
   
-  int getClosestForcedNodeZ(int index, int previous, PVector goal) {
+  int getClosestForcedNode3D(int index, int previous, PVector goal) {
     int closest = -1;
     float dis = 99999999;
     List<Integer> edgeList = getEdge(index);
@@ -389,7 +389,7 @@ class GraphList {
       for (int j = 0; j < edgeList.size(); j++) {
         if (edgeList.get(j) != previous) {
           Node n2 = nodes.get(edgeList.get(j));
-          float dis2 = n2.getDistance(goal);
+          float dis2 = n2.getDistance3D(goal);
           if (dis2 < dis) {
             dis = dis2;
             closest = edgeList.get(j);
@@ -424,21 +424,6 @@ class GraphList {
     return path;
   }
 
-  ArrayList<Node> getConstellationForcedPath(int index, PVector goal) {
-    ArrayList<Node> path = new ArrayList<Node>();
-    path.add(nodes.get(index));
-    int closest = getClosestForcedNode(index, -1, goal);
-    int previous = index;
-    int numJumps = 0;
-    while (closest > -1 && numJumps < 4) {
-      numJumps++;
-      path.add(nodes.get(closest));
-      int next = getClosestForcedNode(closest, previous, goal);
-      previous = closest;
-      closest = next;
-    }
-    return path;
-  }
 
   ArrayList<Integer> getConstellationForcedIDs(int index, PVector goal) {
     ArrayList<Integer> path = new ArrayList<Integer>();
@@ -450,6 +435,22 @@ class GraphList {
       numJumps++;
       path.add(closest);
       int next = getClosestForcedNode(closest, previous, goal);
+      previous = closest;
+      closest = next;
+    }
+    return path;
+  }
+  
+  ArrayList<Integer> getConstellationForcedIDs3D(int index, PVector goal) {
+    ArrayList<Integer> path = new ArrayList<Integer>();
+    path.add(index);
+    int closest = getClosestForcedNode3D(index, -1, goal);
+    int previous = index;
+    int numJumps = 0;
+    while (closest > -1 && numJumps < 4) {
+      numJumps++;
+      path.add(closest);
+      int next = getClosestForcedNode3D(closest, previous, goal);
       previous = closest;
       closest = next;
     }
@@ -478,6 +479,12 @@ class GraphList {
     drawPathIDs(path);
     //int end = getClosestForcedNode(start, 0, goal);
     //drawLine(start, end);
+    ellipse(nodes.get(start).getX(), nodes.get(start).getY(), 20, 20);
+  }
+  
+  void drawOrganicPath3D(int start, PVector goal) {
+    ArrayList<Integer> path = getConstellationForcedIDs3D(start, goal);
+    drawPathIDs(path);
     ellipse(nodes.get(start).getX(), nodes.get(start).getY(), 20, 20);
   }
 

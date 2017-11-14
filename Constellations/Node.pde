@@ -51,6 +51,11 @@ class Node {
     return this.y;
   }
 
+ float getDistance3D(PVector goal) {
+    PVector myPt = new PVector(x, y, z*100);
+    return myPt.dist(goal);
+  }
+
   float getDistance(PVector goal) {
     PVector myPt = new PVector(x, y);
     return myPt.dist(goal);
