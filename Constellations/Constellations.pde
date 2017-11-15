@@ -39,8 +39,8 @@ int currentString;
 
 
 void setup() {
-  //fullScreen();
-  size(1200, 800);
+  fullScreen();
+  //size(1200, 800);
   lines = new ArrayList<Line>();
   graphL = new GraphList(100);
   if (!NEW_GRAPH) graphL.loadGraph();
@@ -73,12 +73,13 @@ void setup() {
 //--------------------------------------------------------------
 void draw() {
   background(0);
-  //updateFFT();
+  updateFFT();
 
   if (mode == VISUALIZE) {
     //airBenderY();
-    checkScene();
-    playMode();
+    //checkScene();
+    //playMode();
+    cycleModes(2000);
   } else {
     settingFunctions();
   }
@@ -88,7 +89,7 @@ void draw() {
   //graphL.display();
   stroke(0, 255, 255);
   fill(0, 255, 255);
-  graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
+  //graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
   //sendPanel();
   //drawKinect();
   //testKinect();
