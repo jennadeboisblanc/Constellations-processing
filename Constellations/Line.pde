@@ -52,6 +52,12 @@ class Line {
   void display() {
     line(p1.x, p1.y, p2.x, p2.y);
   }
+  
+  void display(color c) {
+    fill(c);
+    stroke(c);
+    display();
+  }
 
   void moveP1(int x, int y) {
     p1.x += x;
@@ -120,41 +126,61 @@ class Line {
 
   void displayBandX(int start, int end) {
     if (p1.x > start && p1.x < end) {
-      display();
+      display(color(255));
+    }
+    else {
+      display(color(0));
     }
   }
 
   void displayBandY(int start, int end) {
     if (p1.y > start && p1.y < end) {
-      display();
+       display(color(255));
+    }
+    else {
+      display(color(0));
     }
   }
 
   void displayBandZ(int start, int end) {
     if (z1 >= start && z1 < end) {
-      display();
+       display(color(255));
+    }
+    else {
+      display(color(0));
     }
   }
 
   void displayBandZ(int band) {
     if (z1 == band) {
-      display();
+       display(color(255));
+    }
+    else {
+      display(color(0));
     }
   }
 
   void displayConstellation(int num) {
     if (constellationG == num) {
-      display();
+       display(color(255));
+    }
+    else {
+      display(color(0));
     }
   }
 
   void displayAngle(int start, int end) {
     if (end < -360) {
       if (ang >= radians(start) || ang < end + 360) {
-        display();
+        display(color(255));
+      }
+      else {
+        display(color(0));
       }
     } else if (ang >= radians(start) && ang < radians(end)) {
-      display();
+      display(color(255));
+    } else {
+      display(color(0));
     }
   }
 
