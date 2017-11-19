@@ -211,6 +211,7 @@ class GraphList {
   void addNode(int mx, int my) {
     nodes.add(new Node(nodes.size() + "", mx, my));
   }
+set
 
   void removeNode(int index) {
     removeEdges(index);

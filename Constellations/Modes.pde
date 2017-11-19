@@ -13,6 +13,7 @@ int V_PULSE_LINE_UP = 8;
 int V_PULSE_LINE_DOWN = 9;
 int V_CYCLE_CONST = 10;
 int V_FFT_CONST = 11;
+int V_SHOW_ONE = 12;
 
 /////////////////////
 // KINECT MODES
@@ -35,6 +36,8 @@ int INTRO = 0;
 int pulseIndex = 0;
 int lastCheckedPulse = 0;
 Scene[] deltaScenes;
+int pointDirection = 4;
+ArrayList<Beat> beats;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // SCENES
@@ -66,7 +69,6 @@ void checkScene() {
     if (deltaScenes[currentScene + 1].hasStarted(songReading)) {
       currentScene++;
       deltaScenes[currentScene].setModes();
-      
     }
   }
 }
@@ -87,9 +89,33 @@ void playMode() {
   else if (visualMode == V_CYCLE_CONST) cycleConstellation(150);
   else if (visualMode == V_FFT_CONST) fftConstellations(650);
   else if (visualMode == V_PULSING) pulsing(9);
+  else if (visualMode == V_SHOW_ONE) showOne(100);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+
+void loadBeats() {
+  processing.data.JSONObject beatsJson;
+  beatsJson = loadJSONObject("data/beats.json");
+  int numBeats = beatsJson.getInt("numBeats");
+  //println(numBeats);
+  resetBeats();
+
+  processing.data.JSONArray beatsArray = beatsJson.getJSONArray("beatsList");
+  for (int i = 0; i < numBeats; i++) {
+    processing.data.JSONObject b = beatsArray.getJSONObject(i);
+    String beatType = b.getString("beatType");
+    int t = b.getInt("time");
+    beats.add(new Beat(t, beatType));
+  }
+}
+
+void resetBeats() {
+  beats = new ArrayList<Beat>();
+}
+
+//////////////////////////////////////////////////////////////////
 void rotateAngle(int rate, int angleGap) {
   if (millis() - lastCheckedPulse > rate) {
     pulseIndex+= angleGap;
@@ -119,6 +145,55 @@ void rotateAngleCounter(int rate, int angleGap) {
   }
   for (int i = 0; i < lines.size(); i++) {
     lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap);
+  }
+}
+
+void displayYPoints(int rate, int bottom, int top) {
+  pulseIndex += pointDirection * rate;
+  if (pulseIndex > top) {
+    pulseIndex = top;
+    pointDirection = -1;
+  } else if (pulseIndex < bottom) {
+    pulseIndex = bottom;
+    pointDirection = 1;
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayPointY(pulseIndex);
+  }
+}
+
+void displayXPoints(int rate, int left, int right) {
+  pulseIndex += pointDirection * rate;
+  if (pulseIndex > right) {
+    pulseIndex = right;
+    pointDirection = -1;
+  } else if (pulseIndex < left) {
+    pulseIndex = left;
+    pointDirection = 1;
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayPointX(pulseIndex);
+    lines.get(i).displayPointX(pulseIndex+100);
+  }
+}
+
+void randomLines(int rate) {
+  if (millis() - lastCheckedPulse > rate) {
+    background(0);
+    lastCheckedPulse = millis();
+    for (int i = 0; i < 20; i++) {
+      line(random(50, width - 100), random(50, height - 100), random(50, width - 100), random(50, height - 100));
+    }
+  }
+}
+
+void randomSegments(int rate) {
+}
+
+void twinkleLines() {
+  for (int i = 0; i < lines.size(); i++) {
+    fill(255);
+    lines.get(i).twinkle(50);
   }
 }
 
@@ -157,6 +232,15 @@ void cycleConstellation(int rate) {
     lastCheckedPulse = millis();
   }
   showConstellationLine(pulseIndex);
+}
+
+void showOne(int rate) {
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex++;
+    lastCheckedPulse = millis();
+  }
+  if (pulseIndex >= lines.size()) pulseIndex = 0;
+  lines.get(pulseIndex).display();
 }
 
 void fftConstellations(int rate) {

@@ -9,6 +9,9 @@ class Line {
   float ang;
   int id1, id2;
   int constellationG = 0;
+  int twinkleT;
+  int twinkleRange = 0;
+  long lastChecked = 0;
 
   Line(PVector p1, PVector p2, int id1, int id2) {
     this.p1 = p1;
@@ -36,23 +39,25 @@ class Line {
     this.id2 = id2;
     updateZ();
   }
-  
+
   void updateZ() {
     z1 = graphL.nodes.get(id1).z;
     z2 = graphL.nodes.get(id2).z;
     zAve = (z1 *1.0 + z2)/2.0;
   }
-   
+
   void initLine() {
     leftToRight();
     ang = atan2(this.p1.y - this.p2.y, this.p1.x - this.p2.x);
     if (ang > PI/2) ang -= 2*PI;
+    twinkleT = int(random(50, 255));
+    twinkleRange = int(dist(p1.x, p1.y, p2.x, p2.y)/100);
   }
 
   void display() {
     line(p1.x, p1.y, p2.x, p2.y);
   }
-  
+
   void display(color c) {
     fill(c);
     stroke(c);
@@ -117,54 +122,64 @@ class Line {
     if (constellationG == c)line(p1.x, p1.y, p2.x, p2.y);
   }
 
-  void twinkle() {
-    float ang = PVector.angleBetween(p2, p1);
-    for (int i = 0; i < PVector.dist(p1, p2); i+=15) {
-      ellipse(p1.x+i*cos(ang), p1.y+i*sin(ang), 8, 8);
+  void twinkle(int wait) {
+    int num = int(dist(p1.x, p1.y, p2.x, p2.y)/100);
+    
+    if (millis() - lastChecked > wait) {
+      twinkleT = int(random(100, 255));
+      lastChecked = millis();
+      //if (twinkleT > 220) twinkleRange = num + int(random(3));
     }
+
+    noStroke();
+    fill(twinkleT);
+    for (int i = 0; i < num; i++) {
+      float x = map(i, -.5, twinkleRange, p1.x, p2.x);
+      float y = map(i, -.5, twinkleRange, p1.y, p2.y);
+      ellipse(x, y, 10, 10);
+    }
+  }
+  
+  void randomSegment() {
+   //float len = random(
   }
 
   void displayBandX(int start, int end) {
     if (p1.x > start && p1.x < end) {
       display(color(255));
-    }
-    else {
+    } else {
       display(color(0));
     }
   }
 
   void displayBandY(int start, int end) {
     if (p1.y > start && p1.y < end) {
-       display(color(255));
-    }
-    else {
+      display(color(255));
+    } else {
       display(color(0));
     }
   }
 
   void displayBandZ(int start, int end) {
     if (z1 >= start && z1 < end) {
-       display(color(255));
-    }
-    else {
+      display(color(255));
+    } else {
       display(color(0));
     }
   }
 
   void displayBandZ(int band) {
     if (z1 == band) {
-       display(color(255));
-    }
-    else {
+      display(color(255));
+    } else {
       display(color(0));
     }
   }
 
   void displayConstellation(int num) {
     if (constellationG == num) {
-       display(color(255));
-    }
-    else {
+      display(color(255));
+    } else {
       display(color(0));
     }
   }
@@ -173,8 +188,7 @@ class Line {
     if (end < -360) {
       if (ang >= radians(start) || ang < end + 360) {
         display(color(255));
-      }
-      else {
+      } else {
         display(color(0));
       }
     } else if (ang >= radians(start) && ang < radians(end)) {
@@ -193,6 +207,31 @@ class Line {
       displayBandY(0, bandH[2]);
     } else {
       displayBandY(0, bandH[3]);
+    }
+  }
+
+  void displayPointX(int x) {
+    float ym;
+
+    if (x > p1.x && x < p2.x) {
+      ym = map(x, p1.x, p2.x, p1.y, p2.y);
+      ellipse(x, ym, 10, 10);
+    } else if (x > p2.x && x < p1.x) {
+      ym = map(x, p2.x, p1.x, p2.y, p1.y);
+      ellipse(x, ym, 10, 10);
+    }
+  }
+
+  void displayPointY(int y) {
+    float xm;
+    if ( (y > p1.y && y < p2.y) ) {
+      xm = map(y, p1.y, p2.y, p1.x, p2.x);
+      ellipse(xm, y, 10, 10);
+      //println(y + " " + xm);
+    } else if (y > p2.y && y < p1.y) {
+      xm = map(y, p2.y, p1.y, p2.x, p1.x);
+      ellipse(xm, y, 10, 10);
+      //println(y + " " + xm);
     }
   }
 
@@ -229,27 +268,27 @@ class Line {
       display();
     }
   }
-  
+
   boolean findByID(int id1, int id2) {
     return (this.id1 == id1 && this.id2 == id2) || (this.id2 == id1 && this.id1 == id2);
   }
-  
+
   boolean findByID(int id) {
     return (this.id1 == id || this.id2 == id);
   }
-  
+
   int getX1() {
     return int(p1.x);
   }
-  
+
   int getX2() {
     return int(p2.x);
   }
-  
+
   int getY1() {
     return int(p1.y);
   }
-  
+
   int getY2() {
     return int(p2.y);
   }

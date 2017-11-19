@@ -17,7 +17,7 @@ int DELETE_NODES = 8;
 int SET_NODES_Z = 7;
 int SET_LINEZ = 5;
 int SET_CONST = 6;
-int mode = SET_NODES_Z;
+int mode = VISUALIZE;
 
 int currentScene = -1;
 int visualMode = -1;
@@ -72,14 +72,17 @@ void setup() {
 
 //--------------------------------------------------------------
 void draw() {
-  background(0);
+  //background(0);
   updateFFT();
 
   if (mode == VISUALIZE) {
     //airBenderY();
     //checkScene();
     //playMode();
-    cycleModes(2000);
+    //cycleModes(2000);
+    displayLines();
+    randomLines(100);
+    //twinkleLines();
   } else {
     settingFunctions();
   }
