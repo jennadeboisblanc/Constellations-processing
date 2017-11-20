@@ -84,7 +84,8 @@ void draw() {
     //wipeRight(50, 100);
     //displayLines();
     stroke(255);
-    handLight(mouseX, mouseY, 200);
+    //handLight(mouseX, mouseY, 200);
+   
      //pulseLinesCenter(1);
     //seesaw();
     //cycleModes(2000);

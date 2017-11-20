@@ -20,6 +20,7 @@ int V_PULSING_ON_LINE = 15;
 int V_SNAKE = 16;
 int V_SEGMENT_SHIFT = 17;
 int V_FADE = 18;
+int V_TRANSIT = 19;
 
 /////////////////////
 // KINECT MODES
@@ -67,7 +68,7 @@ void initDeltaWaves() {
   deltaScenes[11] = new Scene(2.3, V_LINE_PERCENT, NONE, INTRO);
   deltaScenes[12] = new Scene(2.45, V_CYCLE_CONST, NONE, INTRO);
   deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK, NONE, INTRO);
-  deltaScenes[14] = new Scene(3.1, V_FADE, NONE, INTRO);
+  deltaScenes[14] = new Scene(3.1, V_TRANSIT, NONE, INTRO);
 
   randomPath = graphL.getRandomPath(11, 5);
 }
@@ -165,6 +166,7 @@ void playMode() {
   else if (visualMode == V_SEESAW) seesaw();
   else if (visualMode == V_PULSING_ON_LINE) pulseLinesCenter(1);
   else if (visualMode == V_SEGMENT_SHIFT) segmentShift(10);
+  else if (visualMode == V_TRANSIT) transit(30);
 }
 
 //////////////////////////////////////////////////////////////////

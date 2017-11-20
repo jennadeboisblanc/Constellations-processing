@@ -21,13 +21,15 @@ void setup() {
   initFFT();
   
   if (ADD_ON) loadBeats();
+  
+  myAudio.play();
 }
 
 void draw() {
   background(0);
   updateFFT();
   if (millis() > 2000 && !playing) {
-    myAudio.play();
+    //myAudio.play();
   }
   
   if (ADD_ON) playBeats();
