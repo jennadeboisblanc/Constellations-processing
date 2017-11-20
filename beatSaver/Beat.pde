@@ -14,7 +14,7 @@ class Beat {
   }
   
   boolean isPlaying(float startT) {
-    return (startT > songT && startT < songT + 200);
+    return (startT > songT && startT < songT + 100);
   }
 
   color getColor() {

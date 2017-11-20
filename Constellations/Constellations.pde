@@ -51,6 +51,7 @@ void setup() {
 
 
   initFFT();
+  initBeat();
 
   //initKinect();
   //initBodyPoints();
@@ -72,27 +73,34 @@ void setup() {
 
 //--------------------------------------------------------------
 void draw() {
-  //background(0);
+  background(0);
   updateFFT();
-
+  updateBeats();
   if (mode == VISUALIZE) {
     //airBenderY();
     //checkScene();
     //playMode();
+  // segmentShift(10);
+    //wipeRight(50, 100);
+    //displayLines();
+    stroke(255);
+    handLight(mouseX, mouseY, 200);
+     //pulseLinesCenter(1);
+    //seesaw();
     //cycleModes(2000);
-    displayLines();
-    randomLines(100);
+    //displayThirdsBeat();
     //twinkleLines();
   } else {
     settingFunctions();
   }
 
+  //drawFFT();
   //stroke(255);
   //fill(255);
   //graphL.display();
-  stroke(0, 255, 255);
-  fill(0, 255, 255);
-  //graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
+  //stroke(0, 255, 255);
+  //fill(0, 255, 255);
+  //graphL.drawOrganicPath3D(11, new PVector(mouseX, mouseY, 0));
   //sendPanel();
   //drawKinect();
   //testKinect();
@@ -164,6 +172,8 @@ void keyPressed() {
     if (k > 0 && k < 9) {
       lines.get(lineIndex).setConstellationG(k);
     }
+  } else if (mode == VISUALIZE) {
+    if (key == '9') currentBeat++;
   }
 }
 

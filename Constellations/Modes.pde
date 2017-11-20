@@ -14,6 +14,12 @@ int V_PULSE_LINE_DOWN = 9;
 int V_CYCLE_CONST = 10;
 int V_FFT_CONST = 11;
 int V_SHOW_ONE = 12;
+int V_SEESAW = 13;
+int V_ROTATE_ANGLE_BEATS = 14;
+int V_PULSING_ON_LINE = 15;
+int V_SNAKE = 16;
+int V_SEGMENT_SHIFT = 17;
+int V_FADE = 18;
 
 /////////////////////
 // KINECT MODES
@@ -29,7 +35,10 @@ int K_AIRBENDER_Y = 1;
 /////////////////////
 // PANEL MODES
 int INTRO = 0;
-
+int STARS = 1;
+int STAR_LINES = 2;
+int FFT_CRAZY = 3;
+int PULSE_BEAT = 4;
 
 ///////////////////////
 // OTHER VARIABLES
@@ -37,27 +46,30 @@ int pulseIndex = 0;
 int lastCheckedPulse = 0;
 Scene[] deltaScenes;
 int pointDirection = 4;
-ArrayList<Beat> beats;
+int seesawVals[] = {0, 0};
+ArrayList<Integer> randomPath;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // SCENES
 void initDeltaWaves() {
   deltaScenes = new Scene[15];
-  deltaScenes[0] = new Scene(0.0, V_PULSING, NONE, INTRO);
-  deltaScenes[1] = new Scene(0.06, V_LINE_EQUALIZER, NONE, INTRO);
-  deltaScenes[2] = new Scene(0.13, V_PULSING, NONE, INTRO);
-  deltaScenes[3] = new Scene(0.27, V_PULSE_LINE_DOWN, NONE, INTRO);
-  deltaScenes[4] = new Scene(0.35, V_PULSING, NONE, INTRO);
-  deltaScenes[5] = new Scene(0.49, V_FFT_CONST, NONE, INTRO);
-  deltaScenes[6] = new Scene(1.11, V_PULSING, NONE, INTRO);
-  deltaScenes[7] = new Scene(1.25, V_ROTATE_ANGLE, NONE, INTRO);
+  deltaScenes[0] = new Scene(0.0, V_SHOW_ONE, NONE, STARS);                   // done
+  deltaScenes[1] = new Scene(0.06, V_SEESAW, NONE, STARS);                    // done
+  deltaScenes[2] = new Scene(0.13, V_CYCLE_CONST, NONE, STARS);
+  deltaScenes[3] = new Scene(0.27, V_PULSING_ON_LINE, NONE, STARS);  
+  deltaScenes[4] = new Scene(0.35, V_PULSE_LINE_LEFT, NONE, STAR_LINES);    // done
+  deltaScenes[5] = new Scene(0.49, V_ROTATE_ANGLE, NONE, PULSE_BEAT);
+  deltaScenes[6] = new Scene(1.11, V_LINE_PERCENT, NONE, FFT_CRAZY);
+  deltaScenes[7] = new Scene(1.25, V_LINE_PERCENT, NONE, FFT_CRAZY);
   deltaScenes[8] = new Scene(1.4, V_PULSING, NONE, INTRO);
-  deltaScenes[9] = new Scene(1.54, V_ROTATE_ANGLE_COUNT, NONE, INTRO);
-  deltaScenes[10] = new Scene(2.16, V_PULSING, NONE, INTRO);
-  deltaScenes[11] = new Scene(2.3, V_CYCLE_CONST, NONE, INTRO);
-  deltaScenes[12] = new Scene(2.45, V_PULSING, NONE, INTRO);
+  deltaScenes[9] = new Scene(1.54, V_PULSE_LINE_BACK, NONE, INTRO);
+  deltaScenes[10] = new Scene(2.16, V_LINE_PERCENT, NONE, INTRO);
+  deltaScenes[11] = new Scene(2.3, V_LINE_PERCENT, NONE, INTRO);
+  deltaScenes[12] = new Scene(2.45, V_CYCLE_CONST, NONE, INTRO);
   deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK, NONE, INTRO);
-  deltaScenes[14] = new Scene(3.1, V_PULSING, NONE, INTRO);
+  deltaScenes[14] = new Scene(3.1, V_FADE, NONE, INTRO);
+
+  randomPath = graphL.getRandomPath(11, 5);
 }
 
 
@@ -73,6 +85,66 @@ void checkScene() {
   }
 }
 
+void pulseLinesCenter(int rate) {
+  pulseIndex += pointDirection * rate;
+  if (pulseIndex > 100) {
+    pulseIndex = 100;
+    pointDirection = -1;
+  } else if (pulseIndex < 0) {
+    pulseIndex = 0;
+    pointDirection = 1;
+  }
+  float per = pulseIndex / 100.0;
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayCenterPulse(per);
+  }
+}
+
+void seesaw() {
+  updateSeesaw();
+  for (int i = 0; i < lines.size()/2; i++) {
+    lines.get(i).display(color(seesawVals[0]));
+  }
+  for (int i = lines.size()/2; i < lines.size(); i++) {
+    lines.get(i).display(color(seesawVals[1]));
+  }
+}
+
+void snake() {
+  if (millis() - lastCheckedPulse > 1000) {
+    pulseIndex++;
+    if (pulseIndex > randomPath.size() - 1) randomPath = graphL.getRandomPath(11, 5);
+    lastCheckedPulse = millis();
+  }
+
+
+
+  if ( randomPath.size()-1 > 0) {
+    int currentPath = pulseIndex % randomPath.size();
+    for (int i = 0; i < currentPath; i++) {
+      int p1 = randomPath.get(i);
+      int p2 = randomPath.get(i+1);
+      for (int j = 0; j < lines.size(); j++) {
+        lines.get(j).displayByIDs(p1, p2);
+      }
+    }
+  }
+}
+
+void updateSeesaw() {
+  seesawVals[0] -= 8;
+  seesawVals[1] -= 8;
+  if (seesawVals[0] < 0) seesawVals[0] = 0;
+  if (seesawVals[1] < 0) seesawVals[1] = 0;
+
+  for (int i = 0; i < 2; i++) {
+    if (oldBeats[i] < currentBeats[i]) {
+      oldBeats[i] = currentBeats[i];
+      seesawVals[i] = 255;
+    }
+  }
+}
+
 void playMode() {
   stroke(200);
   fill(200);
@@ -80,7 +152,7 @@ void playMode() {
   if (visualMode == V_LINE_PERCENT) linePercentW();
   else if (visualMode == V_LINE_EQUALIZER) lineEqualizer();
   else if (visualMode == V_ROTATE_ANGLE_COUNT) rotateAngleCounter(100, 20);
-  else if (visualMode == V_ROTATE_ANGLE) rotateAngle(100, 20);
+  else if (visualMode == V_ROTATE_ANGLE) rotateAngleBeat(20); //rotateAngle(100, 20);
   else if (visualMode == V_PULSE_LINE_BACK) pulseLineBack(500);
   else if (visualMode == V_PULSE_LINE_RIGHT) pulseLineRight(90, 80);
   else if (visualMode == V_PULSE_LINE_LEFT)  pulseLineLeft(90, 80);
@@ -90,32 +162,49 @@ void playMode() {
   else if (visualMode == V_FFT_CONST) fftConstellations(650);
   else if (visualMode == V_PULSING) pulsing(9);
   else if (visualMode == V_SHOW_ONE) showOne(100);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-
-void loadBeats() {
-  processing.data.JSONObject beatsJson;
-  beatsJson = loadJSONObject("data/beats.json");
-  int numBeats = beatsJson.getInt("numBeats");
-  //println(numBeats);
-  resetBeats();
-
-  processing.data.JSONArray beatsArray = beatsJson.getJSONArray("beatsList");
-  for (int i = 0; i < numBeats; i++) {
-    processing.data.JSONObject b = beatsArray.getJSONObject(i);
-    String beatType = b.getString("beatType");
-    int t = b.getInt("time");
-    beats.add(new Beat(t, beatType));
-  }
-}
-
-void resetBeats() {
-  beats = new ArrayList<Beat>();
+  else if (visualMode == V_SEESAW) seesaw();
+  else if (visualMode == V_PULSING_ON_LINE) pulseLinesCenter(1);
+  else if (visualMode == V_SEGMENT_SHIFT) segmentShift(10);
 }
 
 //////////////////////////////////////////////////////////////////
+void handLight(int x, int y, int rad) {
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).handLight(x, y, rad);
+  }
+}
+void transit(int rate) {
+
+  if (millis() - lastCheckedPulse > rate) {
+    pulseIndex++;
+    if (pulseIndex > 100) pulseIndex = 0;
+    lastCheckedPulse = millis();
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displaySegment(pulseIndex / 100.0, .2);
+  }
+}
+
+void segmentShift(int jump) {
+  updateShift(jump);
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displaySegment(pulseIndex / 100.0, .5);
+  }
+}
+
+void updateShift(int amt) {
+  if (oldBeats[0] < currentBeats[0]) {
+    oldBeats[0] = currentBeats[0];
+    pulseIndex += amt;
+    if (pulseIndex > 100) pulseIndex = 50;
+  }
+  if (oldBeats[1] < currentBeats[1]) {
+    oldBeats[1] = currentBeats[1];
+    pulseIndex -= amt;
+    if (pulseIndex < 0) pulseIndex = 50;
+  }
+}
+
 void rotateAngle(int rate, int angleGap) {
   if (millis() - lastCheckedPulse > rate) {
     pulseIndex+= angleGap;
@@ -129,10 +218,46 @@ void rotateAngle(int rate, int angleGap) {
   }
 }
 
+void rotateAngleBeat(int angleGap) {
+  if (oldBeats[9] < currentBeats[9]) {
+    oldBeats[9] = currentBeats[9];
+    pulseIndex+= angleGap;
+    if (pulseIndex > -70 ) {
+      pulseIndex = -280;
+    }
+  }
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap);
+  }
+}
+
+void displayThirdsBeat() {
+  if (oldBeats[9] < currentBeats[9] && millis() - lastCheckedPulse > 100) {
+    oldBeats[9] = currentBeats[9];
+    pulseIndex++;
+    lastCheckedPulse = millis();
+  }
+  int select = pulseIndex %3;
+  for (int i = 0; i < lines.size(); i++) {
+    if (i %3 == select) lines.get(i).display(color(255));
+    else lines.get(i).display(color(0));
+  }
+}
+
 void displayLines() {
   for (int i = 0; i < lines.size(); i++) {
     lines.get(i).display();
   }
+}
+
+void wipeRight(int amt, int w) {
+  stroke(255);
+  displayLines();
+  fill(0);
+  noStroke();
+  pulseIndex += amt;
+  if (pulseIndex > width) pulseIndex = 0;
+  rect(pulseIndex, 0, w, height);
 }
 
 void rotateAngleCounter(int rate, int angleGap) {

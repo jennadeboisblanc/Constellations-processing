@@ -64,6 +64,19 @@ class Line {
     display();
   }
 
+  void displayCenterPulse(float per) {
+    per = constrain(per, 0, 1.0);
+    float midX = (p1.x + p2.x)/2;
+    float midY = (p1.y + p2.y)/2;
+    float x1 = map(per, 0, 1.0, midX, p1.x);
+    float x2 = map(per, 0, 1.0, midX, p2.x);
+    float y1 = map(per, 0, 1.0, midY, p1.y);
+    float y2 = map(per, 0, 1.0, midY, p2.y);
+    line(x1, y1, x2, y2);
+  }
+
+
+
   void moveP1(int x, int y) {
     p1.x += x;
     p1.y += y;
@@ -124,7 +137,7 @@ class Line {
 
   void twinkle(int wait) {
     int num = int(dist(p1.x, p1.y, p2.x, p2.y)/100);
-    
+
     if (millis() - lastChecked > wait) {
       twinkleT = int(random(100, 255));
       lastChecked = millis();
@@ -139,9 +152,9 @@ class Line {
       ellipse(x, y, 10, 10);
     }
   }
-  
+
   void randomSegment() {
-   //float len = random(
+    //float len = random(
   }
 
   void displayBandX(int start, int end) {
@@ -267,6 +280,46 @@ class Line {
     if (findByID(id1, id2)) {
       display();
     }
+  }
+
+  void displayByIDsPercent(int id1, int id2, float per) {
+    if (findByID(id1, id2)) {
+      displayPercent(per);
+    }
+  }
+
+  void handLight(int x, int y, int rad) {
+    float i = 0.0;
+    float startX = p1.x;
+    float startY = p1.y;
+    boolean started = false;
+    while (i < 1.0) {
+      i+= .1;
+      if (!started) {
+        float dx = map(i, 0, 1.0, p1.x, p2.x);
+        float dy = map(i, 0, 1.0, p1.y, p2.y);
+        float dis = dist(x, y, dx, dy);
+        if (dis < rad) {
+          startX = dx;
+          startY = dy;
+          started = true;
+        }
+      } else {
+        float dx = map(i, 0, 1.0, p1.x, p2.x);
+        float dy = map(i, 0, 1.0, p1.y, p2.y);
+        float dis = dist(x, y, dx, dy);
+        if (dis > rad) {
+          line(startX, startY, dx, dy);
+          break;
+        }
+      }
+    }
+  }
+
+  void displaySegment(float startPer, float sizePer) {
+    PVector pTemp = PVector.lerp(p1, p2, startPer);
+    PVector pTempEnd = PVector.lerp(pTemp, p2, startPer + sizePer);
+    line(pTemp.x, pTemp.y, pTempEnd.x, pTempEnd.y);
   }
 
   boolean findByID(int id1, int id2) {

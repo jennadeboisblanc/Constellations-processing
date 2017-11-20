@@ -1,41 +1,37 @@
-boolean ADD_ON = false;
 
-import ddf.minim.*;
-import ddf.minim.analysis.*;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+boolean ADD_ON = true;
+
 import java.util.*;
 import java.util.LinkedList;
 import java.util.List;
-Minim       minim;
-AudioPlayer myAudio;
-FFT         myAudioFFT;
+
 
 boolean playing = false;
 int currentBeat = 0;
 
-void stop() {
-  myAudio.close();
-  minim.stop();  
-  super.stop();
-}
 
 ArrayList<Beat> beats;
 
 void setup() {
-  size(500, 500);
+  size(800, 500);
   beats = new ArrayList<Beat>();
-  minim   = new Minim(this);
-  myAudio = minim.loadFile("data/deltaWaves.mp3");
+  
+  initFFT();
   
   if (ADD_ON) loadBeats();
 }
 
 void draw() {
   background(0);
+  updateFFT();
   if (millis() > 2000 && !playing) {
     myAudio.play();
   }
   
   if (ADD_ON) playBeats();
+  drawFFT();
 }
 
 void playBeats() {

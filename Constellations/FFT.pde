@@ -42,6 +42,7 @@ float       x2Spacing        = rect2Size;
 
 // ************************************************************************************
 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // FFT
 
@@ -69,6 +70,7 @@ void initFFT() {
   minim   = new Minim(this);
   myAudio = minim.loadFile("assets/deltaWaves.mp3");
   myAudio.play();
+  myAudio.skip(1000*60);
 
   myAudioFFT = new FFT(myAudio.bufferSize(), myAudio.sampleRate());
   myAudioFFT.linAverages(myAudioRange);
@@ -99,6 +101,7 @@ void updateFFT() {
     temp /= endB - startB;
     temp *= myAudioAmp*myAudioIndexAmp;
     bands[bandIndex] = int(temp*(bandIndex+.5));
+
     //if (bands[bandIndex] > bandMax[bandIndex]) {
     //  bandMax[bandIndex] = bands[bandIndex];
     //}
@@ -143,4 +146,75 @@ int averageBands(int v1, int v2, int v3) {
 
 int averageBands(int v1, int v2) {
   return (v1 + v2) / 2;
+}
+
+
+
+/////////////////////////////////////////////////
+
+ArrayList<Beat> beats;
+int currentBeat = 0;
+int[] currentBeats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+int[] oldBeats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+void initBeat() {
+  beats = new ArrayList<Beat>();
+  loadBeats();
+}
+
+void updateBeats() {
+  if (currentBeat < beats.size()) {
+    for (int i = 0; i < currentBeats.length; i++) {
+      if (beats.get(currentBeat).hasStarted(myAudio.position())) {
+        if(beats.get(currentBeat).beatType < 10) currentBeats[beats.get(currentBeat).beatType]++;
+        currentBeat++;
+      }
+    }
+  }
+}
+
+class Beat {
+
+  int songT;
+  int beatType;
+
+  Beat(int t, char b) {
+    songT = t;
+    beatType = parseInt(b);
+  }
+  Beat(int t, String b) {
+    songT = t;
+    beatType = parseInt(b);
+  }
+
+  boolean isPlaying(float startT) {
+    return (startT > songT && startT < songT + 100);
+  }
+
+  boolean hasStarted(float startT) {
+    return startT > songT;
+  }
+
+  color getColor() {
+    if (beatType == '9') return color(255, 0, 0);
+    return color(0, 255, 0);
+  }
+}
+
+
+
+void loadBeats() {
+  processing.data.JSONObject beatsJson;
+  beatsJson = loadJSONObject("data/beats.json");
+  int numBeats = beatsJson.getInt("numBeats");
+  println(numBeats);
+  //resetBeats();
+
+  processing.data.JSONArray beatsArray = beatsJson.getJSONArray("beatList");
+  for (int i = 0; i < numBeats; i++) {
+    processing.data.JSONObject b = beatsArray.getJSONObject(i);
+    String beatType = b.getString("beatType");
+    int t = b.getInt("time");
+    beats.add(new Beat(t, beatType));
+  }
 }
