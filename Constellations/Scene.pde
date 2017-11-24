@@ -3,9 +3,9 @@ class Scene {
   float startPoint;
   int visualM;
   int kinectM;
-  int panelM;
+  PanelMode panelM;
 
-  Scene(float sp,int vm, int km, int pm) {
+  Scene(float sp,int vm, int km, PanelMode pm) {
     startPoint = sp;
     visualM = vm;
     kinectM = km;
@@ -20,6 +20,7 @@ class Scene {
     visualMode = visualM;
     kinectMode = kinectM;
     panelMode = panelM;
+    println(visualMode, kinectMode, panelMode);
   }
 
   void setKinectMode() {

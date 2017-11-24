@@ -26,13 +26,17 @@ class Star {
     o.image(c, x-c.width/2*sc, y-c.height/2*sc, c.width *sc, c.height *sc);
   }
 
-  void move(int x, int y) {
+  void moveBuffer(int x, int y, int buffer) {
     this.x += x;
     this.y += y;
-    if (this.x > canvasW + 300) this.x = - 300;
-    else if (this.x < -300) this.x = canvasW + 300;
+    if (this.x > canvasW + buffer) this.x = - buffer;
+    else if (this.x < -buffer) this.x = canvasW + buffer;
     if (this.y > canvasH) this.y -= canvasH;
     else if (this.y < 0) this.y += canvasH;
+  }
+  
+  void move(int x, int y) {
+    moveBuffer(x, y, 0);
   }
 
   void pulseStar() {

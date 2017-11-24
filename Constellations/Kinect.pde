@@ -2,6 +2,8 @@
 import KinectPV2.KJoint;
 import KinectPV2.*;  // Thomas Sanchez Lengeling http://codigogenerativo.com/
 KinectPV2 kinect;
+
+
 float elbowLAngle = 0;
 float elbowRAngle = 0;
 float handRAngle = 0;
@@ -163,7 +165,7 @@ void drawKinect() {
 
       //setBody(joints);
       setBodyAngles(joints);
-      
+
       stroke(col);
       drawOrganicConstellation();
     }

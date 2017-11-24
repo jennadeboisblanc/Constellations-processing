@@ -59,4 +59,10 @@ void init() {
     symbolImages[i] = loadImage("symbols/c" + i + ".png");
     symbols[i] = new Star(i * 200 + 200, int(startH) + 170);
   }
+  
+  lines = new Line[10];
+  for (int i = 0; i < 10; i++) {
+    int x = int(i * 160 + random(50));
+    lines[i] = new Line(x, 0, x, height);
+  }
 }

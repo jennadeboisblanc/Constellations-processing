@@ -22,7 +22,6 @@ int mode = VISUALIZE;
 int currentScene = -1;
 int visualMode = -1;
 int kinectMode = -1; 
-int panelMode = -1;
 ///////////////////////////////////////
 
 long stringChecked = 0;
@@ -39,8 +38,8 @@ int currentString;
 
 
 void setup() {
-  fullScreen();
-  //size(1200, 800);
+  //fullScreen();
+  size(400, 400);
   lines = new ArrayList<Line>();
   graphL = new GraphList(100);
   if (!NEW_GRAPH) graphL.loadGraph();
@@ -56,7 +55,7 @@ void setup() {
   //initKinect();
   //initBodyPoints();
 
-  // myServer = new Server(this, 5204);
+  myServer = new Server(this, 5204);
 
 
 
@@ -77,17 +76,8 @@ void draw() {
   updateFFT();
   updateBeats();
   if (mode == VISUALIZE) {
-    //airBenderY();
-    //checkScene();
-    //playMode();
-  // segmentShift(10);
-    //wipeRight(50, 100);
-    //displayLines();
-    stroke(255);
-    //handLight(mouseX, mouseY, 200);
-   
-     //pulseLinesCenter(1);
-    //seesaw();
+    checkScene();
+    playMode();
     //cycleModes(2000);
     //displayThirdsBeat();
     //twinkleLines();
@@ -95,21 +85,16 @@ void draw() {
     settingFunctions();
   }
 
-  //drawFFT();
-  //stroke(255);
-  //fill(255);
-  //graphL.display();
-  //stroke(0, 255, 255);
-  //fill(0, 255, 255);
   //graphL.drawOrganicPath3D(11, new PVector(mouseX, mouseY, 0));
-  //sendPanel();
   //drawKinect();
   //testKinect();
+  
+  sendPanel();
 }
 
 void sendPanel() {
   byte b = byte(constrain(map(bands[0], 0, bandMax[0], 0, 255), 0, 255));
-  byte[] sendArray = {47, byte(panelMode), getHandPanelX(), getHandPanelY(), getHandPanelZ(), b, b, b, b, b};
+  byte[] sendArray = {47, panelMode.getPanelByte(), getHandPanelX(), getHandPanelY(), getHandPanelZ(), b, b, b, b, b};
   myServer.write(sendArray);
   //println(sendArray);
 }
