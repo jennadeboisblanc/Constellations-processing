@@ -72,6 +72,7 @@ void restartFFT(int num) {
 }
 
 void checkNextSong(int next) {
+  println(next, currentSong);
   if (currentSong != next) {
     currentSong = next;
     restartFFT(currentSong);

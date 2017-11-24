@@ -20,7 +20,6 @@ class Scene {
     visualMode = visualM;
     kinectMode = kinectM;
     panelMode = panelM;
-    println(visualMode, kinectMode, panelMode);
   }
 
   void setKinectMode() {

@@ -103,11 +103,10 @@ void draw() {
 
 void sendPanel() {
   //byte b = byte(constrain(map(bands[0], 0, bandMax[0], 0, 255), 0, 255));
-  byte songNum = 0;
   int duration = myAudio.position();
   byte byteDuration[] = ByteBuffer.allocate(4).putInt(duration).array();
   byte[] sendArray = {47, panelMode.getPanelByte(), getHandPanelX(), getHandPanelY(), getHandPanelZ(), 
-    songNum, byteDuration[0], byteDuration[1], byteDuration[2], byteDuration[3]};
+    byte(currentSong), byteDuration[0], byteDuration[1], byteDuration[2], byteDuration[3]};
   myServer.write(sendArray);
   //println(sendArray);
 }

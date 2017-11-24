@@ -97,7 +97,7 @@ void initDeltaWaves() {
 
 void initCycles() {
   cyclesScenes = new Scene[1];
-  cyclesScenes[0] = new Scene(0, V_PULSING_ON_LINE, NONE, PanelMode.STARS);  
+  cyclesScenes[0] = new Scene(0, V_PULSING_ON_LINE, NONE, PanelMode.LINES);  
 }
 
 void initKirasu() {
