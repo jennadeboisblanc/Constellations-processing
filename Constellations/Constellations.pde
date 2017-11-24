@@ -1,6 +1,7 @@
 boolean NEW_GRAPH = false;
 
 //////////////////////////////////////////////////////////
+import java.nio.ByteBuffer;
 import processing.net.*;
 Server myServer;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ int mode = VISUALIZE;
 int currentScene = -1;
 int visualMode = -1;
 int kinectMode = -1; 
+long sendTime = 0;
 ///////////////////////////////////////
 
 long stringChecked = 0;
@@ -49,7 +51,8 @@ void setup() {
   //}
 
 
-  initFFT();
+  initFFT(0);
+  myAudio.skip(1000*60*3);
   initBeat();
 
   //initKinect();
@@ -67,6 +70,8 @@ void setup() {
   owl = loadImage("assets/owl.png");
 
   initDeltaWaves();
+  initCycles();
+  initKirasu();
 }
 
 
@@ -75,6 +80,7 @@ void draw() {
   background(0);
   updateFFT();
   updateBeats();
+  checkNextSong();
   if (mode == VISUALIZE) {
     checkScene();
     playMode();
@@ -89,12 +95,19 @@ void draw() {
   //drawKinect();
   //testKinect();
   
-  sendPanel();
+  if (millis() - sendTime > 100) {
+    sendPanel();
+    sendTime = millis();
+  }
 }
 
 void sendPanel() {
-  byte b = byte(constrain(map(bands[0], 0, bandMax[0], 0, 255), 0, 255));
-  byte[] sendArray = {47, panelMode.getPanelByte(), getHandPanelX(), getHandPanelY(), getHandPanelZ(), b, b, b, b, b};
+  //byte b = byte(constrain(map(bands[0], 0, bandMax[0], 0, 255), 0, 255));
+  byte songNum = 0;
+  int duration = myAudio.position();
+  byte byteDuration[] = ByteBuffer.allocate(4).putInt(duration).array();
+  byte[] sendArray = {47, panelMode.getPanelByte(), getHandPanelX(), getHandPanelY(), getHandPanelZ(), 
+    songNum, byteDuration[0], byteDuration[1], byteDuration[2], byteDuration[3]};
   myServer.write(sendArray);
   //println(sendArray);
 }

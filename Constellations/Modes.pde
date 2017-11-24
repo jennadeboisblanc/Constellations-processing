@@ -40,13 +40,13 @@ int K_AIRBENDER_Y = 1;
 public enum PanelMode {
   STARS, LINES, STRIPED, PULSING, BACKFORTH, UPDOWN, FFT_LINES, FFT_CIRCLE, CONSTELLATIONS;
   private static PanelMode[] vals = values();
-  
+
   PanelMode next() {
     return vals[(ordinal() + 1)% vals.length];
   }
 
   PanelMode previous() {
-    if(ordinal() - 1 < 0) return vals[vals.length -1];
+    if (ordinal() - 1 < 0) return vals[vals.length -1];
     return vals[(ordinal() - 1)];
   }
 
@@ -54,7 +54,7 @@ public enum PanelMode {
     if (i < vals.length) return vals[i];
     return vals[0];
   }
-  
+
   byte getPanelByte() {
     return byte(ordinal());
   }
@@ -66,6 +66,8 @@ PanelMode panelMode = PanelMode.STARS;
 int pulseIndex = 0;
 int lastCheckedPulse = 0;
 Scene[] deltaScenes;
+Scene[] cyclesScenes;
+Scene[] kirasuScenes;
 int pointDirection = 4;
 int seesawVals[] = {0, 0};
 ArrayList<Integer> randomPath;
@@ -93,15 +95,49 @@ void initDeltaWaves() {
   randomPath = graphL.getRandomPath(11, 5);
 }
 
+void initCycles() {
+  cyclesScenes = new Scene[1];
+  cyclesScenes[0] = new Scene(0, V_PULSING_ON_LINE, NONE, PanelMode.STARS);  
+}
+
+void initKirasu() {
+  kirasuScenes = new Scene[1];
+  kirasuScenes[0] = new Scene(0, V_SEESAW, NONE, PanelMode.STARS);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+void startScene() {
+  currentScene = 0;
+  if (currentSong == 0) deltaScenes[0].setModes();
+  else if (currentSong == 1) cyclesScenes[0].setModes();
+  else if (currentSong == 2) kirasuScenes[0].setModes();
+}
 
 void checkScene() {
-  if (currentScene+1 < deltaScenes.length) {
-    int songMinutes = myAudio.position() / 1000 / 60;
-    int songSeconds = myAudio.position() / 1000 % 60;
-    float songReading = songMinutes + (songSeconds / 100.0);
-    if (deltaScenes[currentScene + 1].hasStarted(songReading)) {
-      currentScene++;
-      deltaScenes[currentScene].setModes();
+  int songMinutes = myAudio.position() / 1000 / 60;
+  int songSeconds = myAudio.position() / 1000 % 60;
+  float songReading = songMinutes + (songSeconds / 100.0);
+  if (currentSong == 0) {
+    if (currentScene+1 < deltaScenes.length) {
+      if (deltaScenes[currentScene + 1].hasStarted(songReading)) {
+        currentScene++;
+        deltaScenes[currentScene].setModes();
+      }
+    }
+  } else if (currentSong == 1) {
+    if (currentScene+1 < cyclesScenes.length) {
+      if (cyclesScenes[currentScene + 1].hasStarted(songReading)) {
+        currentScene++;
+        cyclesScenes[currentScene].setModes();
+      }
+    }
+  } else if (currentSong == 2) {
+    if (currentScene+1 < kirasuScenes.length) {
+      if (kirasuScenes[currentScene + 1].hasStarted(songReading)) {
+        currentScene++;
+        kirasuScenes[currentScene].setModes();
+      }
     }
   }
 }

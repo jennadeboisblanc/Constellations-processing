@@ -10,6 +10,7 @@ CornerPinSurface surface;
 PGraphics o;
 PImage moth;
 
+import java.nio.ByteBuffer;
 Star stars[];
 Square squares[];
 Star symbols[];
@@ -55,7 +56,7 @@ void checkData() {
     if (byteCount > 0 ) {
       if (dataBytes[0] == 47) {
         setMode(dataBytes[1]);
-        println(dataBytes[1]);
+        updateSong();
       } else {
         myClient.clear();
       }
@@ -81,6 +82,7 @@ void draw() {
   background(0);  
   surface.render(o);
 
+  updateFFT();
   checkData();
 }
 
@@ -366,8 +368,20 @@ void backforth() {
   o.rect(getKinectZ(), 0, w, height);
 }
 
+void updateSong() {
+  checkNextSong(dataBytes[5]);
+  byte [] durationBytes = new byte[4];
+  for (int i = 0; i < 4; i++) {
+    durationBytes[i] = dataBytes[i + 6];
+  }
+  int duration = fromByteArray(durationBytes);
+  
+  myAudio.play(duration);
+}
+
 int getBand(int i) {
-  return dataBytes[5+i];
+  //return dataBytes[5+i];
+  return bands[i];
 }
 
 void drawLines() {
@@ -383,4 +397,8 @@ void moveLines(int dx, int dy) {
   for (int i = 0; i < lines.length; i++) {
     lines[i].move(dx, dy);
   }
+}
+
+int fromByteArray(byte[] bytes) {
+     return ByteBuffer.wrap(bytes).getInt();
 }

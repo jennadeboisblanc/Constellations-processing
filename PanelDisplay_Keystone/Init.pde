@@ -65,4 +65,5 @@ void init() {
     int x = int(i * 160 + random(50));
     lines[i] = new Line(x, 0, x, height);
   }
+  initFFT();
 }
