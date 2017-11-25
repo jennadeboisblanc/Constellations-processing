@@ -40,28 +40,20 @@ int currentString;
 
 
 void setup() {
-  //fullScreen();
-  size(400, 400);
+  fullScreen();
+  //size(400, 400);
   lines = new ArrayList<Line>();
   graphL = new GraphList(100);
   if (!NEW_GRAPH) graphL.loadGraph();
-  //else {
-  //  resetConstellationG();
-  //  resetZIndex();
-  //}
 
 
   initFFT(0);
-  myAudio.skip(1000*60*3);
   initBeat();
 
   initKinect();
   initBodyPoints();
 
   myServer = new Server(this, 5204);
-
-
-
 
   whale = loadImage("assets/whale.png");
   hand = loadImage("assets/handeye.png");
