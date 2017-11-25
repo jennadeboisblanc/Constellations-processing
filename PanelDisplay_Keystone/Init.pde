@@ -17,7 +17,7 @@ void init() {
   ellipseMode(CENTER);
   imageMode(CENTER);
 
-  myClient = new Client(this, "127.0.0.1", 5204);
+  myClient = new Client(this, "10.206.231.233", 5204);
   
   stars = new Star[150];
   for (int i = 0; i < stars.length; i++) {

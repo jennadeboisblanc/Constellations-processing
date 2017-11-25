@@ -22,23 +22,6 @@ ConstellationLine constellationLines[];
 Line lines[];
 
 // Modes
-<<<<<<< HEAD
-int STARS = 1;
-int LINES = 2;
-int STRIPED = 3;
-int MOTH = 4;
-int PULSING = 5;
-int BACKFORTH = 6;
-int UPDOWN = 7;
-int FFTONE = 8;
-int SOLITARE = 9;
-int CONSTELLATION = 10;
-int VORONOI = 11;
-int SYMBOLS = 12;
-int WHALE = 13;
-
-int mode = WHALE;
-=======
 public enum Mode {
   STARS, LINES, STRIPED, PULSING, BACKFORTH, UPDOWN, FFT_LINES, FFT_CIRCLE, CONSTELLATIONS;
   private static Mode[] vals = values();
@@ -58,7 +41,6 @@ public enum Mode {
   }
 };
 Mode mode = Mode.PULSING;
->>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
 
 void setup() {
   //fullScreen(P3D);
@@ -86,10 +68,6 @@ void setMode(int b) {
 }
 
 void draw() {  
-<<<<<<< HEAD
-  //PVector surfaceMouse = surface.getTransformedMouse();
-=======
->>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
   o.beginDraw();
   if (clearBackground()) o.background(0);
   o.stroke(255);
@@ -129,26 +107,13 @@ void playMode() {
     drawStars();
     moveStars(-3, 0);
     drawStripedSquares();
-<<<<<<< HEAD
-  } else if (mode == MOTH) {
-    drawMoths();
-  } else if (mode == VORONOI) {
-    //drawVoronoi();
-  } else if (mode == CONSTELLATION) {
-=======
     break;
   case CONSTELLATIONS:
->>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
     drawConstellationLines();
     moveConstellationLines(5);
     break;
   case UPDOWN:
     updown();
-<<<<<<< HEAD
-  } else if (mode == WHALE) {
-    drawStars();
-    o.image(constellationImages[3], 500, 150, constellationImages[3].width*.4, constellationImages[3].height*.4);
-=======
     break;
   case BACKFORTH:
     backforth();
@@ -161,7 +126,6 @@ void playMode() {
     break;
   default:
     break;
->>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
   }
 }
 
@@ -173,13 +137,6 @@ void fftLines() {
     float y2 = map(x2, 0, width, startH + smallGap + smallSideH/2, startH + i *50);
     o.line(0, startH + smallGap + smallSideH/2, x2, y2);
   }
-<<<<<<< HEAD
-  o.endDraw();
-  background(0);  
-  surface.render(o);
-  
-  //checkData();
-=======
 }
 
 void fftCircle() {
@@ -211,7 +168,6 @@ void fftBrightness() {
     o.fill(0);
   }
   o.rect(0, 0, width, height);
->>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
 }
 
 void drawBlackout() {
@@ -288,24 +244,6 @@ void drawMoths() {
   }
 }
 
-<<<<<<< HEAD
-void drawLines(int dir) {
-  for (int i = 0; i < 10; i ++) {
-    stroke(255);
-    //o.line((millis()/5)%canvasW*2-i*moth.width*.2, 0, (millis()/5)%canvasW*2-i*moth.width*.2, canvasH);
-  }
-}
-=======
-//void drawLines(int dir) {
-//  for (int i = 0; i < 10; i ++) {
-//    o.stroke(255);
-//    o.strokeWeight(10);
-//    o.line((millis()/5)%canvasW, 0, (millis()/5)%canvasW, canvasH);
-//    else  o.line(width - (millis()/5)%canvasW, 0, width - (millis()/5)%canvasW, canvasH);
-//  }
-//}
-
->>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
 
 void drawStars() {
   for (int i = 0; i < stars.length; i++) {
