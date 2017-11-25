@@ -35,6 +35,7 @@ int INTRO = 0;
 int pulseIndex = 0;
 int lastCheckedPulse = 0;
 Scene[] deltaScenes;
+int[] lineOrder;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // SCENES
@@ -66,7 +67,6 @@ void checkScene() {
     if (deltaScenes[currentScene + 1].hasStarted(songReading)) {
       currentScene++;
       deltaScenes[currentScene].setModes();
-      
     }
   }
 }
@@ -74,7 +74,7 @@ void checkScene() {
 void playMode() {
   stroke(200);
   fill(200);
-  strokeWeight(2);
+  strokeWeight(4);
   if (visualMode == V_LINE_PERCENT) linePercentW();
   else if (visualMode == V_LINE_EQUALIZER) lineEqualizer();
   else if (visualMode == V_ROTATE_ANGLE_COUNT) rotateAngleCounter(100, 20);
@@ -99,13 +99,13 @@ void rotateAngle(int rate, int angleGap) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap);
+    lines.get(lineOrder[i]).displayAngle(pulseIndex, pulseIndex+angleGap, color(255));
   }
 }
 
 void displayLines() {
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).display();
+    lines.get(lineOrder[i]).display();
   }
 }
 
@@ -118,7 +118,7 @@ void rotateAngleCounter(int rate, int angleGap) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap);
+    lines.get(lineOrder[i]).displayAngle(pulseIndex, pulseIndex+angleGap, color(255));
   }
 }
 
@@ -131,7 +131,7 @@ void pulseLineDown(int rate, int bandSize) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize);
+    lines.get(lineOrder[i]).displayBandY(pulseIndex, pulseIndex+bandSize, color(255));
   }
 }
 
@@ -144,7 +144,7 @@ void pulseLineBack(int rate) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandZ(pulseIndex);
+    lines.get(lineOrder[i]).displayBandZ(pulseIndex, color(255));
   }
 }
 
@@ -165,7 +165,7 @@ void fftConstellations(int rate) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).fftConstellation(pulseIndex, bands[0]*1.0/bandMax[0]);
+    lines.get(lineOrder[i]).fftConstellation(pulseIndex, bands[0]*1.0/bandMax[0]);
   }
 }
 
@@ -177,19 +177,19 @@ void pulsing(int rate) {
   for (int i = 0; i < lines.size(); i++) {
     stroke(b);
     fill(b);
-    lines.get(i).display();
+    lines.get(lineOrder[i]).display();
   }
 }
 
 void showConstellationLine(int l) {
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayConstellation(l);
+    lines.get(lineOrder[i]).displayConstellation(l, color(255));
   }
 }
 
 void linePercentW() {
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayPercentWid(bands[i%bands.length]*1.0/bandMax[i%bands.length]);
+    lines.get(lineOrder[i]).displayPercentWid(bands[i%bands.length]*1.0/bandMax[i%bands.length]);
   }
 }
 
@@ -204,7 +204,7 @@ void lineEqualizer() {
     fourBands[i] = int(map(fourBands[i]*1.0/fourBandsMax[i], 0, .5, 0, height));
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayEqualizer(fourBands);
+    lines.get(lineOrder[i]).displayEqualizer(fourBands, color(255));
   }
 }
 
@@ -220,13 +220,13 @@ void cycleModes(int rate) {
 
 void resetZIndex() {
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).setZIndex(0);
+    lines.get(lineOrder[i]).setZIndex(0);
   }
 }
 
 void resetConstellationG() {
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).setConstellationG(0);
+    lines.get(lineOrder[i]).setConstellationG(0);
   }
 }
 
@@ -285,7 +285,7 @@ void airBenderZ() {
   int band = constrain(int(map(handRZ, 0, 50, 0, 8)), 0, 8);
 
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandZ(band);
+    lines.get(lineOrder[i]).displayBandZ(band, color(255));
   }
 }
 
@@ -341,6 +341,32 @@ void testConstellations() {
     } else if (checkOrchid(20)) {
       triggered = 4;
       triggeredTime = millis();
+    }
+  }
+}
+
+void sortLines() {
+  lineOrder = new int[lines.size()];
+  float [] zValues = new float[lines.size()];
+  for (int i = 0; i < lines.size(); i++) {
+    zValues[i] = lines.get(lineOrder[i]).zAve;
+    lineOrder[i] = i;
+  }
+  bubbleSortDescending(zValues);
+}
+
+void bubbleSortDescending(float arr[]) {
+  for (int i=0; i < arr.length; i++) {
+    for (int j=1; j < (arr.length-i); j++) {
+      if (arr[j-1] < arr[j]) {
+        float temp = arr[j-1];
+        arr[j-1] = arr[j];
+        arr[j] = temp;
+        
+        int temp2 = lineOrder[j-1];
+        lineOrder[j-1] = lineOrder[j];
+        lineOrder[j] = temp2;
+      }
     }
   }
 }

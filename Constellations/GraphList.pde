@@ -205,6 +205,7 @@ class GraphList {
     }
     //addLines();
     loadLines();
+    sortLines();
   }
 
   void addNode(int mx, int my) {

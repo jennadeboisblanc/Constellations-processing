@@ -16,9 +16,6 @@ void init() {
   rectMode(CENTER);
   ellipseMode(CENTER);
   imageMode(CENTER);
-  
-  canvasH = height;
-  canvasW = width;
 
   myClient = new Client(this, "127.0.0.1", 5204);
   

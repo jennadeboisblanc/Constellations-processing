@@ -8,7 +8,6 @@ import deadpixel.keystone.*;
 Keystone ks;
 CornerPinSurface surface;
 PGraphics o;
-PImage moth;
 
 Star stars[];
 Square squares[];
@@ -32,12 +31,13 @@ int SOLITARE = 9;
 int CONSTELLATION = 10;
 int VORONOI = 11;
 int SYMBOLS = 12;
+int WHALE = 13;
 
-int mode = UPDOWN;
+int mode = WHALE;
 
 void setup() {
   //fullScreen(P3D);
-  size(1200, 400, P3D);
+  size(1300, 800, P3D);
   init();
   dataBytes = new byte[10];
 }
@@ -64,7 +64,7 @@ void setMode(int b) {
 }
 
 void draw() {  
-  PVector surfaceMouse = surface.getTransformedMouse();
+  //PVector surfaceMouse = surface.getTransformedMouse();
   o.beginDraw();
   if (clearBackground()) o.background(0);
   o.stroke(255);
@@ -83,7 +83,7 @@ void draw() {
   } else if (mode == MOTH) {
     drawMoths();
   } else if (mode == VORONOI) {
-    drawVoronoi();
+    //drawVoronoi();
   } else if (mode == CONSTELLATION) {
     drawConstellationLines();
     moveConstellationLines(3);
@@ -102,6 +102,9 @@ void draw() {
     moveConstellationLines(5);
   } else if (mode == UPDOWN) {
     updown();
+  } else if (mode == WHALE) {
+    drawStars();
+    o.image(constellationImages[3], 500, 150, constellationImages[3].width*.4, constellationImages[3].height*.4);
   }
 
   if (trim) {
@@ -114,7 +117,7 @@ void draw() {
   background(0);  
   surface.render(o);
   
-  checkData();
+  //checkData();
 }
 
 void drawBlackout() {
@@ -181,14 +184,14 @@ void drawBlackoutOutline() {
 
 void drawMoths() {
   for (int i = 0; i < 10; i ++) {
-    o.image(moth, (millis()/5)%canvasW*2-i*moth.width*.2, 200, moth.width*.2, moth.height*.2);
+    o.image(constellationImages[1], (millis()/5)%canvasW*2-i*constellationImages[1].width*.2, 200, constellationImages[1].width*.2, constellationImages[1].height*.2);
   }
 }
 
 void drawLines(int dir) {
   for (int i = 0; i < 10; i ++) {
     stroke(255);
-    o.line((millis()/5)%canvasW*2-i*moth.width*.2, 0, (millis()/5)%canvasW*2-i*moth.width*.2, canvasH);
+    //o.line((millis()/5)%canvasW*2-i*moth.width*.2, 0, (millis()/5)%canvasW*2-i*moth.width*.2, canvasH);
   }
 }
 

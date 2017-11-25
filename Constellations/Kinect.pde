@@ -119,7 +119,7 @@ void pulseLineRight(int rate, int bandSize) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize);
+    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize, color(255));
   }
 }
 
@@ -132,7 +132,7 @@ void pulseLineLeft(int rate, int bandSize) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize);
+    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize, color(255));
   }
 }
 
@@ -145,7 +145,7 @@ void pulseLineUp(int rate, int bandSize) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize);
+    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize, color(255));
   }
 }
 

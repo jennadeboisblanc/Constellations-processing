@@ -17,7 +17,7 @@ int DELETE_NODES = 8;
 int SET_NODES_Z = 7;
 int SET_LINEZ = 5;
 int SET_CONST = 6;
-int mode = SET_NODES_Z;
+int mode = VISUALIZE;
 
 int currentScene = -1;
 int visualMode = -1;
@@ -52,8 +52,8 @@ void setup() {
 
   initFFT();
 
-  //initKinect();
-  //initBodyPoints();
+  initKinect();
+  initBodyPoints();
 
   // myServer = new Server(this, 5204);
 
@@ -80,6 +80,7 @@ void draw() {
     //checkScene();
     //playMode();
     cycleModes(2000);
+    //pulsing(100);
   } else {
     settingFunctions();
   }
@@ -89,9 +90,10 @@ void draw() {
   //graphL.display();
   stroke(0, 255, 255);
   fill(0, 255, 255);
-  //graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
+  
   //sendPanel();
   //drawKinect();
+  if (!NEW_GRAPH) graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
   //testKinect();
 }
 
