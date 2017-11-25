@@ -9,6 +9,7 @@ Keystone ks;
 CornerPinSurface surface;
 PGraphics o;
 
+import java.nio.ByteBuffer;
 Star stars[];
 Square squares[];
 Star symbols[];
@@ -18,7 +19,10 @@ PImage constellationImages[];
 String constellationNames[] = {"owl", "moth", "handeye", "whale", "orchid"}; 
 ConstellationLine constellationLines[];
 
+Line lines[];
+
 // Modes
+<<<<<<< HEAD
 int STARS = 1;
 int LINES = 2;
 int STRIPED = 3;
@@ -34,6 +38,27 @@ int SYMBOLS = 12;
 int WHALE = 13;
 
 int mode = WHALE;
+=======
+public enum Mode {
+  STARS, LINES, STRIPED, PULSING, BACKFORTH, UPDOWN, FFT_LINES, FFT_CIRCLE, CONSTELLATIONS;
+  private static Mode[] vals = values();
+
+  Mode next() {
+    return vals[(ordinal() + 1)% vals.length];
+  }
+
+  Mode previous() {
+    if (ordinal() - 1 < 0) return vals[vals.length -1];
+    return vals[(ordinal() - 1)];
+  }
+
+  Mode getMode(int i) {
+    if (i < vals.length) return vals[i];
+    return vals[0];
+  }
+};
+Mode mode = Mode.PULSING;
+>>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
 
 void setup() {
   //fullScreen(P3D);
@@ -43,81 +68,150 @@ void setup() {
 }
 
 void checkData() {
-if (myClient.available() > 0) { 
+  if (myClient.available() > 0) { 
     int byteCount = myClient.readBytes(dataBytes); 
     if (byteCount > 0 ) {
       if (dataBytes[0] == 47) {
-        //setMode(dataBytes[1]);
-        println("getting data");
+        setMode(dataBytes[1]);
+        updateSong();
+      } else {
+        myClient.clear();
       }
-      else {
-        //myClient.clear();
-      }
-    } 
-  } 
-}
-
-void setMode(int b) {
-  if (b > 0 && b < 12) {
-    mode = b;
+    }
   }
 }
 
+void setMode(int b) {
+  mode = mode.getMode(b);
+}
+
 void draw() {  
+<<<<<<< HEAD
   //PVector surfaceMouse = surface.getTransformedMouse();
+=======
+>>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
   o.beginDraw();
   if (clearBackground()) o.background(0);
   o.stroke(255);
   o.fill(255);
-  if (mode == LINE) {
+
+  playMode();
+  if (trim) drawBlackout();
+  else if (outline) drawBlackoutOutline();
+
+  o.endDraw();
+  background(0);  
+  surface.render(o);
+
+  updateFFT();
+  checkData();
+}
+
+void playMode() {
+  switch(mode) {
+  case LINES:
+    o.strokeWeight(2);
     drawStars();
-    moveStars(-3, 0);
-    drawLines(-1);
-  } else if (mode == STARS) {
+    moveStars(0, 0);
+    drawLines();
+    moveLines(5, 0);
+    break;
+  case STARS:
+    o.strokeWeight(2);
     drawStars();
-    moveStars(-3, 0);
-  } else if (mode == STRIPED) {
+    moveStars(-2, 0);
+    break;
+  case PULSING:
+    symbols[2].displaySymbol(2, .5);
+    symbols[2].pulseStar();
+    break;
+  case STRIPED:
     drawStars();
     moveStars(-3, 0);
     drawStripedSquares();
+<<<<<<< HEAD
   } else if (mode == MOTH) {
     drawMoths();
   } else if (mode == VORONOI) {
     //drawVoronoi();
   } else if (mode == CONSTELLATION) {
+=======
+    break;
+  case CONSTELLATIONS:
+>>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
     drawConstellationLines();
-    moveConstellationLines(3);
-    drawConstellationImages();
-    //pulseConstellations();
-  } else if (mode == MOTH) {
-    drawConstellationImages(1);
-    moveConstellationImages(5);
-  } else if (mode == SYMBOLS) {
-    drawSymbols();
-    //moveSymbols(5);
-    pulseSymbols();
-  } else if (mode == SOLITARE) {
-    constellationLines[3].display();
-    constellationLines[0].display();
     moveConstellationLines(5);
-  } else if (mode == UPDOWN) {
+    break;
+  case UPDOWN:
     updown();
+<<<<<<< HEAD
   } else if (mode == WHALE) {
     drawStars();
     o.image(constellationImages[3], 500, 150, constellationImages[3].width*.4, constellationImages[3].height*.4);
+=======
+    break;
+  case BACKFORTH:
+    backforth();
+    break;
+  case FFT_LINES:
+    fftLines();
+    break;
+  case FFT_CIRCLE:
+    fftCircle();
+    break;
+  default:
+    break;
+>>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
   }
+}
 
-  if (trim) {
-    drawBlackout();
-  } else if (outline) {
-    //drawBoxOutline();
-    drawBlackoutOutline();
+void fftLines() {
+  o.stroke(255);
+  o.strokeWeight(5);
+  for (int i = 0; i < 5; i++) {
+    float x2 = map(getBand(i), 0, 130, 0, width);
+    float y2 = map(x2, 0, width, startH + smallGap + smallSideH/2, startH + i *50);
+    o.line(0, startH + smallGap + smallSideH/2, x2, y2);
   }
+<<<<<<< HEAD
   o.endDraw();
   background(0);  
   surface.render(o);
   
   //checkData();
+=======
+}
+
+void fftCircle() {
+  int startx = width/2;
+  int starty = int(startH + bigSideH/2);
+  int c = getBand(0);
+  c = int(map(c, 0, 130, 0, 350));
+  o.noStroke();
+  o.fill(255);
+  o.ellipse(startx, starty, c, c);
+    
+  //for (int i = 0; i < 5; i++) {
+  //  int c = getBand(i);
+  //  c = constrain(int(map(c, 0, 130, 0, 50)), 0, 50);
+  //  o.fill(255);
+  //  o.ellipse(startx, starty, width - i * 100 + c, width - i * 100 + c);
+    
+  //}
+}
+
+void fftBrightness() {
+  int c = getBand(0);
+  c = constrain(int(map(c, 0, 130, 0, 255)), 0, 255);
+  if (c > 100) {
+    o.stroke(c);
+    o.fill(c);
+  } else {
+    o.stroke(0);
+    o.fill(0);
+  }
+  o.rect(0, 0, width, height);
+>>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
 }
 
 void drawBlackout() {
@@ -160,6 +254,12 @@ void keyPressed() {
     outline = !outline;
     break;
   }
+
+  if (keyCode == RIGHT) {
+    mode = mode.next();
+  } else if (keyCode == LEFT) {
+    mode = mode.previous();
+  }
 }
 
 void drawBoxOutline() {
@@ -188,12 +288,24 @@ void drawMoths() {
   }
 }
 
+<<<<<<< HEAD
 void drawLines(int dir) {
   for (int i = 0; i < 10; i ++) {
     stroke(255);
     //o.line((millis()/5)%canvasW*2-i*moth.width*.2, 0, (millis()/5)%canvasW*2-i*moth.width*.2, canvasH);
   }
 }
+=======
+//void drawLines(int dir) {
+//  for (int i = 0; i < 10; i ++) {
+//    o.stroke(255);
+//    o.strokeWeight(10);
+//    o.line((millis()/5)%canvasW, 0, (millis()/5)%canvasW, canvasH);
+//    else  o.line(width - (millis()/5)%canvasW, 0, width - (millis()/5)%canvasW, canvasH);
+//  }
+//}
+
+>>>>>>> 76efdf5d05ebc8a0dbb3648b751d25ba9077e6b9
 
 void drawStars() {
   for (int i = 0; i < stars.length; i++) {
@@ -272,7 +384,8 @@ void solitare() {
 }
 
 boolean clearBackground() {
-  return mode != SOLITARE;
+  //return mode != Mode.SOLITARE;
+  return true;
 }
 
 float getBandHeight(int ind) {
@@ -298,4 +411,46 @@ void updown() {
   o.stroke(255);
   o.strokeWeight(5);
   o.line(0, startH + smallGap + smallSideH/2, width, startH + getKinectY());
+}
+
+void backforth() {
+  o.stroke(255);
+  o.strokeWeight(5);
+  int w = 50;
+  o.rect(getKinectZ(), 0, w, height);
+}
+
+void updateSong() {
+  checkNextSong(dataBytes[5]);
+  byte [] durationBytes = new byte[4];
+  for (int i = 0; i < 4; i++) {
+    durationBytes[i] = dataBytes[i + 6];
+  }
+  int duration = fromByteArray(durationBytes);
+  
+  myAudio.play(duration);
+}
+
+int getBand(int i) {
+  //return dataBytes[5+i];
+  return bands[i];
+}
+
+void drawLines() {
+  o.stroke(255);
+  o.fill(255);
+  o.strokeWeight(10);
+  for (int i = 0; i < lines.length; i++) {
+    lines[i].display();
+  }
+}
+
+void moveLines(int dx, int dy) {
+  for (int i = 0; i < lines.length; i++) {
+    lines[i].move(dx, dy);
+  }
+}
+
+int fromByteArray(byte[] bytes) {
+     return ByteBuffer.wrap(bytes).getInt();
 }
