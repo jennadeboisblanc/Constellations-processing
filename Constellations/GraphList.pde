@@ -103,24 +103,12 @@ class GraphList {
       nodes.get(i).display();
     }
   }
-  
+
   void displayNodeLabels() {
-     for (int i = 0; i < nodes.size(); i++) {
+    for (int i = 0; i < nodes.size(); i++) {
       nodes.get(i).displayLabel();
     }
   }
-
-  //void displayNodes() {
-  //  for (int v = 0; v < nodes.size(); ++v) {
-  //    int x1, y1;
-  //    Node n = nodes.get(v); // could get to the point where this call isn't necessary- just tmp->x, tmp->y (that x, y is saved 2x)
-  //    n.display();
-  //    x1 = n.getX();
-  //    y1 = n.getY();
-  //    strokeWeight(2);
-  //    nodes.get(v).display();
-  //  }
-  //}
 
   void printGraph() {
     for (int v = 0; v < nodes.size(); ++v) {
@@ -160,6 +148,7 @@ class GraphList {
       json2.setString("ID", n.ID);
       json2.setInt("x", n.x);
       json2.setInt("y", n.y);
+      json2.setInt("z", n.z);
 
       // adjacent node names
       processing.data.JSONArray adjacentNodes = new processing.data.JSONArray();      
@@ -197,8 +186,9 @@ class GraphList {
       String name = nodeJson.getString("ID");
       int x = nodeJson.getInt("x");
       int y = nodeJson.getInt("y");
-
-      tempNodes.add(new Node(name, x, y));
+      int z = nodeJson.getInt("z");
+      tempNodes.add(new Node(name, x, y, z));
+      //tempNodes.add(new Node(name, x, y));
     }
 
     // create the edges from JSON file
@@ -207,7 +197,6 @@ class GraphList {
       processing.data.JSONArray adjNodes = nodeJson.getJSONArray("adjacentNodes");
       for (int j = 0; j < adjNodes.size(); j++) {
         setDirectedEdge(i, parseInt(adjNodes.getString(j)));
-        //tempNodes.get(i).addDestination(tempNodes.get(parseInt(adjNodes.getString(j))));
       }
     }
 
@@ -216,15 +205,17 @@ class GraphList {
     }
     //addLines();
     loadLines();
+    bubbleSortDescending();
   }
 
   void addNode(int mx, int my) {
     nodes.add(new Node(nodes.size() + "", mx, my));
   }
 
+
   void removeNode(int index) {
     removeEdges(index);
-    nodes.get(index).set(-100, -100);
+    nodes.get(index).move(-100, -100);
     deleteLines(index);
     printGraph();
   }
@@ -236,6 +227,18 @@ class GraphList {
 
   void moveCurrentNode(int dx, int dy) {
     nodes.get(currentNodeIndex).move(dx, dy);
+  }
+
+  void displayCurrentNode() {
+    if (hasCurrentNode()) {
+      fill(0, 255, 0);
+      stroke(0, 255, 0);
+      nodes.get(currentNodeIndex).display();
+    }
+  }
+
+  void setCurrentNodeZ(int zp) {
+    nodes.get(currentNodeIndex).z = zp;
   }
 
   int getClickedNode(int mx, int my) {
@@ -358,6 +361,18 @@ class GraphList {
   }
 
 
+  int getNextRandomNode(int index, int previous) {
+    int rand = -1;
+    List<Integer> edgeList = getEdge(index);
+    if (edgeList != null) {
+      rand = edgeList.get(int(random(edgeList.size())));
+      if (rand == previous) rand = edgeList.get(int(random(edgeList.size())));
+      if (rand == previous) rand = -1;
+    }
+    return rand;
+  }
+
+
   // returns the ID of the edge that is closest in distance to starting (index)
   // node; returns -1 if the current node is closer than its edges to the goal
   int getClosestForcedNode(int index, int previous, PVector goal) {
@@ -379,45 +394,66 @@ class GraphList {
     return closest;
   }
 
-  ArrayList<Node> getConstellationPath(Node n, PVector goal) {
-    int index = parseInt(n.ID);
-    ArrayList<Node> path = new ArrayList<Node>();
-    int closest = getClosestNode(index, goal);
-    while (closest > -1) {
-      path.add(nodes.get(closest));
-      closest = getClosestNode(closest, goal);
+  int getClosestForcedNode3D(int index, int previous, PVector goal) {
+    int closest = -1;
+    float dis = 99999999;
+    List<Integer> edgeList = getEdge(index);
+    // sort first by z, then by disf
+    if (edgeList != null) {
+      for (int j = 0; j < edgeList.size(); j++) {
+        if (edgeList.get(j) != previous) {
+          Node n2 = nodes.get(edgeList.get(j));
+          float dis2 = n2.getDistance3D(goal);
+          if (dis2 < dis) {
+            dis = dis2;
+            closest = edgeList.get(j);
+          }
+        }
+      }
     }
-    return path;
+    return closest;
   }
 
-  ArrayList<Node> getConstellationPath(int index, PVector goal) {
-    //int index = parseInt(n.ID);
-    ArrayList<Node> path = new ArrayList<Node>();
-    //ArrayList<Integer> path2 = new ArrayList<Integer>();
-    int closest = getClosestNode(index, goal);
-    while (closest > -1) {
-      //path2.add(closest);
-      path.add(nodes.get(closest));
-      closest = getClosestNode(closest, goal);
-    }
-    return path;
-  }
-
-  ArrayList<Node> getConstellationForcedPath(int index, PVector goal) {
-    ArrayList<Node> path = new ArrayList<Node>();
-    path.add(nodes.get(index));
-    int closest = getClosestForcedNode(index, -1, goal);
+  ArrayList<Integer> getRandomPath(int index, int num) {
+    ArrayList<Integer> path = new ArrayList<Integer>();
+    path.add(index);
+    int rand = getNextRandomNode(index, -1);
     int previous = index;
     int numJumps = 0;
-    while (closest > -1 && numJumps < 4) {
+    while (rand > -1 && numJumps < num) {
       numJumps++;
-      path.add(nodes.get(closest));
-      int next = getClosestForcedNode(closest, previous, goal);
-      previous = closest;
-      closest = next;
+      path.add(rand);
+      int next = getNextRandomNode(rand, previous);
+      previous = rand;
+      rand = next;
     }
     return path;
   }
+
+//  ArrayList<Node> getConstellationPath(Node n, PVector goal) {
+//    int index = parseInt(n.ID);
+//    ArrayList<Node> path = new ArrayList<Node>();
+//    int closest = getClosestNode(index, goal);
+//    while (closest > -1) {
+//      path.add(nodes.get(closest));
+//      closest = getClosestNode(closest, goal);
+//    }
+//    return path;
+//  }
+
+//  ArrayList<Node> getConstellationPath(int index, PVector goal) {
+//    //int index = parseInt(n.ID);
+//    ArrayList<Node> path = new ArrayList<Node>();
+//    //ArrayList<Integer> path2 = new ArrayList<Integer>();
+//    int closest = getClosestNode(index, goal);
+//    while (closest > -1) {
+//      //path2.add(closest);
+//      path.add(nodes.get(closest));
+//      closest = getClosestNode(closest, goal);
+//    }
+//    return path;
+//  }
+
 
   ArrayList<Integer> getConstellationForcedIDs(int index, PVector goal) {
     ArrayList<Integer> path = new ArrayList<Integer>();
@@ -435,6 +471,22 @@ class GraphList {
     return path;
   }
 
+  ArrayList<Integer> getConstellationForcedIDs3D(int index, PVector goal) {
+    ArrayList<Integer> path = new ArrayList<Integer>();
+    path.add(index);
+    int closest = getClosestForcedNode3D(index, -1, goal);
+    int previous = index;
+    int numJumps = 0;
+    while (closest > -1 && numJumps < 4) {
+      numJumps++;
+      path.add(closest);
+      int next = getClosestForcedNode3D(closest, previous, goal);
+      previous = closest;
+      closest = next;
+    }
+    return path;
+  }
+
 
   void drawPathIDs(ArrayList<Integer> path) {
     for (int i = 0; i < path.size()-1; i++) {
@@ -445,11 +497,11 @@ class GraphList {
       }
     }
   }
-  void drawPathLines(ArrayList<Node> path) {
-    for (int i = 0; i < path.size()-1; i++) {
-      line(path.get(i).getX(), path.get(i).getY(), path.get(i+1).getX(), path.get(i+1).getY());
-    }
-  }
+  //void drawPathLines(ArrayList<Node> path) {
+  //  for (int i = 0; i < path.size()-1; i++) {
+  //    line(path.get(i).getX(), path.get(i).getY(), path.get(i+1).getX(), path.get(i+1).getY());
+  //  }
+  //}
 
   void drawOrganicPath(int start, PVector goal) {
     ArrayList<Integer> path = getConstellationForcedIDs(start, goal);
@@ -457,6 +509,12 @@ class GraphList {
     drawPathIDs(path);
     //int end = getClosestForcedNode(start, 0, goal);
     //drawLine(start, end);
+    ellipse(nodes.get(start).getX(), nodes.get(start).getY(), 20, 20);
+  }
+
+  void drawOrganicPath3D(int start, PVector goal) {
+    ArrayList<Integer> path = getConstellationForcedIDs3D(start, goal);
+    drawPathIDs(path);
     ellipse(nodes.get(start).getX(), nodes.get(start).getY(), 20, 20);
   }
 
@@ -470,23 +528,6 @@ class GraphList {
     if (n1 >=0 && n2 >= 0) 
       line(nodes.get(n1).getX(), nodes.get(n1).getY(), nodes.get(n2).getX(), nodes.get(n2).getY());
   }
-
-  //void setLineValues() {
-  //  processing.data.JSONObject json;
-  //  json = loadJSONObject("data/graph/lines.json");
-
-  //  processing.data.JSONArray lineZs = json.getJSONArray("lineZs");
-  //  processing.data.JSONArray constellationG = json.getJSONArray("constellationG");
-  //  for (int j = 0; j < lines.size(); j++) {
-  //    if (j >= lineZs.size()) {
-  //      lines.get(j).zIndex = 0;
-  //      lines.get(j).constellationG = 0;
-  //    } else {
-  //      lines.get(j).zIndex = lineZs.getInt(j);
-  //      lines.get(j).constellationG = constellationG.getInt(j);
-  //    }
-  //  }
-  //}
 
   void saveLines() {
     processing.data.JSONObject json;
@@ -504,7 +545,7 @@ class GraphList {
       json2.setInt("y1", l.getY1());
       json2.setInt("x2", l.getX2());
       json2.setInt("y2", l.getY2());
-      json2.setInt("z", l.zIndex);
+      json2.setInt("z1", l.zIndex);
       json2.setInt("cg", l.constellationG);
 
       saveJSONObject(json2, "data/graph/line" + i + ".json");
@@ -524,32 +565,27 @@ class GraphList {
       int y1 = lineJson.getInt("y1");
       int x2 = lineJson.getInt("x2");
       int y2 = lineJson.getInt("y2");
-      int z = lineJson.getInt("z");
+      //int z = lineJson.getInt("z");
       int cg = lineJson.getInt("cg");
 
       lines.add(new Line(x1, y1, x2, y2, id1, id2));
-      lines.get(i).zIndex = z;
+      //lines.get(i).zIndex = z;
       lines.get(i).constellationG = cg;
     }
   }
 
-  void saveLineValues() {
-    processing.data.JSONObject json;
-    json = new processing.data.JSONObject();
-    processing.data.JSONArray lineZs = new processing.data.JSONArray(); 
-    //processing.data.JSONArray lineXs = new processing.data.JSONArray(); 
-    //processing.data.JSONArray lineYs = new processing.data.JSONArray(); 
-    processing.data.JSONArray constellationG = new processing.data.JSONArray();  
 
-    if (lines.size() == 0) {
-      addLines();
+  void bubbleSortDescending() {
+    int n = lines.size();
+
+    for (int i=0; i < n; i++) {
+      for (int j=1; j < (n-i); j++) {
+
+        if (lines.get(j-1).zAve < lines.get(j).zAve) {
+          //swap the elements!
+          Collections.swap(lines, j, j-1);
+        }
+      }
     }
-    for (int j = 0; j < lines.size(); j++) {
-      lineZs.setInt(j, lines.get(j).zIndex);
-      constellationG.setInt(j, lines.get(j).constellationG);
-    }
-    json.setJSONArray("lineZs", lineZs);
-    json.setJSONArray("constellationG", constellationG);
-    saveJSONObject(json, "data/graph/lines.json");
   }
 }

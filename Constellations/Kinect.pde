@@ -2,6 +2,8 @@
 import KinectPV2.KJoint;
 import KinectPV2.*;  // Thomas Sanchez Lengeling http://codigogenerativo.com/
 KinectPV2 kinect;
+
+
 float elbowLAngle = 0;
 float elbowRAngle = 0;
 float handRAngle = 0;
@@ -20,23 +22,23 @@ float handRDX = 0;
 
 BodyPoint [] bodyPoints;
 
-void drawConstellationFirst() {
-  if (graphL.nodes.size() > 20) {
-    stroke(255, 0, 0);
-    fill(255, 0, 0);
-    ArrayList<Node> bodyNodes = new ArrayList<Node>(); 
+//void drawConstellationFirst() {
+//  if (graphL.nodes.size() > 20) {
+//    stroke(255, 0, 0);
+//    fill(255, 0, 0);
+//    ArrayList<Node> bodyNodes = new ArrayList<Node>(); 
 
-    for (int j = 0; j < 5; j++) {
-      if (j == 0) bodyNodes = graphL.getConstellationPath(11, bodyPoints[0].next);
-      else {
-        if (bodyNodes.size() > 0) bodyNodes = graphL.getConstellationPath(bodyNodes.get(bodyNodes.size()-1), bodyPoints[j].next);
-      }
-      for (int i = 0; i < bodyNodes.size()-1; i++) {
-        line(bodyNodes.get(i).getX(), bodyNodes.get(i).getY(), bodyNodes.get(i+1).getX(), bodyNodes.get(i+1).getY());
-      }
-    }
-  }
-}
+//    for (int j = 0; j < 5; j++) {
+//      if (j == 0) bodyNodes = graphL.getConstellationPath(11, bodyPoints[0].next);
+//      else {
+//        if (bodyNodes.size() > 0) bodyNodes = graphL.getConstellationPath(bodyNodes.get(bodyNodes.size()-1), bodyPoints[j].next);
+//      }
+//      for (int i = 0; i < bodyNodes.size()-1; i++) {
+//        line(bodyNodes.get(i).getX(), bodyNodes.get(i).getY(), bodyNodes.get(i+1).getX(), bodyNodes.get(i+1).getY());
+//      }
+//    }
+//  }
+//}
 
 void drawBody() {
   for (int i = 0; i < bodyPoints.length; i++) {
@@ -119,7 +121,7 @@ void pulseLineRight(int rate, int bandSize) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize);
+    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize, color(255));
   }
 }
 
@@ -132,7 +134,7 @@ void pulseLineLeft(int rate, int bandSize) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize);
+    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize, color(255));
   }
 }
 
@@ -145,7 +147,7 @@ void pulseLineUp(int rate, int bandSize) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize);
+    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize, color(255));
   }
 }
 
@@ -163,7 +165,7 @@ void drawKinect() {
 
       //setBody(joints);
       setBodyAngles(joints);
-      
+
       stroke(col);
       drawOrganicConstellation();
     }

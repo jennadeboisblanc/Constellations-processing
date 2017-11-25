@@ -1,6 +1,7 @@
 {
-  "adjacentNodes": [],
-  "x": -100,
-  "y": -100,
+  "adjacentNodes": ["3"],
+  "x": 9,
+  "y": 223,
+  "z": 0,
   "ID": "2"
 }
