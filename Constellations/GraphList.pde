@@ -224,7 +224,7 @@ class GraphList {
 
   void removeNode(int index) {
     removeEdges(index);
-    nodes.get(index).hide = true;
+    nodes.get(index).set(-100, -100);
     deleteLines(index);
     printGraph();
   }
