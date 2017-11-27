@@ -92,7 +92,7 @@ void initDeltaWaves() {
   deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK, NONE, PanelMode.STARS);
   deltaScenes[14] = new Scene(3.1, V_TRANSIT, NONE, PanelMode.STARS);
 
-  randomPath = graphL.getRandomPath(11, 5);
+  //randomPath = graphL.getRandomPath(11, 5);
 }
 
 void initCycles() {

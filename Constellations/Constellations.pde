@@ -1,5 +1,6 @@
 boolean NEW_GRAPH = false;
-
+boolean SEND_PANEL = false;
+boolean FFT_ON = true;
 //////////////////////////////////////////////////////////
 import java.nio.ByteBuffer;
 import processing.net.*;
@@ -47,13 +48,15 @@ void setup() {
   if (!NEW_GRAPH) graphL.loadGraph();
 
 
-  initFFT(0);
-  initBeat();
+  if (FFT_ON) {
+    initFFT(0);
+    initBeat();
+  }
 
   initKinect();
   initBodyPoints();
 
-  myServer = new Server(this, 5204);
+  if (SEND_PANEL) myServer = new Server(this, 5204);
 
   whale = loadImage("assets/whale.png");
   hand = loadImage("assets/handeye.png");
@@ -70,33 +73,40 @@ void setup() {
 //--------------------------------------------------------------
 void draw() {
   background(0);
-  updateFFT();
-  updateBeats();
-  checkNextSong();
+  if (FFT_ON) {
+    updateFFT();
+    updateBeats();
+  }
+
   if (mode == VISUALIZE) {
     //airBenderY();
     //checkScene();
     //playMode();
     //cycleModes(2000);
     //pulsing(100);
-    checkScene();
-    playMode();
+    //checkScene();
+    //playMode();
     //cycleModes(2000);
     //displayThirdsBeat();
     //twinkleLines();
   } else {
+    strokeWeight(4);
     settingFunctions();
   }
 
-  
+
   //sendPanel();
-  //drawKinect();
-  if (!NEW_GRAPH) graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
+  drawKinect();
+  //stroke(0, 255, 255);
+  //graphL.drawOrganicPath3D(11, new PVector(mouseX, mouseY, 0));
   //testKinect();
-  
-  if (millis() - sendTime > 100) {
-    sendPanel();
-    sendTime = millis();
+
+  if (SEND_PANEL) {
+    checkNextSong();
+    if (millis() - sendTime > 100) {
+      sendPanel();
+      sendTime = millis();
+    }
   }
 }
 
@@ -287,35 +297,34 @@ void deleteLines(int index) {
 }
 
 void displayBox(int hue, String title) {
-  colorMode(HSB, 255);
-  fill(hue, 255, 255);
-  noStroke();
-  rect(0, height-50, width, 50);
-  fill(255);
-  stroke(255);
-  textSize(30);
-  text(title, 30, height-15);
-  colorMode(RGB, 255);
+  if (mouseY < height - 60) {
+    colorMode(HSB, 255);
+    fill(hue, 255, 255);
+    noStroke();
+    rect(0, height-50, width, 50);
+    fill(255);
+    stroke(255);
+    textSize(30);
+    text(title, 30, height-15);
+    colorMode(RGB, 255);
+  }
 }
 
 void settingFunctions() {
   graphL.displayNodes();
   graphL.displayNodeLabels();
   linesDisplay(255);
-  
+
   if (mode == ADD_EDGES) {
     graphL.drawLineToCurrent(mouseX, mouseY);
     displayBox(0, "ADD EDGES");
-  } 
-  else if (mode == ADD_NODES) {
+  } else if (mode == ADD_NODES) {
     ellipse(mouseX, mouseY, 20, 20);
     displayBox(20, "ADD NODES");
-  } 
-  else if (mode == DELETE_NODES) {
+  } else if (mode == DELETE_NODES) {
     graphL.display();
     displayBox(50, "DELETE NODES");
-  } 
-  else if (mode == MOVE_NODES || mode == MOVE_LINES) {
+  } else if (mode == MOVE_NODES || mode == MOVE_LINES) {
     graphL.displayCurrentNode();
     displayBox(70, "MOVE");
   } else if (mode == SET_NODES_Z) {

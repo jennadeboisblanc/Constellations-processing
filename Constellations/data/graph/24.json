@@ -1,7 +1,7 @@
 {
-  "adjacentNodes": [],
-  "x": 0,
-  "y": 493,
+  "adjacentNodes": ["1"],
+  "x": 923,
+  "y": 0,
   "z": 0,
   "ID": "24"
 }
