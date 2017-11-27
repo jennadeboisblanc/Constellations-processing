@@ -53,8 +53,8 @@ void setup() {
   initFFT();
   initBeat();
 
-  //initKinect();
-  //initBodyPoints();
+  initKinect();
+  initBodyPoints();
 
   // myServer = new Server(this, 5204);
 
@@ -73,38 +73,27 @@ void setup() {
 
 //--------------------------------------------------------------
 void draw() {
-  background(0);
-  updateFFT();
-  updateBeats();
+  if (blackBackground()) background(0);
+
   if (mode == VISUALIZE) {
-    //airBenderY();
-    //checkScene();
-    //playMode();
-  // segmentShift(10);
-    //wipeRight(50, 100);
-    //displayLines();
+    updateFFT();
+    updateBeats();
+
     stroke(255);
-    //handLight(mouseX, mouseY, 200);
-   
-     //pulseLinesCenter(1);
-    //seesaw();
-    //cycleModes(2000);
+    fill(255);
+    strokeWeight(4);
+
+    checkScene();
+    playMode();
+
     //displayThirdsBeat();
     //twinkleLines();
+
+    //sendPanel();
+    drawKinect();
   } else {
     settingFunctions();
   }
-
-  //drawFFT();
-  //stroke(255);
-  //fill(255);
-  //graphL.display();
-  //stroke(0, 255, 255);
-  //fill(0, 255, 255);
-  //graphL.drawOrganicPath3D(11, new PVector(mouseX, mouseY, 0));
-  //sendPanel();
-  //drawKinect();
-  //testKinect();
 }
 
 void sendPanel() {
@@ -274,14 +263,6 @@ void displayLineZDepth() {
   }
 }
 
-void linesDisplay(int brightness) {
-  for (int i = 0; i < lines.size(); i++) {
-    stroke(brightness);
-    fill(brightness);
-    lines.get(i).display();
-  }
-}
-
 void deleteLines(int index) {
   for (int i = lines.size() - 1; i >=0; i--) {
     if (lines.get(i).findByID(index)) {
@@ -291,35 +272,34 @@ void deleteLines(int index) {
 }
 
 void displayBox(int hue, String title) {
-  colorMode(HSB, 255);
-  fill(hue, 255, 255);
-  noStroke();
-  rect(0, height-50, width, 50);
-  fill(255);
-  stroke(255);
-  textSize(30);
-  text(title, 30, height-15);
-  colorMode(RGB, 255);
+  if (mouseY < height - 15) {
+    colorMode(HSB, 255);
+    fill(hue, 255, 255);
+    noStroke();
+    rect(0, height-50, width, 50);
+    fill(255);
+    stroke(255);
+    textSize(30);
+    text(title, 30, height-15);
+    colorMode(RGB, 255);
+  }
 }
 
 void settingFunctions() {
   graphL.displayNodes();
   graphL.displayNodeLabels();
-  linesDisplay(255);
-  
+  displayLines(255);
+
   if (mode == ADD_EDGES) {
     graphL.drawLineToCurrent(mouseX, mouseY);
     displayBox(0, "ADD EDGES");
-  } 
-  else if (mode == ADD_NODES) {
+  } else if (mode == ADD_NODES) {
     ellipse(mouseX, mouseY, 20, 20);
     displayBox(20, "ADD NODES");
-  } 
-  else if (mode == DELETE_NODES) {
+  } else if (mode == DELETE_NODES) {
     graphL.display();
     displayBox(50, "DELETE NODES");
-  } 
-  else if (mode == MOVE_NODES || mode == MOVE_LINES) {
+  } else if (mode == MOVE_NODES || mode == MOVE_LINES) {
     graphL.displayCurrentNode();
     displayBox(70, "MOVE");
   } else if (mode == SET_NODES_Z) {
@@ -330,4 +310,9 @@ void settingFunctions() {
     setConst();
     displayBox(140, "SET CONSTELLATIONS");
   }
+}
+
+boolean blackBackground() {
+  if (kinectMode == K_PAINT) return false;
+  return true;
 }

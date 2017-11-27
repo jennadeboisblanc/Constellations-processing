@@ -16,9 +16,12 @@ float handRY = 0;
 float handRX = 0;
 float handRDZ = 0;
 float handRDY = 0;
+float handLDY = 0;
 float handRDX = 0;
+float handLDX = 0;
 
 BodyPoint [] bodyPoints;
+boolean currentlyTracked = false;
 
 //void drawConstellationFirst() {
 //  if (graphL.nodes.size() > 20) {
@@ -104,70 +107,38 @@ void setBodyAngles(KJoint[] joints) {
   handRX = joints[KinectPV2.JointType_WristRight].getX();
   handRY = joints[KinectPV2.JointType_WristRight].getY();
 
+  // shoulder is farther back than wrist, so shoulder minus wrist positive; so handRDZ will be positive and bigger when reaching forward
   handRDZ = joints[KinectPV2.JointType_ShoulderRight].getZ() - joints[KinectPV2.JointType_WristRight].getZ();
   handRDX = joints[KinectPV2.JointType_WristRight].getX() - joints[KinectPV2.JointType_ShoulderRight].getX();
+  handLDX = joints[KinectPV2.JointType_WristLeft].getX() - joints[KinectPV2.JointType_ShoulderLeft].getX();
   handRDY = joints[KinectPV2.JointType_WristRight].getY() - joints[KinectPV2.JointType_ShoulderRight].getY();
+  handLDY = joints[KinectPV2.JointType_WristLeft].getY() - joints[KinectPV2.JointType_ShoulderLeft].getY();
   //println(joints[KinectPV2.JointType_ShoulderRight].getZ() + " " + handRZ);
 }
 
-void pulseLineRight(int rate, int bandSize) {
-  if (millis() - lastCheckedPulse > rate) {
-    pulseIndex+= bandSize;
-    if (pulseIndex > width) {
-      pulseIndex = -bandSize;
-    }
-    lastCheckedPulse = millis();
-  }
-  for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize);
-  }
-}
-
-void pulseLineLeft(int rate, int bandSize) {
-  if (millis() - lastCheckedPulse > rate) {
-    pulseIndex-=bandSize;
-    if (pulseIndex < -bandSize) {
-      pulseIndex = width;
-    }
-    lastCheckedPulse = millis();
-  }
-  for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize);
-  }
-}
-
-void pulseLineUp(int rate, int bandSize) {
-  if (millis() - lastCheckedPulse > rate) {
-    pulseIndex-=bandSize;
-    if (pulseIndex < -bandSize) {
-      pulseIndex = height;
-    }
-    lastCheckedPulse = millis();
-  }
-  for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize);
-  }
-}
 
 void drawKinect() {
   ArrayList<KSkeleton> skeletonArray =  kinect.getSkeleton3d();
-
   //individual joints
   for (int i = 0; i < skeletonArray.size(); i++) {
     KSkeleton skeleton = (KSkeleton) skeletonArray.get(i);
     //if the skeleton is being tracked compute the skleton joints
     if (skeleton.isTracked()) {
+      currentlyTracked = true;
+
       KJoint[] joints = skeleton.getJoints();
-
       color col  = skeleton.getIndexColor();
-
       //setBody(joints);
       setBodyAngles(joints);
-      
+
       stroke(col);
-      drawOrganicConstellation();
+
+      playKinectModes();
+
+      return;
     }
   }
+  currentlyTracked = false;
 }
 
 //--------------------------------------------------------------
@@ -213,12 +184,7 @@ PVector getHandMapped() {
   return h;
 }
 
-
 byte getHandPanelY() {
   int y = constrain(int(map(handRY, -1.0, 1.0, 0, 255)), 0, 255);
   return byte(y);
-}
-
-void drawOrganicConstellation() {
-  graphL.drawOrganicPath(11, getHandMapped());
 }

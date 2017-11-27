@@ -70,7 +70,7 @@ void initFFT() {
   minim   = new Minim(this);
   myAudio = minim.loadFile("assets/deltaWaves.mp3");
   myAudio.play();
-  myAudio.skip(1000*60);
+  //myAudio.skip(1000*120);
 
   myAudioFFT = new FFT(myAudio.bufferSize(), myAudio.sampleRate());
   myAudioFFT.linAverages(myAudioRange);
@@ -168,6 +168,7 @@ void updateBeats() {
       if (beats.get(currentBeat).hasStarted(myAudio.position())) {
         if(beats.get(currentBeat).beatType < 10) currentBeats[beats.get(currentBeat).beatType]++;
         currentBeat++;
+        if (currentBeat >= beats.size()) return;
       }
     }
   }
