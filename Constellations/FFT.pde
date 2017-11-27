@@ -39,7 +39,8 @@ float       yStart           = stageMargin;
 int         xSpacing         = rectSize;
 float       x2Spacing        = rect2Size;
 
-
+String songs[] = {"deltaWaves", "cycles", "kirasu"};
+int currentSong = 0;
 // ************************************************************************************
 
 
@@ -64,11 +65,11 @@ color Wheel(int WheelPos) {
     WheelPos -= 170;
     return color(WheelPos * 3, 255 - WheelPos * 3, 0);
   }
-}  
+} 
 
-void initFFT() {
+void initFFT(int num) {
   minim   = new Minim(this);
-  myAudio = minim.loadFile("assets/deltaWaves.mp3");
+  myAudio = minim.loadFile("assets/" + songs[num] + ".mp3");
   myAudio.play();
   //myAudio.skip(1000*120);
 
@@ -77,6 +78,21 @@ void initFFT() {
   myAudioFFT.window(FFT.GAUSS);
   bands = new int[bandBreaks.length];
   //bandMax =  new int[bandBreaks.length];
+}
+
+void restartFFT(int num) {
+  myAudio = minim.loadFile("assets/" + songs[num] + ".mp3");
+  myAudio.play();
+}
+
+void checkNextSong() {
+  if (myAudio.position() >= myAudio.length() - 50) {
+    currentSong++;
+    if (currentSong >= songs.length) currentSong = 0;
+    restartFFT(currentSong);
+    startScene();
+    println("restarted");
+  }
 }
 
 
@@ -166,7 +182,7 @@ void updateBeats() {
   if (currentBeat < beats.size()) {
     for (int i = 0; i < currentBeats.length; i++) {
       if (beats.get(currentBeat).hasStarted(myAudio.position())) {
-        if(beats.get(currentBeat).beatType < 10) currentBeats[beats.get(currentBeat).beatType]++;
+        if (beats.get(currentBeat).beatType < 10) currentBeats[beats.get(currentBeat).beatType]++;
         currentBeat++;
         if (currentBeat >= beats.size()) return;
       }

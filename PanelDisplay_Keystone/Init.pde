@@ -16,11 +16,8 @@ void init() {
   rectMode(CENTER);
   ellipseMode(CENTER);
   imageMode(CENTER);
-  
-  canvasH = height;
-  canvasW = width;
 
-  myClient = new Client(this, "127.0.0.1", 5204);
+  myClient = new Client(this, "10.206.231.233", 5204);
   
   stars = new Star[150];
   for (int i = 0; i < stars.length; i++) {
@@ -59,4 +56,11 @@ void init() {
     symbolImages[i] = loadImage("symbols/c" + i + ".png");
     symbols[i] = new Star(i * 200 + 200, int(startH) + 170);
   }
+  
+  lines = new Line[10];
+  for (int i = 0; i < 10; i++) {
+    int x = int(i * 160 + random(50));
+    lines[i] = new Line(x, 0, x, height);
+  }
+  initFFT();
 }

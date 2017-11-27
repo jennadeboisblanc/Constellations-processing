@@ -55,14 +55,14 @@ class Line {
     twinkleRange = int(dist(p1.x, p1.y, p2.x, p2.y)/100);
   }
 
-  void display() {
-    line(p1.x, p1.y, p2.x, p2.y);
+  void display(color c) {
+    stroke(c);
+    fill(c);
+    display();
   }
 
-  void display(color c) {
-    fill(c);
-    stroke(c);
-    display();
+  void display() {
+    line(p1.x, p1.y, p2.x, p2.y);
   }
 
   void displayCenterPulse(float per) {
@@ -154,6 +154,12 @@ class Line {
     }
   }
 
+  void displayBandX(int start, int end, color c) {
+    if (p1.x > start && p1.x < end) {
+      display(c);
+    }
+  }
+
   void randomSegment() {
     //float len = random(
   }
@@ -166,61 +172,60 @@ class Line {
     }
   }
 
-  void displayBandY(int start, int end) {
+  void displayBandY(int start, int end, color c) {
     if (p1.y > start && p1.y < end) {
-      display(color(255));
+      display(c);
     } else {
       display(color(0));
     }
   }
 
-  void displayBandZ(int start, int end) {
+  void displayBandZ(int start, int end, color c) {
     if (z1 >= start && z1 < end) {
-      display(color(255));
+      display(c);
     } else {
       display(color(0));
     }
   }
 
-  void displayBandZ(int band) {
+  void displayBandZ(int band, color c) {
     if (z1 == band) {
-      display(color(255));
+      display(c);
     } else {
       display(color(0));
     }
   }
 
-  void displayConstellation(int num) {
+  void displayConstellation(int num, color c) {
     if (constellationG == num) {
-      display(color(255));
+      display(c);
     } else {
       display(color(0));
     }
   }
 
-  void displayAngle(int start, int end) {
+  void displayAngle(int start, int end, color c) {
     if (end < -360) {
       if (ang >= radians(start) || ang < end + 360) {
-        display(color(255));
-      } else {
-        display(color(0));
+        display(c);
       }
     } else if (ang >= radians(start) && ang < radians(end)) {
-      display(color(255));
+      display(c);
     } else {
       display(color(0));
     }
   }
 
-  void displayEqualizer(int[] bandH) {
+
+  void displayEqualizer(int[] bandH, color c) {
     if (p1.x >= 0 && p1.x < width/4) {
-      displayBandY(0, bandH[0]);
+      displayBandY(0, bandH[0], c);
     } else if (p1.x >= width/4 && p1.x < width/2) {
-      displayBandY(0, bandH[1]);
+      displayBandY(0, bandH[1], c);
     } else if (p1.x >= width/2 && p1.x < width*3.0/4) {
-      displayBandY(0, bandH[2]);
+      displayBandY(0, bandH[2], c);
     } else {
-      displayBandY(0, bandH[3]);
+      displayBandY(0, bandH[3], c);
     }
   }
 

@@ -35,17 +35,39 @@ int K_PAINT = 6;
 
 /////////////////////
 // PANEL MODES
-int INTRO = 0;
-int STARS = 1;
-int STAR_LINES = 2;
-int FFT_CRAZY = 3;
-int PULSE_BEAT = 4;
+
+// Modes
+public enum PanelMode {
+  STARS, LINES, STRIPED, PULSING, BACKFORTH, UPDOWN, FFT_LINES, FFT_CIRCLE, CONSTELLATIONS;
+  private static PanelMode[] vals = values();
+
+  PanelMode next() {
+    return vals[(ordinal() + 1)% vals.length];
+  }
+
+  PanelMode previous() {
+    if (ordinal() - 1 < 0) return vals[vals.length -1];
+    return vals[(ordinal() - 1)];
+  }
+
+  PanelMode getMode(int i) {
+    if (i < vals.length) return vals[i];
+    return vals[0];
+  }
+
+  byte getPanelByte() {
+    return byte(ordinal());
+  }
+};
+PanelMode panelMode = PanelMode.STARS;
 
 ///////////////////////
 // OTHER VARIABLES
 int pulseIndex = 0;
 int lastCheckedPulse = 0;
 Scene[] deltaScenes;
+Scene[] cyclesScenes;
+Scene[] kirasuScenes;
 int pointDirection = 4;
 int seesawVals[] = {0, 0};
 ArrayList<Integer> randomPath;
@@ -69,17 +91,53 @@ void initDeltaWaves() {
   deltaScenes[12] = new Scene(2.45, V_NONE, K_SPOTLIGHT, INTRO);
   deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK, K_NONE, INTRO);
   deltaScenes[14] = new Scene(3.1, V_TRANSIT, K_NONE, INTRO);
+ // randomPath = graphL.getRandomPath(11, 5);
+
 }
 
+void initCycles() {
+  cyclesScenes = new Scene[1];
+  cyclesScenes[0] = new Scene(0, V_PULSING_ON_LINE, NONE, PanelMode.LINES);
+}
+
+void initKirasu() {
+  kirasuScenes = new Scene[1];
+  kirasuScenes[0] = new Scene(0, V_SEESAW, NONE, PanelMode.STARS);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+void startScene() {
+  currentScene = 0;
+  if (currentSong == 0) deltaScenes[0].setModes();
+  else if (currentSong == 1) cyclesScenes[0].setModes();
+  else if (currentSong == 2) kirasuScenes[0].setModes();
+}
 
 void checkScene() {
-  if (currentScene+1 < deltaScenes.length) {
-    int songMinutes = myAudio.position() / 1000 / 60;
-    int songSeconds = myAudio.position() / 1000 % 60;
-    float songReading = songMinutes + (songSeconds / 100.0);
-    if (deltaScenes[currentScene + 1].hasStarted(songReading)) {
-      currentScene++;
-      deltaScenes[currentScene].setModes();
+  int songMinutes = myAudio.position() / 1000 / 60;
+  int songSeconds = myAudio.position() / 1000 % 60;
+  float songReading = songMinutes + (songSeconds / 100.0);
+  if (currentSong == 0) {
+    if (currentScene+1 < deltaScenes.length) {
+      if (deltaScenes[currentScene + 1].hasStarted(songReading)) {
+        currentScene++;
+        deltaScenes[currentScene].setModes();
+      }
+    }
+  } else if (currentSong == 1) {
+    if (currentScene+1 < cyclesScenes.length) {
+      if (cyclesScenes[currentScene + 1].hasStarted(songReading)) {
+        currentScene++;
+        cyclesScenes[currentScene].setModes();
+      }
+    }
+  } else if (currentSong == 2) {
+    if (currentScene+1 < kirasuScenes.length) {
+      if (kirasuScenes[currentScene + 1].hasStarted(songReading)) {
+        currentScene++;
+        kirasuScenes[currentScene].setModes();
+      }
     }
   }
 }
@@ -131,7 +189,34 @@ void transitHand(float per) {
   }
 }
 
+
 void rainbowRandom() {
+}
+
+void playMode() {
+  stroke(200);
+  fill(200);
+  strokeWeight(4);
+  if (visualMode == V_LINE_PERCENT) linePercentW();
+  else if (visualMode == V_LINE_EQUALIZER) lineEqualizer();
+  else if (visualMode == V_ROTATE_ANGLE_COUNT) rotateAngleCounter(100, 20);
+  else if (visualMode == V_ROTATE_ANGLE) rotateAngleBeat(20); //rotateAngle(100, 20);
+  else if (visualMode == V_PULSE_LINE_BACK) pulseLineBack(500);
+  else if (visualMode == V_PULSE_LINE_RIGHT) pulseLineRight(90, 80);
+  else if (visualMode == V_PULSE_LINE_LEFT)  pulseLineLeft(90, 80);
+  else if (visualMode == V_PULSE_LINE_UP) pulseLineUp(90, 80);
+  else if (visualMode == V_PULSE_LINE_DOWN) pulseLineDown(90, 80);
+  else if (visualMode == V_CYCLE_CONST) cycleConstellation(150);
+  else if (visualMode == V_FFT_CONST) fftConstellations(650);
+  else if (visualMode == V_PULSING) pulsing(9);
+  else if (visualMode == V_SHOW_ONE) showOne(100);
+  else if (visualMode == V_SEESAW) seesaw();
+  else if (visualMode == V_PULSING_ON_LINE) pulseLinesCenter(1);
+  else if (visualMode == V_SEGMENT_SHIFT) segmentShift(10);
+  else if (visualMode == V_TRANSIT) transit(30);
+}
+
+void handLight(int x, int y, int rad) {
   for (int i = 0; i < lines.size(); i++) {
     lines.get(i).displayRainbowRandom();
   }
@@ -187,7 +272,7 @@ void rotateAngle(int rate, int angleGap) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap);
+    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap, color(255));
   }
 }
 
@@ -200,7 +285,7 @@ void rotateAngleBeat(int angleGap) {
     }
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap);
+    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap, color(255));
   }
 }
 
@@ -251,7 +336,7 @@ void rotateAngleCounter(int rate, int angleGap) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap);
+    lines.get(i).displayAngle(pulseIndex, pulseIndex+angleGap, color(255));
   }
 }
 
@@ -427,7 +512,7 @@ void pulseLineDown(int rate, int bandSize) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize);
+    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize, color(255));
   }
 }
 
@@ -440,7 +525,7 @@ void pulseLineBack(int rate) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandZ(pulseIndex);
+    lines.get(i).displayBandZ(pulseIndex, color(255));
   }
 }
 
@@ -488,7 +573,7 @@ void pulsing(int rate) {
 
 void showConstellationLine(int l) {
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayConstellation(l);
+    lines.get(i).displayConstellation(l, color(255));
   }
 }
 
@@ -509,7 +594,7 @@ void lineEqualizer() {
     fourBands[i] = int(map(fourBands[i]*1.0/fourBandsMax[i], 0, .5, 0, height));
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayEqualizer(fourBands);
+    lines.get(i).displayEqualizer(fourBands, color(255));
   }
 }
 
@@ -729,4 +814,70 @@ boolean withinRange(float actual, float ideal, float range) {
     if (actual > ideal - range/2 && actual < ideal + range/2) return true;
     return false;
   }
+}
+
+
+void airBenderZ() {
+  int band = constrain(int(map(handRZ, 0, 50, 0, 8)), 0, 8);
+
+  for (int i = 0; i < lines.size(); i++) {
+    lines.get(i).displayBandZ(band, color(255));
+  }
+}
+
+void airBenderY() {
+  float rhBrightness = 0;
+  if (handRAngle > -90 && handRAngle < 90) {
+    rhBrightness = map(handRAngle, -90, 90, 0, 255);
+  } else if (handRAngle > 90) {
+    rhBrightness = map(handRAngle, 90, 180, 255, 255/2.0);
+  } else if (handRAngle < -90) {
+    rhBrightness = map(handRAngle, -180, -90, 255/2.0, 0);
+  }
+
+  linesDisplay(int(rhBrightness));
+}
+
+void testConstellations() {
+  if (triggered > -1) {
+    if (millis() - triggeredTime > 1000) {
+      triggered = -1;
+      triggeredTime = millis();
+    } else {
+      if (triggered == 0) {
+        image(owl, 0, 0);
+        println("whale!!");
+      } else if (triggered == 1) {
+        image(hand, 0, 0);
+        println("hand!");
+      } else if (triggered == 2) {
+        image(owl, 0, 0);
+        println("owl");
+      } else if (triggered == 3) {
+        image(moth, 0, 0);
+        println ("moth");
+      } else if (triggered == 4) {
+        image(orchid, 0, 0);
+        println("orchid");
+      }
+    }
+  } else {
+    if (checkWhale(20)) {
+      triggered = 0;
+      triggeredTime = millis();
+    } else if (checkHand(20)) {
+      triggered = 1;
+      triggeredTime = millis();
+    } else if (checkOwl(20)) {
+      triggered = 2;
+      triggeredTime = millis();
+    } else if (checkMoth(20)) {
+      triggered = 3;
+      triggeredTime = millis();
+    } else if (checkOrchid(20)) {
+      triggered = 4;
+      triggeredTime = millis();
+    }
+  }
+>>>>>>> 517d82d79f31e436a60ee415fa5ce53199df1d18
 }
