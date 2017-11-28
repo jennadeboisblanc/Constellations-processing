@@ -18,8 +18,10 @@ Star constellations[];
 PImage constellationImages[];
 String constellationNames[] = {"owl", "moth", "handeye", "whale", "orchid"}; 
 ConstellationLine constellationLines[];
-
+boolean alreadyUpdated = false;
 Line lines[];
+long lastUpdatedSong = 0;
+long timeBytesIn = 0;
 
 // Modes
 public enum Mode {
@@ -40,22 +42,27 @@ public enum Mode {
     return vals[0];
   }
 };
-Mode mode = Mode.PULSING;
+Mode mode = Mode.STARS;
 
 void setup() {
-  //fullScreen(P3D);
-  size(1300, 800, P3D);
+  fullScreen(P3D);
+  //size(1200, 800, P3D);
   init();
   dataBytes = new byte[10];
 }
 
 void checkData() {
   if (myClient.available() > 0) { 
+    timeBytesIn = millis();
     int byteCount = myClient.readBytes(dataBytes); 
     if (byteCount > 0 ) {
       if (dataBytes[0] == 47) {
         setMode(dataBytes[1]);
         updateSong();
+        //if (!alreadyUpdated) {
+        //  updateSong();
+        //  alreadyUpdated = true;
+        //}
       } else {
         myClient.clear();
       }
@@ -69,6 +76,7 @@ void setMode(int b) {
 
 void draw() {  
   o.beginDraw();
+  o.background(255,0,0);
   if (clearBackground()) o.background(0);
   o.stroke(255);
   o.fill(255);
@@ -82,7 +90,7 @@ void draw() {
   surface.render(o);
 
   updateFFT();
-  checkData();
+  //checkData();
 }
 
 void playMode() {
@@ -147,13 +155,13 @@ void fftCircle() {
   o.noStroke();
   o.fill(255);
   o.ellipse(startx, starty, c, c);
-    
+
   //for (int i = 0; i < 5; i++) {
   //  int c = getBand(i);
   //  c = constrain(int(map(c, 0, 130, 0, 50)), 0, 50);
   //  o.fill(255);
   //  o.ellipse(startx, starty, width - i * 100 + c, width - i * 100 + c);
-    
+
   //}
 }
 
@@ -359,14 +367,19 @@ void backforth() {
 }
 
 void updateSong() {
-  checkNextSong(dataBytes[5]);
-  byte [] durationBytes = new byte[4];
-  for (int i = 0; i < 4; i++) {
-    durationBytes[i] = dataBytes[i + 6];
+
+  if (millis() - lastUpdatedSong > 10000) {
+    myAudio.pause();
+    lastUpdatedSong = millis();
+    checkNextSong(dataBytes[5]);
+    byte [] durationBytes = new byte[4];
+    for (int i = 0; i < 4; i++) {
+      durationBytes[i] = dataBytes[i + 6];
+    }
+    int duration = fromByteArray(durationBytes);
+
+    myAudio.play(int(duration + (millis() - timeBytesIn)));
   }
-  int duration = fromByteArray(durationBytes);
-  
-  myAudio.play(duration);
 }
 
 int getBand(int i) {
@@ -390,5 +403,5 @@ void moveLines(int dx, int dy) {
 }
 
 int fromByteArray(byte[] bytes) {
-     return ByteBuffer.wrap(bytes).getInt();
+  return ByteBuffer.wrap(bytes).getInt();
 }

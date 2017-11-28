@@ -1,8 +1,6 @@
 boolean NEW_GRAPH = false;
-boolean SEND_PANEL = false;
-boolean FFT_ON = true;
+
 //////////////////////////////////////////////////////////
-import java.nio.ByteBuffer;
 import processing.net.*;
 Server myServer;
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ int mode = VISUALIZE;
 int currentScene = -1;
 int visualMode = -1;
 int kinectMode = -1; 
-long sendTime = 0;
+int panelMode = -1;
 ///////////////////////////////////////
 
 long stringChecked = 0;
@@ -42,21 +40,26 @@ int currentString;
 
 void setup() {
   fullScreen();
-  //size(400, 400);
+  //size(1200, 800);
   lines = new ArrayList<Line>();
   graphL = new GraphList(100);
   if (!NEW_GRAPH) graphL.loadGraph();
+  //else {
+  //  resetConstellationG();
+  //  resetZIndex();
+  //}
 
 
-  if (FFT_ON) {
-    initFFT(0);
-    initBeat();
-  }
+  initFFT();
+  initBeat();
 
   initKinect();
   initBodyPoints();
 
-  if (SEND_PANEL) myServer = new Server(this, 5204);
+  // myServer = new Server(this, 5204);
+
+
+
 
   whale = loadImage("assets/whale.png");
   hand = loadImage("assets/handeye.png");
@@ -65,23 +68,17 @@ void setup() {
   owl = loadImage("assets/owl.png");
 
   initDeltaWaves();
-  initCycles();
-  initKirasu();
 }
 
 
 //--------------------------------------------------------------
 void draw() {
-
-  if (FFT_ON) {
-    updateFFT();
-    updateBeats();
-  }
-
-
   if (blackBackground()) background(0);
 
   if (mode == VISUALIZE) {
+    updateFFT();
+    updateBeats();
+
     stroke(255);
     fill(255);
     strokeWeight(4);
@@ -89,40 +86,19 @@ void draw() {
     checkScene();
     playMode();
 
-    checkNextSong();
-
     //displayThirdsBeat();
     //twinkleLines();
 
+    //sendPanel();
     drawKinect();
-
-    // if (!NEW_GRAPH) graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
-    //testKinect();
   } else {
-    strokeWeight(4);
     settingFunctions();
-  }
-
-
-
-
-
-
-  if (SEND_PANEL) {
-    checkNextSong();
-    if (millis() - sendTime > 100) {
-      sendPanel();
-      sendTime = millis();
-    }
   }
 }
 
 void sendPanel() {
-  //byte b = byte(constrain(map(bands[0], 0, bandMax[0], 0, 255), 0, 255));
-  int duration = myAudio.position();
-  byte byteDuration[] = ByteBuffer.allocate(4).putInt(duration).array();
-  byte[] sendArray = {47, panelMode.getPanelByte(), getHandPanelX(), getHandPanelY(), getHandPanelZ(), 
-    byte(currentSong), byteDuration[0], byteDuration[1], byteDuration[2], byteDuration[3]};
+  byte b = byte(constrain(map(bands[0], 0, bandMax[0], 0, 255), 0, 255));
+  byte[] sendArray = {47, byte(panelMode), getHandPanelX(), getHandPanelY(), getHandPanelZ(), b, b, b, b, b};
   myServer.write(sendArray);
   //println(sendArray);
 }
@@ -296,7 +272,7 @@ void deleteLines(int index) {
 }
 
 void displayBox(int hue, String title) {
-  if (mouseY < height - 60) {
+  if (mouseY < height - 15) {
     colorMode(HSB, 255);
     fill(hue, 255, 255);
     noStroke();

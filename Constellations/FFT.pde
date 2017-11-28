@@ -71,6 +71,8 @@ void initFFT(int num) {
   minim   = new Minim(this);
   myAudio = minim.loadFile("assets/" + songs[num] + ".mp3");
   myAudio.play();
+  //myAudio.skip(1000*120);
+
   myAudioFFT = new FFT(myAudio.bufferSize(), myAudio.sampleRate());
   myAudioFFT.linAverages(myAudioRange);
   myAudioFFT.window(FFT.GAUSS);

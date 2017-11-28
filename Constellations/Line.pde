@@ -12,6 +12,7 @@ class Line {
   int twinkleT;
   int twinkleRange = 0;
   long lastChecked = 0;
+  int rainbowIndex = int(random(255));
 
   Line(PVector p1, PVector p2, int id1, int id2) {
     this.p1 = p1;
@@ -293,7 +294,32 @@ class Line {
     }
   }
 
-  void handLight(int x, int y, int rad) {
+  void displayRainbowCycle(int pulse) {
+    //color c =  color(((i * 256 / lines.size()) + pulseIndex) % 255, 255, 255);
+    colorMode(HSB, 255);
+    for (float i = 0; i < 50; i++) {
+      if (z1 <= z2) {
+        float z = map(i, 0, 50, z1, z2);
+        float s = map(z, 0, 9, 0, 255);
+        stroke((s+pulse)%255, 255, 255);
+        
+        PVector pTemp = PVector.lerp(p1, p2, i/50.0);
+        PVector pTempEnd = PVector.lerp(pTemp, p2, (i+1)/50.0);
+        line(pTemp.x, pTemp.y, pTempEnd.x, pTempEnd.y);
+      }
+    }
+    colorMode(RGB, 255);
+  }
+
+  void displayRainbowRandom() {
+    rainbowIndex++;
+    if (rainbowIndex > 255) rainbowIndex = 0;
+    colorMode(HSB, 255);
+    display(color(rainbowIndex, 255, 255));
+    colorMode(RGB, 255);
+  }
+
+  void handLight(float x, float y, int rad) {
     float i = 0.0;
     float startX = p1.x;
     float startY = p1.y;
