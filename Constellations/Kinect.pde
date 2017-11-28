@@ -118,46 +118,6 @@ void setBodyAngles(KJoint[] joints) {
   //println(joints[KinectPV2.JointType_ShoulderRight].getZ() + " " + handRZ);
 }
 
-void pulseLineRight(int rate, int bandSize) {
-  if (millis() - lastCheckedPulse > rate) {
-    pulseIndex+= bandSize;
-    if (pulseIndex > width) {
-      pulseIndex = -bandSize;
-    }
-    lastCheckedPulse = millis();
-  }
-  for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize, color(255));
-  }
-}
-
-void pulseLineLeft(int rate, int bandSize) {
-  if (millis() - lastCheckedPulse > rate) {
-    pulseIndex-=bandSize;
-    if (pulseIndex < -bandSize) {
-      pulseIndex = width;
-    }
-    lastCheckedPulse = millis();
-  }
-  for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandX(pulseIndex, pulseIndex+bandSize, color(255));
-  }
-}
-
-void pulseLineUp(int rate, int bandSize) {
-  if (millis() - lastCheckedPulse > rate) {
-    pulseIndex-=bandSize;
-    if (pulseIndex < -bandSize) {
-      pulseIndex = height;
-    }
-    lastCheckedPulse = millis();
-  }
-  for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize, color(255));
-  }
-}
->>>>>>> 517d82d79f31e436a60ee415fa5ce53199df1d18
-
 void drawKinect() {
   ArrayList<KSkeleton> skeletonArray =  kinect.getSkeleton3d();
   //individual joints

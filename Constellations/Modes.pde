@@ -77,33 +77,33 @@ ArrayList<Integer> randomPath;
 void initDeltaWaves() {
   deltaScenes = new Scene[15];
 
-  deltaScenes[0] = new Scene(0.0, V_SHOW_ONE, K_NONE, STARS);                   
-  deltaScenes[1] = new Scene(0.06, V_SEESAW, K_CONSTELLATION, STARS);                    
-  deltaScenes[2] = new Scene(0.13, V_NONE, K_TRANSIT_X, STARS);
-  deltaScenes[3] = new Scene(0.27, V_PULSING_ON_LINE, K_CONSTELLATION, STARS);  
-  deltaScenes[4] = new Scene(0.35, V_PULSE_LINE_LEFT, K_CONSTELLATION, STAR_LINES);    
-  deltaScenes[5] = new Scene(0.49, V_ROTATE_ANGLE, K_CONSTELLATION, PULSE_BEAT);
-  deltaScenes[6] = new Scene(1.11, V_LINE_PERCENT, K_NONE, FFT_CRAZY);
-  deltaScenes[7] = new Scene(1.25, V_NONE, K_AIR_LINE, FFT_CRAZY);
-  deltaScenes[8] = new Scene(1.4, V_PULSING, K_NONE, INTRO);
-  deltaScenes[9] = new Scene(1.54, V_PULSE_LINE_BACK, K_CONSTELLATION, INTRO);
-  deltaScenes[10] = new Scene(2.16, V_LINE_PERCENT, K_NONE, INTRO);
-  deltaScenes[11] = new Scene(2.3, V_NONE, K_AIR_Z, INTRO);
-  deltaScenes[12] = new Scene(2.45, V_NONE, K_SPOTLIGHT, INTRO);
-  deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK, K_NONE, INTRO);
-  deltaScenes[14] = new Scene(3.1, V_TRANSIT, K_NONE, INTRO);
+  deltaScenes[0] = new Scene(0.0, V_SHOW_ONE, K_NONE, PanelMode.STARS);                   
+  deltaScenes[1] = new Scene(0.06, V_SEESAW, K_CONSTELLATION, PanelMode.STARS);                    
+  deltaScenes[2] = new Scene(0.13, V_NONE, K_TRANSIT_X, PanelMode.STARS);
+  deltaScenes[3] = new Scene(0.27, V_PULSING_ON_LINE, K_CONSTELLATION, PanelMode.STARS);  
+  deltaScenes[4] = new Scene(0.35, V_PULSE_LINE_LEFT, K_CONSTELLATION, PanelMode.LINES);    
+  deltaScenes[5] = new Scene(0.49, V_ROTATE_ANGLE, K_CONSTELLATION, PanelMode.PULSING);
+  deltaScenes[6] = new Scene(1.11, V_LINE_PERCENT, K_NONE, PanelMode.FFT_CIRCLE);
+  deltaScenes[7] = new Scene(1.25, V_NONE, K_AIR_LINE, PanelMode.FFT_LINES);
+  deltaScenes[8] = new Scene(1.4, V_PULSING, K_NONE, PanelMode.BACKFORTH);
+  deltaScenes[9] = new Scene(1.54, V_PULSE_LINE_BACK, K_CONSTELLATION, PanelMode.CONSTELLATIONS);
+  deltaScenes[10] = new Scene(2.16, V_LINE_PERCENT, K_NONE, PanelMode.STRIPED);
+  deltaScenes[11] = new Scene(2.3, V_NONE, K_AIR_Z, PanelMode.UPDOWN);
+  deltaScenes[12] = new Scene(2.45, V_NONE, K_SPOTLIGHT, PanelMode.STARS);
+  deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK, K_NONE, PanelMode.LINES);
+  deltaScenes[14] = new Scene(3.1, V_TRANSIT, K_NONE, PanelMode.FFT_LINES);
  // randomPath = graphL.getRandomPath(11, 5);
 
 }
 
 void initCycles() {
   cyclesScenes = new Scene[1];
-  cyclesScenes[0] = new Scene(0, V_PULSING_ON_LINE, NONE, PanelMode.LINES);
+  cyclesScenes[0] = new Scene(0, V_PULSING_ON_LINE, K_NONE, PanelMode.LINES);
 }
 
 void initKirasu() {
   kirasuScenes = new Scene[1];
-  kirasuScenes[0] = new Scene(0, V_SEESAW, NONE, PanelMode.STARS);
+  kirasuScenes[0] = new Scene(0, V_SEESAW, K_NONE, PanelMode.STARS);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,29 +192,6 @@ void transitHand(float per) {
 
 
 void rainbowRandom() {
-}
-
-void playMode() {
-  stroke(200);
-  fill(200);
-  strokeWeight(4);
-  if (visualMode == V_LINE_PERCENT) linePercentW();
-  else if (visualMode == V_LINE_EQUALIZER) lineEqualizer();
-  else if (visualMode == V_ROTATE_ANGLE_COUNT) rotateAngleCounter(100, 20);
-  else if (visualMode == V_ROTATE_ANGLE) rotateAngleBeat(20); //rotateAngle(100, 20);
-  else if (visualMode == V_PULSE_LINE_BACK) pulseLineBack(500);
-  else if (visualMode == V_PULSE_LINE_RIGHT) pulseLineRight(90, 80);
-  else if (visualMode == V_PULSE_LINE_LEFT)  pulseLineLeft(90, 80);
-  else if (visualMode == V_PULSE_LINE_UP) pulseLineUp(90, 80);
-  else if (visualMode == V_PULSE_LINE_DOWN) pulseLineDown(90, 80);
-  else if (visualMode == V_CYCLE_CONST) cycleConstellation(150);
-  else if (visualMode == V_FFT_CONST) fftConstellations(650);
-  else if (visualMode == V_PULSING) pulsing(9);
-  else if (visualMode == V_SHOW_ONE) showOne(100);
-  else if (visualMode == V_SEESAW) seesaw();
-  else if (visualMode == V_PULSING_ON_LINE) pulseLinesCenter(1);
-  else if (visualMode == V_SEGMENT_SHIFT) segmentShift(10);
-  else if (visualMode == V_TRANSIT) transit(30);
 }
 
 void handLight(int x, int y, int rad) {
@@ -499,7 +476,7 @@ void pulseLineUp(int rate, int bandSize) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize);
+    lines.get(i).displayBandY(pulseIndex, pulseIndex+bandSize, color(255));
   }
 }
 
@@ -818,14 +795,15 @@ boolean withinRange(float actual, float ideal, float range) {
 }
 
 
-void airBenderZ() {
-  int band = constrain(int(map(handRZ, 0, 50, 0, 8)), 0, 8);
+//void airBenderZ() {
+//  int band = constrain(int(map(handRZ, 0, 50, 0, 8)), 0, 8);
 
-  for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandZ(band, color(255));
-  }
-}
+//  for (int i = 0; i < lines.size(); i++) {
+//    lines.get(i).displayBandZ(band, color(255));
+//  }
+//}
 
+// old?
 void airBenderY() {
   float rhBrightness = 0;
   if (handRAngle > -90 && handRAngle < 90) {
@@ -836,7 +814,7 @@ void airBenderY() {
     rhBrightness = map(handRAngle, -180, -90, 255/2.0, 0);
   }
 
-  linesDisplay(int(rhBrightness));
+  displayLines(int(rhBrightness));
 }
 
 void testConstellations() {
@@ -880,5 +858,4 @@ void testConstellations() {
       triggeredTime = millis();
     }
   }
->>>>>>> 517d82d79f31e436a60ee415fa5ce53199df1d18
 }
