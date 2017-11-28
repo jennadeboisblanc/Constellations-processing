@@ -319,7 +319,7 @@ class Line {
     colorMode(RGB, 255);
   }
 
-  void handLight(float x, float y, int rad) {
+  void handLight(float x, float y, int rad, color c) {
     float i = 0.0;
     float startX = p1.x;
     float startY = p1.y;
@@ -340,6 +340,7 @@ class Line {
         float dy = map(i, 0, 1.0, p1.y, p2.y);
         float dis = dist(x, y, dx, dy);
         if (dis > rad) {
+          stroke(c);
           line(startX, startY, dx, dy);
           break;
         }

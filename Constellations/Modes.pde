@@ -79,21 +79,20 @@ void initDeltaWaves() {
 
   deltaScenes[0] = new Scene(0.0, V_SHOW_ONE, K_NONE, PanelMode.STARS);                   
   deltaScenes[1] = new Scene(0.06, V_SEESAW, K_CONSTELLATION, PanelMode.STARS);                    
-  deltaScenes[2] = new Scene(0.13, V_NONE, K_TRANSIT_X, PanelMode.STARS);
+  deltaScenes[2] = new Scene(0.13, V_LINE_EQUALIZER, K_TRANSIT_X, PanelMode.STARS);
   deltaScenes[3] = new Scene(0.27, V_PULSING_ON_LINE, K_CONSTELLATION, PanelMode.STARS);  
   deltaScenes[4] = new Scene(0.35, V_PULSE_LINE_LEFT, K_CONSTELLATION, PanelMode.LINES);    
   deltaScenes[5] = new Scene(0.49, V_ROTATE_ANGLE, K_CONSTELLATION, PanelMode.PULSING);
-  deltaScenes[6] = new Scene(1.11, V_LINE_PERCENT, K_NONE, PanelMode.FFT_CIRCLE);
-  deltaScenes[7] = new Scene(1.25, V_NONE, K_AIR_LINE, PanelMode.FFT_LINES);
-  deltaScenes[8] = new Scene(1.4, V_PULSING, K_NONE, PanelMode.BACKFORTH);
-  deltaScenes[9] = new Scene(1.54, V_PULSE_LINE_BACK, K_CONSTELLATION, PanelMode.CONSTELLATIONS);
-  deltaScenes[10] = new Scene(2.16, V_LINE_PERCENT, K_NONE, PanelMode.STRIPED);
-  deltaScenes[11] = new Scene(2.3, V_NONE, K_AIR_Z, PanelMode.UPDOWN);
-  deltaScenes[12] = new Scene(2.45, V_NONE, K_SPOTLIGHT, PanelMode.STARS);
+  deltaScenes[6] = new Scene(1.11, V_LINE_PERCENT, K_AIR_LINE, PanelMode.FFT_CIRCLE);
+  deltaScenes[7] = new Scene(1.25, V_TRANSIT, K_AIR_LINE, PanelMode.FFT_LINES);
+  deltaScenes[8] = new Scene(1.4, V_PULSING, K_AIR_LINE, PanelMode.BACKFORTH);
+  deltaScenes[9] = new Scene(1.54, V_PULSE_LINE_BACK, K_AIR_Z, PanelMode.CONSTELLATIONS);
+  deltaScenes[10] = new Scene(2.16, V_LINE_PERCENT, K_AIR_Z, PanelMode.STRIPED);
+  deltaScenes[11] = new Scene(2.3, V_SHOW_ONE, K_AIR_Z, PanelMode.UPDOWN);
+  deltaScenes[12] = new Scene(2.45, V_ROTATE_ANGLE, K_SPOTLIGHT, PanelMode.STARS);
   deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK, K_NONE, PanelMode.LINES);
   deltaScenes[14] = new Scene(3.1, V_TRANSIT, K_NONE, PanelMode.FFT_LINES);
- // randomPath = graphL.getRandomPath(11, 5);
-
+  // randomPath = graphL.getRandomPath(11, 5);
 }
 
 void initCycles() {
@@ -144,31 +143,29 @@ void checkScene() {
 }
 
 void playMode() {
-  if (kinectMode == K_CONSTELLATION || kinectMode == K_NONE) {
-    if (visualMode == V_LINE_PERCENT) linePercentW();
-    else if (visualMode == V_LINE_EQUALIZER) lineEqualizer();
-    else if (visualMode == V_ROTATE_ANGLE_COUNT) rotateAngleCounter(100, 20);
-    else if (visualMode == V_ROTATE_ANGLE) rotateAngleBeat(20); //rotateAngle(100, 20);
-    else if (visualMode == V_PULSE_LINE_BACK) pulseLineBack(500);
-    else if (visualMode == V_PULSE_LINE_RIGHT) pulseLineRight(90, 80);
-    else if (visualMode == V_PULSE_LINE_LEFT)  pulseLineLeft(90, 80);
-    else if (visualMode == V_PULSE_LINE_UP) pulseLineUp(90, 80);
-    else if (visualMode == V_PULSE_LINE_DOWN) pulseLineDown(90, 80);
-    else if (visualMode == V_CYCLE_CONST) cycleConstellation(150);
-    else if (visualMode == V_FFT_CONST) fftConstellations(650);
-    else if (visualMode == V_PULSING) pulsing(9);
-    else if (visualMode == V_SHOW_ONE) showOne(100);
-    else if (visualMode == V_SEESAW) seesaw();
-    else if (visualMode == V_PULSING_ON_LINE) pulseLinesCenter(1);
-    else if (visualMode == V_SEGMENT_SHIFT) segmentShift(10);
-    else if (visualMode == V_TRANSIT) transit(30);
-  }
+  if (visualMode == V_LINE_PERCENT) linePercentW();
+  else if (visualMode == V_LINE_EQUALIZER) lineEqualizer();
+  else if (visualMode == V_ROTATE_ANGLE_COUNT) rotateAngleCounter(100, 20);
+  else if (visualMode == V_ROTATE_ANGLE) rotateAngleBeat(20); //rotateAngle(100, 20);
+  else if (visualMode == V_PULSE_LINE_BACK) pulseLineBack(500);
+  else if (visualMode == V_PULSE_LINE_RIGHT) pulseLineRight(90, 80);
+  else if (visualMode == V_PULSE_LINE_LEFT)  pulseLineLeft(90, 80);
+  else if (visualMode == V_PULSE_LINE_UP) pulseLineUp(90, 80);
+  else if (visualMode == V_PULSE_LINE_DOWN) pulseLineDown(90, 80);
+  else if (visualMode == V_CYCLE_CONST) cycleConstellation(150);
+  else if (visualMode == V_FFT_CONST) fftConstellations(650);
+  else if (visualMode == V_PULSING) pulsing(9);
+  else if (visualMode == V_SHOW_ONE) showOne(100);
+  else if (visualMode == V_SEESAW) seesaw();
+  else if (visualMode == V_PULSING_ON_LINE) pulseLinesCenter(1);
+  else if (visualMode == V_SEGMENT_SHIFT) segmentShift(10);
+  else if (visualMode == V_TRANSIT) transit(30);
 }
 
 //////////////////////////////////////////////////////////////////
-void handLight(float x, float y, int rad) {
+void handLight(float x, float y, int rad, color c) {
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).handLight(x, y, rad);
+    lines.get(i).handLight(x, y, rad, c);
   }
 }
 void transit(int rate) {
@@ -183,7 +180,8 @@ void transit(int rate) {
   }
 }
 
-void transitHand(float per) {
+void transitHand(float per, color c) {
+  stroke(c);
   per = constrain(per, 0, 1.0);
   for (int i = 0; i < lines.size(); i++) {
     lines.get(i).displaySegment(per, .2);
@@ -192,9 +190,6 @@ void transitHand(float per) {
 
 
 void rainbowRandom() {
-}
-
-void handLight(int x, int y, int rad) {
   for (int i = 0; i < lines.size(); i++) {
     lines.get(i).displayRainbowRandom();
   }
@@ -318,13 +313,17 @@ void rotateAngleCounter(int rate, int angleGap) {
   }
 }
 
-void displayYPoints(int y) {
+void displayYPoints(int y, color c) {
+  fill(c);
+  stroke(c);
   for (int i = 0; i < lines.size(); i++) {
     lines.get(i).displayPointY(y);
   }
 }
 
-void displayXPoints(int x) {
+void displayXPoints(int x, color c) {
+  fill(c);
+  stroke(c);
   for (int i = 0; i < lines.size(); i++) {
     lines.get(i).displayPointX(x);
   }
@@ -604,21 +603,21 @@ void resetConstellationG() {
 // KINECT MODES
 
 
-void playKinectModes() {
-  if (kinectMode == K_SPOTLIGHT) drawSpotlightLR(50);
+void playKinectModes(color c) {
+  if (kinectMode == K_SPOTLIGHT) drawSpotlightLR(50, c);
   else if (kinectMode == K_CONSTELLATION) {
     checkConstellations();
     if (triggered >= 0) playConstellations(2000);
-    else drawOrganicConstellation(11);
-  } else if (kinectMode == K_AIR_Z) airBenderZ();
-  else if (kinectMode == K_TRANSIT_X) airBenderX();
-  else if (kinectMode == K_AIR_BRIGHT) brightnessAirBenderY();
-  else if (kinectMode == K_AIR_LINE) linesXY();
-  else if (kinectMode == K_PAINT) paint(5);
+    else drawOrganicConstellation(11, c);
+  } else if (kinectMode == K_AIR_Z) airBenderZ(c);
+  else if (kinectMode == K_TRANSIT_X) airBenderX(c);
+  else if (kinectMode == K_AIR_BRIGHT) brightnessAirBenderY(c);
+  else if (kinectMode == K_AIR_LINE) linesXY(c);
+  else if (kinectMode == K_PAINT) paint(50, c);
 }
 
 
-void airBenderZ() {
+void airBenderZ(color c) {
   int band = constrain(int(map(handRDZ, -0.5, 0.5, 6, -1)), 0, 5);
   int start = lines.size() / 6 * band;
   int end = lines.size() / 6 * (band + 1);
@@ -629,40 +628,39 @@ void airBenderZ() {
 
     // if hand is positive and big when far back
     // so map inverse so that when hand is big, we draw first items in lines array (corresponding to farthest back items)
-    if (i >= start && i < end) lines.get(i).display(color(255));
-    else lines.get(i).display(color(0));
+    if (i >= start && i < end) lines.get(i).display(c);
+    //else lines.get(i).display(color(0));
   }
-  textSize(80);
-  stroke(255);
-  //println(start + " " + end);
-  text(start + " " + end, 100, 100);
 }
 
-void airBenderX() {
+void airBenderX(color c) {
   float x = map(handRDX, -2, 2, 0, 1);
-  transitHand(x);
+  transitHand(x, c);
 }
 
-void brightnessAirBenderY() {
+void brightnessAirBenderY(color c) {
   int brightR = constrain(int(map(handRDY, -.6, 0, 0, 255)), 0, 255);
   int brightL = constrain(int(map(handLDY, -.6, 0, 0, 255)), 0, 255);
   int bright = max(brightR, brightL);
-  displayLines(color(bright));
+  float hue = hue(c);
+  colorMode(HSB, 255);
+  displayLines(color(hue, 255, bright));
+  colorMode(RGB, 255);
 }
 
-void linesXY() {
+void linesXY(color c) {
   int r = constrain(int(map(handRDY, -.5, 0.3, height, 0)), 0, height);
   int l = constrain(int(map(handLDX, -.5, .7, 0, width)), 0, width);
-  displayYPoints(r);
-  displayXPoints(l);
+  displayYPoints(r, c);
+  displayXPoints(l, c);
 }
 
-void paint(int rate) {
+void paint(int r, color c) {
   //pulseIndex += pointDirection * rate;
   //if(pulseIndex > 255) pointDirection = -1;
   //else if (pulseIndex < 50) pointDirection = 1;
   //stroke(pulseIndex);
-  drawSpotlightLR(50);
+  drawSpotlightLR(r, c);
 }
 
 
@@ -725,22 +723,20 @@ void drawOrchid() {
   println("orchid!!");
 }
 
-void drawOrganicConstellation(int index) {
+void drawOrganicConstellation(int index, color c) {
+  stroke(c);
   graphL.drawOrganicPath3D(index, getHandMapped());
 }
 
-void drawSpotlightLR(int rad) {
+void drawSpotlightLR(int rad, color c) {
   int y1 = constrain(int(map(handRDY, -.5, 0.3, height, 0)), 0, height);
   int x1 = constrain(int(map(handRDX, -.5, .7, 0, width)), 0, width);
-  
+
   int y2 = constrain(int(map(handLDY, -.5, 0.3, height, 0)), 0, height);
   int x2 = constrain(int(map(handLDX, -.5, .7, 0, width)), 0, width);
-  
-  stroke(255);
-  handLight(x1, y1, rad);
-  
-  stroke(255);
-  handLight(x2, y2, rad);
+
+  handLight(x1, y1, rad, c);
+  handLight(x2, y2, rad, c);
 }
 
 

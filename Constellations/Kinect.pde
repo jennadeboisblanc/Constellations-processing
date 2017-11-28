@@ -132,9 +132,7 @@ void drawKinect() {
       //setBody(joints);
       setBodyAngles(joints);
 
-      stroke(col);
-
-      playKinectModes();
+      playKinectModes(col);
 
       return;
     }
