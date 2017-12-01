@@ -32,7 +32,7 @@ int K_AIR_LINE = 3;
 int K_SPOTLIGHT = 4;
 int K_CONSTELLATION = 5;
 int K_PAINT = 6;
-
+int kinectHues[] = { 0, 50, 100, 150, 200, 250 };
 /////////////////////
 // PANEL MODES
 
@@ -80,17 +80,17 @@ void initDeltaWaves() {
   deltaScenes[0] = new Scene(0.0, V_SHOW_ONE, K_NONE, PanelMode.STARS);                   
   deltaScenes[1] = new Scene(0.06, V_SEESAW, K_CONSTELLATION, PanelMode.STARS);                    
   deltaScenes[2] = new Scene(0.13, V_LINE_EQUALIZER, K_TRANSIT_X, PanelMode.STARS);
-  deltaScenes[3] = new Scene(0.27, V_PULSING_ON_LINE, K_CONSTELLATION, PanelMode.STARS);  
-  deltaScenes[4] = new Scene(0.35, V_PULSE_LINE_LEFT, K_CONSTELLATION, PanelMode.LINES);    
-  deltaScenes[5] = new Scene(0.49, V_ROTATE_ANGLE, K_CONSTELLATION, PanelMode.PULSING);
-  deltaScenes[6] = new Scene(1.11, V_LINE_PERCENT, K_AIR_LINE, PanelMode.FFT_CIRCLE);
-  deltaScenes[7] = new Scene(1.25, V_TRANSIT, K_AIR_LINE, PanelMode.FFT_LINES);
-  deltaScenes[8] = new Scene(1.4, V_PULSING, K_AIR_LINE, PanelMode.BACKFORTH);
-  deltaScenes[9] = new Scene(1.54, V_PULSE_LINE_BACK, K_AIR_Z, PanelMode.CONSTELLATIONS);
+  deltaScenes[3] = new Scene(0.27, V_PULSING_ON_LINE, K_AIR_LINE, PanelMode.STARS);  
+  deltaScenes[4] = new Scene(0.35, V_PULSE_LINE_LEFT, K_AIR_Z, PanelMode.LINES);    
+  deltaScenes[5] = new Scene(0.49, V_ROTATE_ANGLE, K_AIR_BRIGHT, PanelMode.PULSING);
+  deltaScenes[6] = new Scene(1.11, V_LINE_PERCENT, K_SPOTLIGHT, PanelMode.FFT_CIRCLE);
+  deltaScenes[7] = new Scene(1.25, V_TRANSIT, K_CONSTELLATION, PanelMode.FFT_LINES);
+  deltaScenes[8] = new Scene(1.4, V_PULSING, K_TRANSIT_X, PanelMode.BACKFORTH);
+  deltaScenes[9] = new Scene(1.54, V_PULSE_LINE_BACK, K_AIR_LINE, PanelMode.CONSTELLATIONS);
   deltaScenes[10] = new Scene(2.16, V_LINE_PERCENT, K_AIR_Z, PanelMode.STRIPED);
-  deltaScenes[11] = new Scene(2.3, V_SHOW_ONE, K_AIR_Z, PanelMode.UPDOWN);
-  deltaScenes[12] = new Scene(2.45, V_ROTATE_ANGLE, K_SPOTLIGHT, PanelMode.STARS);
-  deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK, K_NONE, PanelMode.LINES);
+  deltaScenes[11] = new Scene(2.3, V_SHOW_ONE, K_SPOTLIGHT, PanelMode.UPDOWN);
+  deltaScenes[12] = new Scene(2.45, V_ROTATE_ANGLE, K_TRANSIT_X, PanelMode.STARS);
+  deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK,K_CONSTELLATION, PanelMode.LINES);
   deltaScenes[14] = new Scene(3.1, V_TRANSIT, K_NONE, PanelMode.FFT_LINES);
   // randomPath = graphL.getRandomPath(11, 5);
 }
@@ -603,17 +603,23 @@ void resetConstellationG() {
 // KINECT MODES
 
 
-void playKinectModes(color c) {
-  if (kinectMode == K_SPOTLIGHT) drawSpotlightLR(50, c);
-  else if (kinectMode == K_CONSTELLATION) {
-    checkConstellations();
-    if (triggered >= 0) playConstellations(2000);
-    else drawOrganicConstellation(11, c);
-  } else if (kinectMode == K_AIR_Z) airBenderZ(c);
-  else if (kinectMode == K_TRANSIT_X) airBenderX(c);
-  else if (kinectMode == K_AIR_BRIGHT) brightnessAirBenderY(c);
-  else if (kinectMode == K_AIR_LINE) linesXY(c);
-  else if (kinectMode == K_PAINT) paint(50, c);
+void playKinectModes() {
+  
+  if (kinectMode >= 0) {
+    colorMode(HSB, 255);
+    color c = color(kinectHues[kinectMode], 255, 255);
+    if (kinectMode == K_SPOTLIGHT) drawSpotlightLR(50, c);
+    else if (kinectMode == K_CONSTELLATION) {
+      checkConstellations();
+      if (triggered >= 0) playConstellations(2000);
+      else drawOrganicConstellation(11, c);
+    } else if (kinectMode == K_AIR_Z) airBenderZ(c);
+    else if (kinectMode == K_TRANSIT_X) airBenderX(c);
+    else if (kinectMode == K_AIR_BRIGHT) brightnessAirBenderY(c);
+    else if (kinectMode == K_AIR_LINE) linesXY(c);
+    else if (kinectMode == K_PAINT) paint(50, c);
+    colorMode(RGB, 255);
+  }
 }
 
 
