@@ -271,7 +271,7 @@ void displayThirdsBeat() {
   int select = pulseIndex %3;
   for (int i = 0; i < lines.size(); i++) {
     if (i %3 == select) lines.get(i).display(color(255));
-    else lines.get(i).display(color(0));
+    else lines.get(i).displayNone();
   }
 }
 
@@ -608,7 +608,7 @@ void playKinectModes(color c) {
   else if (kinectMode == K_CONSTELLATION) {
     checkConstellations();
     if (triggered >= 0) playConstellations(2000);
-    else drawOrganicConstellation(11, c);
+    else drawOrganicConstellation(19, c);
   } else if (kinectMode == K_AIR_Z) airBenderZ(c);
   else if (kinectMode == K_TRANSIT_X) airBenderX(c);
   else if (kinectMode == K_AIR_BRIGHT) brightnessAirBenderY(c);
@@ -629,7 +629,7 @@ void airBenderZ(color c) {
     // if hand is positive and big when far back
     // so map inverse so that when hand is big, we draw first items in lines array (corresponding to farthest back items)
     if (i >= start && i < end) lines.get(i).display(c);
-    //else lines.get(i).display(color(0));
+    //else lines.get(i).displayNone();
   }
 }
 

@@ -84,16 +84,26 @@ void draw() {
   if (mode == VISUALIZE) {
     stroke(255);
     fill(255);
-    strokeWeight(4);
-
+    strokeWeight(2);
+//mode = V_TRANSIT;
     checkScene();
     playMode();
+    //pulseLinesCenter(700);
+    
 
     checkNextSong();
 
     //displayThirdsBeat();
     //twinkleLines();
-
+//int K_NONE = -1;
+//int K_AIR_Z = 0;
+//int K_TRANSIT_X = 1;
+//int K_AIR_BRIGHT = 2;
+//int K_AIR_LINE = 3;
+//int K_SPOTLIGHT = 4;
+//int K_CONSTELLATION = 5;
+//int K_PAINT = 6;
+//kinectMode = K_AIR_LINE;
     drawKinect();
 
     // if (!NEW_GRAPH) graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
@@ -189,6 +199,7 @@ void keyPressed() {
   } else if (mode == VISUALIZE) {
     if (key == '9') currentBeat++;
   }
+  return;
 }
 
 // get a string

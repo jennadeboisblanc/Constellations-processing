@@ -150,7 +150,7 @@ class Line {
     for (int i = 0; i < num; i++) {
       float x = map(i, -.5, twinkleRange, p1.x, p2.x);
       float y = map(i, -.5, twinkleRange, p1.y, p2.y);
-      ellipse(x, y, 10, 10);
+      ellipse(x, y,4, 10);
     }
   }
 
@@ -168,7 +168,7 @@ class Line {
     if (p1.x > start && p1.x < end) {
       display(color(255));
     } else {
-      display(color(0));
+      displayNone();
     }
   }
 
@@ -176,7 +176,7 @@ class Line {
     if (p1.y > start && p1.y < end) {
       display(c);
     } else {
-      display(color(0));
+      displayNone();
     }
   }
 
@@ -184,7 +184,7 @@ class Line {
     if (z1 >= start && z1 < end) {
       display(c);
     } else {
-      display(color(0));
+      displayNone();
     }
   }
 
@@ -192,15 +192,21 @@ class Line {
     if (z1 == band) {
       display(c);
     } else {
-      display(color(0));
+      displayNone();
     }
+  }
+  
+  void displayNone() {
+    //strokeWeight(18);
+    display(color(0));
+    //strokeWeight(2);
   }
 
   void displayConstellation(int num, color c) {
     if (constellationG == num) {
       display(c);
     } else {
-      display(color(0));
+      displayNone();
     }
   }
 
@@ -212,7 +218,7 @@ class Line {
     } else if (ang >= radians(start) && ang < radians(end)) {
       display(c);
     } else {
-      display(color(0));
+      displayNone();
     }
   }
 
