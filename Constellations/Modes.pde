@@ -90,7 +90,7 @@ void initDeltaWaves() {
   deltaScenes[10] = new Scene(2.16, V_LINE_PERCENT, K_AIR_Z, PanelMode.STRIPED);
   deltaScenes[11] = new Scene(2.3, V_SHOW_ONE, K_SPOTLIGHT, PanelMode.UPDOWN);
   deltaScenes[12] = new Scene(2.45, V_ROTATE_ANGLE, K_TRANSIT_X, PanelMode.STARS);
-  deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK,K_CONSTELLATION, PanelMode.LINES);
+  deltaScenes[13] = new Scene(3.0, V_PULSE_LINE_BACK, K_CONSTELLATION, PanelMode.LINES);
   deltaScenes[14] = new Scene(3.1, V_TRANSIT, K_NONE, PanelMode.FFT_LINES);
   // randomPath = graphL.getRandomPath(11, 5);
 }
@@ -604,7 +604,7 @@ void resetConstellationG() {
 
 
 void playKinectModes() {
-  
+
   if (kinectMode >= 0) {
     colorMode(HSB, 255);
     color c = color(kinectHues[kinectMode], 255, 255);
