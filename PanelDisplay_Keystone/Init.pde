@@ -16,8 +16,6 @@ void init() {
   rectMode(CENTER);
   ellipseMode(CENTER);
   imageMode(CENTER);
-
-  myClient = new Client(this, "10.206.231.233", 5204);
   
   stars = new Star[150];
   for (int i = 0; i < stars.length; i++) {
@@ -41,9 +39,11 @@ void init() {
     constellations[i] = new Star(i * 400, int (startH));
   }
 
+  println("keystone");
   ks = new Keystone(this);
   surface = ks.createCornerPinSurface(canvasW, canvasH, 20);
   o = createGraphics(canvasW, canvasH, P3D);
+  println("or not keystone");
 
   sideRatio = canvasW/(22.0*12);
   bigSideH = sideRatio * bigSideActualH;
@@ -62,5 +62,4 @@ void init() {
     int x = int(i * 160 + random(50));
     lines[i] = new Line(x, 0, x, height);
   }
-  initFFT();
 }

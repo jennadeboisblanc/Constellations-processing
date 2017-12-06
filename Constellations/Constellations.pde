@@ -67,6 +67,8 @@ void setup() {
   initDeltaWaves();
   initCycles();
   initKirasu();
+  initRiteOfSpring();
+  initSongForM();
 }
 
 

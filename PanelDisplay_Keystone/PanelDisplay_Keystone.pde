@@ -1,3 +1,7 @@
+
+boolean ETHERNET = false;
+boolean FFT_ON = false;
+
 // Client lib
 import processing.net.*; 
 Client myClient; 
@@ -22,6 +26,10 @@ boolean alreadyUpdated = false;
 Line lines[];
 long lastUpdatedSong = 0;
 long timeBytesIn = 0;
+
+Mask mask;
+boolean movingMask = false;
+boolean movingMaskMode = false;
 
 // Modes
 public enum Mode {
@@ -49,32 +57,20 @@ void setup() {
   //size(1200, 800, P3D);
   init();
   dataBytes = new byte[10];
+
+  if (ETHERNET) myClient = new Client(this, "10.206.231.233", 5204);
+  if (FFT_ON) initFFT();
+  mask = new Mask();
 }
 
-void checkData() {
-  if (myClient.available() > 0) { 
-    timeBytesIn = millis();
-    int byteCount = myClient.readBytes(dataBytes); 
-    if (byteCount > 0 ) {
-      if (dataBytes[0] == 47) {
-        setMode(dataBytes[1]);
-        updateSong();
-        //if (!alreadyUpdated) {
-        //  updateSong();
-        //  alreadyUpdated = true;
-        //}
-      } else {
-        myClient.clear();
-      }
-    }
-  }
-}
+
 
 void setMode(int b) {
   mode = mode.getMode(b);
 }
 
-void draw() {  
+void draw() { 
+  println("why");
   o.beginDraw();
   o.background(255,0,0);
   if (clearBackground()) o.background(0);
@@ -82,15 +78,15 @@ void draw() {
   o.fill(255);
 
   playMode();
-  if (trim) drawBlackout();
-  else if (outline) drawBlackoutOutline();
 
   o.endDraw();
   background(0);  
   surface.render(o);
 
-  updateFFT();
+  //updateFFT();
   //checkData();
+
+  mask.display();
 }
 
 void playMode() {
@@ -134,6 +130,25 @@ void playMode() {
     break;
   default:
     break;
+  }
+}
+
+void checkData() {
+  if (myClient.available() > 0) { 
+    timeBytesIn = millis();
+    int byteCount = myClient.readBytes(dataBytes); 
+    if (byteCount > 0 ) {
+      if (dataBytes[0] == 47) {
+        setMode(dataBytes[1]);
+        updateSong();
+        //if (!alreadyUpdated) {
+        //  updateSong();
+        //  alreadyUpdated = true;
+        //}
+      } else {
+        myClient.clear();
+      }
+    }
   }
 }
 
@@ -210,9 +225,11 @@ void keyPressed() {
   case 's':
     // saves the layout
     ks.save();
+    mask.save();
     break;
   case 'b':
-    trim = !trim;
+    //trim = !trim;
+    movingMaskMode =! movingMaskMode;
     break;
   case 'o':
     outline = !outline;
@@ -233,6 +250,18 @@ void drawBoxOutline() {
   o.rect(2, 2, canvasW - 2, canvasH - 2);
 }
 
+void mousePressed() {
+  if (movingMaskMode) {
+    if (mask.checkPoints() > -1) movingMask = true;
+  }
+}
+
+void mouseReleased() {
+  if (movingMaskMode) {
+    movingMask = false;
+    mask.reset();
+  }
+}
 void drawBlackoutOutline() {
   o.pushMatrix();
   translate(0, 0, 2);
