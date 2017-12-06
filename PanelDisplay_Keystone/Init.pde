@@ -17,7 +17,7 @@ void init() {
   ellipseMode(CENTER);
   imageMode(CENTER);
 
-  if (ETHERNET) myClient = new Client(this, "10.206.231.233", 5204);
+ 
   
   stars = new Star[150];
   for (int i = 0; i < stars.length; i++) {

@@ -68,6 +68,7 @@ void setup() {
   }
 
   initBlackShapes();
+   if (ETHERNET) myClient = new Client(this, "10.206.231.233", 5204);
   
   mask = new Mask();
   
