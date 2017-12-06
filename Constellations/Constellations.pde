@@ -1,6 +1,6 @@
-boolean NEW_GRAPH = false;
+boolean NEW_GRAPH = true;
 boolean SEND_PANEL = false;
-boolean FFT_ON = true;
+boolean FFT_ON = false;
 //////////////////////////////////////////////////////////
 import java.nio.ByteBuffer;
 import processing.net.*;
@@ -19,7 +19,7 @@ int DELETE_NODES = 8;
 int SET_NODES_Z = 7;
 int SET_LINEZ = 5;
 int SET_CONST = 6;
-int mode = VISUALIZE;
+int mode = ADD_NODES;
 
 int currentScene = -1;
 int visualMode = -1;
