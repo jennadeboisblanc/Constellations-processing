@@ -1,14 +1,14 @@
 
 // Blackout variables
 float smallSideActualH = 8.0;
-float bigSideActualH = 4.0*12;
+float bigSideActualH = 20.0*12;
 float sideRatio;
-float startH = 100;
+
 float bigSideH;
 float smallGap;
 float smallSideH;
-int canvasW = 1200;
-int canvasH = 800;
+int canvasW = 1920;
+int canvasH = 1200;
 boolean trim = false;
 boolean outline = false;
 
@@ -16,6 +16,11 @@ void init() {
   rectMode(CENTER);
   ellipseMode(CENTER);
   imageMode(CENTER);
+<<<<<<< HEAD
+=======
+
+  if (ETHERNET) myClient = new Client(this, "10.206.231.233", 5204);
+>>>>>>> 642d9c7529f531780caada51d02300d61222c7ca
   
   stars = new Star[150];
   for (int i = 0; i < stars.length; i++) {

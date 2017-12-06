@@ -1,9 +1,10 @@
 class Star {
-  int x, y;
+  int x, y, rad;
 
   Star(int x, int y) {
     this.x = x;
     this.y = y;
+    rad = int (random(2, 5));
   }
 
   void display() {
@@ -12,7 +13,7 @@ class Star {
     float r = random(50, 255);
     o.fill(255, r);
     o.stroke(r);
-    o.ellipse(x, y, 5, 5);
+    o.ellipse(x, y, rad, rad);
     o.popMatrix();
   }
 
