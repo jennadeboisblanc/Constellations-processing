@@ -3,6 +3,8 @@ boolean ETHERNET = false;
 boolean FFT_ON = true;
 float startH = 750;
 
+boolean IS_LEFT = false;
+
 // Client lib
 import processing.net.*; 
 Client myClient; 
@@ -61,12 +63,13 @@ boolean movingMaskMode = false;
 void setup() {
   fullScreen(P3D);
   //size(1920, 1200, P3D);
+
   init();
   dataBytes = new byte[10];
 
   if (ETHERNET) myClient = new Client(this, "10.206.231.233", 5204);
   if (FFT_ON) initFFT();
-  //mask = new Mask();
+  mask = new Mask();
 }
 
 void draw() { 
@@ -90,11 +93,7 @@ void draw() {
   fill(255, 255, 0);
   if (movingOn) ellipse(mouseX, mouseY, 50, 50);
 
-
-  //updateFFT();
-  //checkData();
-
-  //mask.display();
+  mask.display();
 }
 
 void playMode() {
@@ -104,12 +103,14 @@ void playMode() {
     drawStars();
     moveStars(0, 0);
     drawLines();
-    moveLines(5, 0);
+    if (IS_LEFT) moveLines(-5, 0);
+    else moveLines(5, 0);
     break;
   case STARS:
     o.strokeWeight(2);
     drawStars();
-    moveStars(-1, 0);
+    if (IS_LEFT) moveStars(-1, 0);
+    else moveStars(1, 0);
     break;
   case PULSING:
     symbols[2].displaySymbol(2, .5);
@@ -122,7 +123,8 @@ void playMode() {
     break;
   case CONSTELLATIONS:
     drawConstellationLines();
-    moveConstellationLines(5);
+    if (IS_LEFT) moveConstellationLines(-5);
+    else  moveConstellationLines(5);
     break;
   case UPDOWN:
     updown();
@@ -145,9 +147,16 @@ void fftLines() {
   o.stroke(255);
   o.strokeWeight(5);
   for (int i = 0; i < 5; i++) {
-    float x2 = map(getBand(i), 0, 130, 0, width);
-    float y2 = map(x2, 0, width, startH + smallGap + smallSideH/2, startH + i *50);
-    o.line(0, startH + smallGap + smallSideH/2, x2, y2);
+    float x2, y2;
+    if (IS_LEFT) {
+      x2 = map(getBand(i), 0, 130, width, 0);
+      y2 = map(x2, width, 0, startH + i *50, startH + smallGap + smallSideH/2);
+      o.line(width, startH + smallGap + smallSideH/2, x2, y2);
+    } else {
+      x2 = map(getBand(i), 0, 130, 0, width);
+      y2 = map(x2, 0, width, startH + smallGap + smallSideH/2, startH + i *50);
+      o.line(0, startH + smallGap + smallSideH/2, x2, y2);
+    }
   }
 }
 
@@ -221,7 +230,6 @@ void drawBlackout() {
   //o.popMatrix();
   pushMatrix();
   translate(0, 0, 2);
-  displayBlackShapes();
   popMatrix();
 }
 
