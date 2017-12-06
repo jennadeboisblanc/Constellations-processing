@@ -63,10 +63,10 @@ void setup() {
   //size(1920, 1200, P3D);
   init();
   dataBytes = new byte[10];
-  
+
   if (ETHERNET) myClient = new Client(this, "10.206.231.233", 5204);
   if (FFT_ON) initFFT();
-  mask = new Mask();
+  //mask = new Mask();
 }
 
 void draw() { 
@@ -77,16 +77,16 @@ void draw() {
   o.fill(255);
 
   playMode();
- o.endDraw();
- background(0); 
+  o.endDraw();
+  background(0); 
   surface.render(o);
   dragPoint();
-  
+
   if (ETHERNET) {
     updateFFT();
     checkData();
   }
-  
+
   fill(255, 255, 0);
   if (movingOn) ellipse(mouseX, mouseY, 50, 50);
 
@@ -94,7 +94,7 @@ void draw() {
   //updateFFT();
   //checkData();
 
-  mask.display();
+  //mask.display();
 }
 
 void playMode() {

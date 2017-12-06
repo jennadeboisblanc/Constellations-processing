@@ -16,12 +16,7 @@ void init() {
   rectMode(CENTER);
   ellipseMode(CENTER);
   imageMode(CENTER);
-<<<<<<< HEAD
-=======
 
-  if (ETHERNET) myClient = new Client(this, "10.206.231.233", 5204);
->>>>>>> 642d9c7529f531780caada51d02300d61222c7ca
-  
   stars = new Star[150];
   for (int i = 0; i < stars.length; i++) {
     stars[i] = new Star(int(random(canvasW)), int(random(canvasH)));

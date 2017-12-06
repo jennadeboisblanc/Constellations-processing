@@ -75,9 +75,9 @@ class Mask {
     }
     popMatrix();
     rectMode(CENTER);
-   checkMoving();
+    checkMoving();
   }
-  
+
   void checkMoving() {
     for (int i = 0; i < points.length; i++) {
       if (isMoving[i]) {
