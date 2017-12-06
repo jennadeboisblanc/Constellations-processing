@@ -1,3 +1,10 @@
+
+boolean ETHERNET = false;
+boolean FFT_ON = true;
+float startH = 750;
+
+boolean IS_LEFT = true;
+
 // Client lib
 import processing.net.*; 
 Client myClient; 
@@ -23,6 +30,11 @@ Line lines[];
 long lastUpdatedSong = 0;
 long timeBytesIn = 0;
 
+BlackShape topS, leftS, rightS, bottomS;
+boolean movingOn = false;
+boolean draggingOn = false;
+PVector movingPoint;
+
 // Modes
 public enum Mode {
   STARS, LINES, STRIPED, PULSING, BACKFORTH, UPDOWN, FFT_LINES, FFT_CIRCLE, CONSTELLATIONS;
@@ -42,55 +54,46 @@ public enum Mode {
     return vals[0];
   }
 };
-Mode mode = Mode.STARS;
+Mode mode = Mode.FFT_CIRCLE;
+
+Mask mask;
+boolean movingMask = false;
+boolean movingMaskMode = false;
 
 void setup() {
   fullScreen(P3D);
-  //size(1200, 800, P3D);
+  //size(1920, 1200, P3D);
+
   init();
   dataBytes = new byte[10];
+
+  if (ETHERNET) myClient = new Client(this, "10.206.231.233", 5204);
+  if (FFT_ON) initFFT();
+  mask = new Mask();
 }
 
-void checkData() {
-  if (myClient.available() > 0) { 
-    timeBytesIn = millis();
-    int byteCount = myClient.readBytes(dataBytes); 
-    if (byteCount > 0 ) {
-      if (dataBytes[0] == 47) {
-        setMode(dataBytes[1]);
-        updateSong();
-        //if (!alreadyUpdated) {
-        //  updateSong();
-        //  alreadyUpdated = true;
-        //}
-      } else {
-        myClient.clear();
-      }
-    }
-  }
-}
-
-void setMode(int b) {
-  mode = mode.getMode(b);
-}
-
-void draw() {  
+void draw() { 
   o.beginDraw();
-  o.background(255,0,0);
+  o.background(255, 0, 0);
   if (clearBackground()) o.background(0);
   o.stroke(255);
   o.fill(255);
 
   playMode();
-  if (trim) drawBlackout();
-  else if (outline) drawBlackoutOutline();
-
   o.endDraw();
-  background(0);  
+  background(0); 
   surface.render(o);
+  dragPoint();
 
-  updateFFT();
-  //checkData();
+  if (ETHERNET) {
+    updateFFT();
+    checkData();
+  }
+
+  fill(255, 255, 0);
+  if (movingOn) ellipse(mouseX, mouseY, 50, 50);
+
+  mask.display();
 }
 
 void playMode() {
@@ -100,12 +103,14 @@ void playMode() {
     drawStars();
     moveStars(0, 0);
     drawLines();
-    moveLines(5, 0);
+    if (IS_LEFT) moveLines(-5, 0);
+    else moveLines(5, 0);
     break;
   case STARS:
     o.strokeWeight(2);
     drawStars();
-    moveStars(-2, 0);
+    if (IS_LEFT) moveStars(-1, 0);
+    else moveStars(1, 0);
     break;
   case PULSING:
     symbols[2].displaySymbol(2, .5);
@@ -118,7 +123,8 @@ void playMode() {
     break;
   case CONSTELLATIONS:
     drawConstellationLines();
-    moveConstellationLines(5);
+    if (IS_LEFT) moveConstellationLines(-5);
+    else  moveConstellationLines(5);
     break;
   case UPDOWN:
     updown();
@@ -141,9 +147,16 @@ void fftLines() {
   o.stroke(255);
   o.strokeWeight(5);
   for (int i = 0; i < 5; i++) {
-    float x2 = map(getBand(i), 0, 130, 0, width);
-    float y2 = map(x2, 0, width, startH + smallGap + smallSideH/2, startH + i *50);
-    o.line(0, startH + smallGap + smallSideH/2, x2, y2);
+    float x2, y2;
+    if (IS_LEFT) {
+      x2 = map(getBand(i), 0, 130, width, 0);
+      y2 = map(x2, width, 0, startH + i *50, startH + smallGap + smallSideH/2);
+      o.line(width, startH + smallGap + smallSideH/2, x2, y2);
+    } else {
+      x2 = map(getBand(i), 0, 130, 0, width);
+      y2 = map(x2, 0, width, startH + smallGap + smallSideH/2, startH + i *50);
+      o.line(0, startH + smallGap + smallSideH/2, x2, y2);
+    }
   }
 }
 
@@ -178,20 +191,59 @@ void fftBrightness() {
   o.rect(0, 0, width, height);
 }
 
+void checkData() {
+  if (myClient.available() > 0) { 
+    timeBytesIn = millis();
+    int byteCount = myClient.readBytes(dataBytes); 
+    if (byteCount > 0 ) {
+      if (dataBytes[0] == 47) {
+        setMode(dataBytes[1]);
+        updateSong();
+        //if (!alreadyUpdated) {
+        //  updateSong();
+        //  alreadyUpdated = true;
+        //}
+      } else {
+        myClient.clear();
+      }
+    }
+  }
+}
+
+void setMode(int b) {
+  mode = mode.getMode(b);
+}
+
 void drawBlackout() {
-  o.pushMatrix();
-  o.translate(0, 0, 2);
-  o.fill(0);
-  o.stroke(0);
-  // top triangle
-  o.triangle(0, startH, width, startH, 0, smallGap+startH);
-  // bottom triangle
-  o.triangle(0, smallGap + smallSideH + startH, width, bigSideH + startH, 0, bigSideH + startH);
-  // bottom rectangl
-  o.rect(0, smallGap*2 + smallSideH + startH, width, height - (smallGap*2 + smallSideH));
-  // top rectangle
-  o.rect(0, 0, width, startH);
-  o.popMatrix();
+  //o.pushMatrix();
+  //o.translate(0, 0, 2);
+  //o.fill(0);
+  //o.stroke(0);
+  //// top triangle
+  //o.triangle(0, startH, width, startH, 0, smallGap+startH);
+  //// bottom triangle
+  //o.triangle(0, smallGap + smallSideH + startH, width, bigSideH + startH, 0, bigSideH + startH);
+  //// bottom rectangl
+  //o.rect(0, smallGap*2 + smallSideH + startH, width, height - (smallGap*2 + smallSideH));
+  //// top rectangle
+  //o.rect(0, 0, width, startH);
+  //o.popMatrix();
+  pushMatrix();
+  translate(0, 0, 2);
+  popMatrix();
+}
+
+void mousePressed() {
+  if (movingMaskMode) {
+    if (mask.checkPoints() > -1) movingMask = true;
+  }
+}
+
+void mouseReleased() {
+  if (movingMaskMode) {
+    movingMask = false;
+    mask.reset();
+  }
 }
 
 void keyPressed() {
@@ -205,19 +257,26 @@ void keyPressed() {
   case 'l':
     // loads the saved layout
     ks.load();
+    //loadBlackShapes();
     break;
 
   case 's':
     // saves the layout
+    //saveBlackShapes();
     ks.save();
+    mask.save();
     break;
   case 'b':
-    trim = !trim;
+    movingMaskMode =! movingMaskMode;
     break;
   case 'o':
     outline = !outline;
     break;
+  case 'p':
+    movingOn =!movingOn;
+    break;
   }
+
 
   if (keyCode == RIGHT) {
     mode = mode.next();
@@ -251,7 +310,6 @@ void drawMoths() {
     o.image(constellationImages[1], (millis()/5)%canvasW*2-i*constellationImages[1].width*.2, 200, constellationImages[1].width*.2, constellationImages[1].height*.2);
   }
 }
-
 
 void drawStars() {
   for (int i = 0; i < stars.length; i++) {
@@ -350,7 +408,8 @@ float getKinectY() {
 }
 
 float getKinectZ() {
-  return map(dataBytes[4], 0, 255, 0, 300);
+  if (FFT_ON) return map(dataBytes[4], 0, 255, 0, 300);
+  return 0;
 }
 
 void updown() {
