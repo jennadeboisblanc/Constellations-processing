@@ -53,7 +53,8 @@ class Mask {
 
   void display() {
     noStroke();
-    fill(0, 255, 0);
+    //fill(0, 0, 255);
+    fill(0);
     rectMode(CORNER);
     pushMatrix();
     translate(0, 0, 3);
@@ -69,7 +70,7 @@ class Mask {
 
     if (movingMaskMode) {
       for (int i = 0; i < points.length; i++) {
-        fill(255, 0, 0);
+        fill(255, 0,  0);
         ellipse(points[i].x, points[i].y, 50, 50);
       }
     }
