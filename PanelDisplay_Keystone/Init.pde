@@ -17,8 +17,6 @@ void init() {
   ellipseMode(CENTER);
   imageMode(CENTER);
 
- 
-  
   stars = new Star[150];
   for (int i = 0; i < stars.length; i++) {
     stars[i] = new Star(int(random(canvasW)), int(random(canvasH)));
@@ -41,9 +39,11 @@ void init() {
     constellations[i] = new Star(i * 400, int (startH));
   }
 
+  println("keystone");
   ks = new Keystone(this);
   surface = ks.createCornerPinSurface(canvasW, canvasH, 20);
   o = createGraphics(canvasW, canvasH, P3D);
+  println("or not keystone");
 
   sideRatio = canvasW/(22.0*12);
   bigSideH = sideRatio * bigSideActualH;

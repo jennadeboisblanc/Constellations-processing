@@ -25,14 +25,14 @@ class Mask {
     json.setFloat("x3", points[3].x);
     json.setFloat("y3", points[3].y);
 
-    saveJSONObject(json, "data/mask4.json");
+    if (IS_LEFT) saveJSONObject(json, "data/mask4_left.json");
+    else saveJSONObject(json, "data/mask4_right.json");
   }
 
   void load() {
     processing.data.JSONObject json;
-    json = loadJSONObject("data/mask4.json");
-
-    //JSONObject sty = json.getJSONObject("points");
+     if (IS_LEFT) json = loadJSONObject("data/mask4_left.json");
+     else json = loadJSONObject("data/mask4_right.json");
 
     float x = json.getFloat("x0");
     float y = json.getFloat("y0");
@@ -53,6 +53,7 @@ class Mask {
 
   void display() {
     noStroke();
+    //fill(0, 0, 255);
     fill(0);
     rectMode(CORNER);
     pushMatrix();
@@ -69,15 +70,15 @@ class Mask {
 
     if (movingMaskMode) {
       for (int i = 0; i < points.length; i++) {
-        fill(255, 0, 0);
+        fill(255, 0,  0);
         ellipse(points[i].x, points[i].y, 50, 50);
       }
     }
     popMatrix();
     rectMode(CENTER);
-   checkMoving();
+    checkMoving();
   }
-  
+
   void checkMoving() {
     for (int i = 0; i < points.length; i++) {
       if (isMoving[i]) {

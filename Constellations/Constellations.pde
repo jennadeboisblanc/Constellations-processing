@@ -1,6 +1,6 @@
-boolean NEW_GRAPH = false;
+boolean NEW_GRAPH = true;
 boolean SEND_PANEL = false;
-boolean FFT_ON = true;
+boolean FFT_ON = false;
 //////////////////////////////////////////////////////////
 import java.nio.ByteBuffer;
 import processing.net.*;
@@ -19,7 +19,7 @@ int DELETE_NODES = 8;
 int SET_NODES_Z = 7;
 int SET_LINEZ = 5;
 int SET_CONST = 6;
-int mode = VISUALIZE;
+int mode = ADD_NODES;
 
 int currentScene = -1;
 int visualMode = -1;
@@ -67,6 +67,8 @@ void setup() {
   initDeltaWaves();
   initCycles();
   initKirasu();
+  initRiteOfSpring();
+  initSongForM();
 }
 
 
@@ -84,16 +86,26 @@ void draw() {
   if (mode == VISUALIZE) {
     stroke(255);
     fill(255);
-    strokeWeight(4);
-
+    strokeWeight(2);
+//mode = V_TRANSIT;
     checkScene();
     playMode();
+    //pulseLinesCenter(700);
+    
 
     checkNextSong();
 
     //displayThirdsBeat();
     //twinkleLines();
-
+//int K_NONE = -1;
+//int K_AIR_Z = 0;
+//int K_TRANSIT_X = 1;
+//int K_AIR_BRIGHT = 2;
+//int K_AIR_LINE = 3;
+//int K_SPOTLIGHT = 4;
+//int K_CONSTELLATION = 5;
+//int K_PAINT = 6;
+//kinectMode = K_AIR_LINE;
     drawKinect();
 
     // if (!NEW_GRAPH) graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
@@ -189,6 +201,7 @@ void keyPressed() {
   } else if (mode == VISUALIZE) {
     if (key == '9') currentBeat++;
   }
+  return;
 }
 
 // get a string

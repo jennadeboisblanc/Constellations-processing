@@ -128,11 +128,11 @@ void drawKinect() {
       currentlyTracked = true;
 
       KJoint[] joints = skeleton.getJoints();
-      //color col  = skeleton.getIndexColor();
+      color col  = skeleton.getIndexColor();
       //setBody(joints);
       setBodyAngles(joints);
 
-      playKinectModes();
+      playKinectModes(col);
 
       return;
     }
