@@ -3,7 +3,7 @@ boolean ETHERNET = false;
 boolean FFT_ON = true;
 float startH = 750;
 
-boolean IS_LEFT = false;
+boolean IS_LEFT = true;
 
 // Client lib
 import processing.net.*; 

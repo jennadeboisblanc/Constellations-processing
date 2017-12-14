@@ -39,7 +39,7 @@ float       yStart           = stageMargin;
 int         xSpacing         = rectSize;
 float       x2Spacing        = rect2Size;
 
-String songs[] = {"deltaWaves", "cycles", "kirasu"};
+String songs[] = {"deltaWaves", "cycles", "kirasu", "riteOfSpring", "songForM"};
 int currentSong = 0;
 // ************************************************************************************
 
@@ -71,7 +71,7 @@ void initFFT(int num) {
   minim   = new Minim(this);
   myAudio = minim.loadFile("assets/" + songs[num] + ".mp3");
   myAudio.play();
-  //myAudio.skip(1000*120);
+  //myAudio.skip(1000*175);
 
   myAudioFFT = new FFT(myAudio.bufferSize(), myAudio.sampleRate());
   myAudioFFT.linAverages(myAudioRange);
@@ -90,6 +90,7 @@ void checkNextSong() {
     currentSong++;
     if (currentSong >= songs.length) currentSong = 0;
     restartFFT(currentSong);
+    setBeats();
     startScene();
     println("restarted");
   }
@@ -168,13 +169,38 @@ int averageBands(int v1, int v2) {
 
 /////////////////////////////////////////////////
 
+ArrayList<Beat> beats_delta;
+ArrayList<Beat> beats_cycles;
+ArrayList<Beat> beats_song;
+ArrayList<Beat> beats_kirasu;
+ArrayList<Beat> beats_rite;
 ArrayList<Beat> beats;
+
 int currentBeat = 0;
 int[] currentBeats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 int[] oldBeats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
+void setBeats() {
+  currentBeat = 0;
+  for (int i = 0; i < currentBeats.length; i++) {
+    currentBeats[i] = 0;
+    oldBeats[i] = 0;
+  }
+  beats = new ArrayList<Beat>();
+  if (currentSong == 0) beats = beats_delta;
+  else if (currentSong == 1) beats = beats_cycles;
+  else if (currentSong == 2) beats = beats_kirasu;
+  else if (currentSong == 3) beats = beats_rite;
+  else if (currentSong == 4) beats = beats_song;
+}
+
 void initBeat() {
   beats = new ArrayList<Beat>();
+  beats_delta = new ArrayList<Beat>();
+  beats_cycles = new ArrayList<Beat>();
+  beats_kirasu = new ArrayList<Beat>();
+  beats_song = new ArrayList<Beat>();
+  beats_rite = new ArrayList<Beat>();
   loadBeats();
 }
 
@@ -218,11 +244,18 @@ class Beat {
   }
 }
 
-
-
 void loadBeats() {
+  loadBeatsD();
+  loadBeatsC();
+  loadBeatsK();
+  loadBeatsR();
+  loadBeatsS();
+  beats = beats_delta;
+}
+
+void loadBeatsD() {
   processing.data.JSONObject beatsJson;
-  beatsJson = loadJSONObject("data/beats.json");
+  beatsJson = loadJSONObject("data/beats_delta.json");
   int numBeats = beatsJson.getInt("numBeats");
   println(numBeats);
   //resetBeats();
@@ -232,6 +265,70 @@ void loadBeats() {
     processing.data.JSONObject b = beatsArray.getJSONObject(i);
     String beatType = b.getString("beatType");
     int t = b.getInt("time");
-    beats.add(new Beat(t, beatType));
+    beats_delta.add(new Beat(t, beatType));
+  }
+}
+
+void loadBeatsK() {
+  processing.data.JSONObject beatsJson;
+  beatsJson = loadJSONObject("data/beats_kirasu.json");
+  int numBeats = beatsJson.getInt("numBeats");
+  println(numBeats);
+  //resetBeats();
+
+  processing.data.JSONArray beatsArray = beatsJson.getJSONArray("beatList");
+  for (int i = 0; i < numBeats; i++) {
+    processing.data.JSONObject b = beatsArray.getJSONObject(i);
+    String beatType = b.getString("beatType");
+    int t = b.getInt("time");
+    beats_kirasu.add(new Beat(t, beatType));
+  }
+}
+
+void loadBeatsR() {
+  processing.data.JSONObject beatsJson;
+  beatsJson = loadJSONObject("data/beats_rite.json");
+  int numBeats = beatsJson.getInt("numBeats");
+  println(numBeats);
+  //resetBeats();
+
+  processing.data.JSONArray beatsArray = beatsJson.getJSONArray("beatList");
+  for (int i = 0; i < numBeats; i++) {
+    processing.data.JSONObject b = beatsArray.getJSONObject(i);
+    String beatType = b.getString("beatType");
+    int t = b.getInt("time");
+    beats_rite.add(new Beat(t, beatType));
+  }
+}
+
+void loadBeatsS() {
+  processing.data.JSONObject beatsJson;
+  beatsJson = loadJSONObject("data/beats_song.json");
+  int numBeats = beatsJson.getInt("numBeats");
+  println(numBeats);
+  //resetBeats();
+
+  processing.data.JSONArray beatsArray = beatsJson.getJSONArray("beatList");
+  for (int i = 0; i < numBeats; i++) {
+    processing.data.JSONObject b = beatsArray.getJSONObject(i);
+    String beatType = b.getString("beatType");
+    int t = b.getInt("time");
+    beats_song.add(new Beat(t, beatType));
+  }
+}
+
+void loadBeatsC() {
+  processing.data.JSONObject beatsJson;
+  beatsJson = loadJSONObject("data/beats_cycles.json");
+  int numBeats = beatsJson.getInt("numBeats");
+  println(numBeats);
+  //resetBeats();
+
+  processing.data.JSONArray beatsArray = beatsJson.getJSONArray("beatList");
+  for (int i = 0; i < numBeats; i++) {
+    processing.data.JSONObject b = beatsArray.getJSONObject(i);
+    String beatType = b.getString("beatType");
+    int t = b.getInt("time");
+    beats_cycles.add(new Beat(t, beatType));
   }
 }

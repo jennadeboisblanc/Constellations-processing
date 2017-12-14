@@ -1,7 +1,8 @@
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-boolean ADD_ON = true;
+boolean ADD_ON = false;
+String file = "song";
 
 import java.util.*;
 import java.util.LinkedList;
@@ -83,7 +84,7 @@ void saveToFile() {
   processing.data.JSONObject json;
   json = new processing.data.JSONObject();
   json.setInt("numBeats", beats.size());
-  saveJSONObject(json, "data/beats.json");
+  saveJSONObject(json, "data/beats_" + file + ".json");
 
   processing.data.JSONArray beatList = new processing.data.JSONArray();      
 
@@ -99,13 +100,13 @@ void saveToFile() {
   json.setJSONArray("beatList", beatList);
 
 
-  saveJSONObject(json, "data/beats.json");
+  saveJSONObject(json, "data/beats_" + file + ".json");
 }
 
 
 void loadBeats() {
   processing.data.JSONObject beatsJson;
-  beatsJson = loadJSONObject("data/beats.json");
+  beatsJson = loadJSONObject("data/beats_" + file + ".json");
   int numBeats = beatsJson.getInt("numBeats");
   println(numBeats);
   //resetBeats();

@@ -1,6 +1,6 @@
-boolean NEW_GRAPH = true;
-boolean SEND_PANEL = false;
-boolean FFT_ON = false;
+boolean NEW_GRAPH = false;
+boolean SEND_PANEL = true;
+boolean FFT_ON = true;
 //////////////////////////////////////////////////////////
 import java.nio.ByteBuffer;
 import processing.net.*;
@@ -19,7 +19,7 @@ int DELETE_NODES = 8;
 int SET_NODES_Z = 7;
 int SET_LINEZ = 5;
 int SET_CONST = 6;
-int mode = ADD_NODES;
+int mode = 0;
 
 int currentScene = -1;
 int visualMode = -1;
@@ -49,7 +49,7 @@ void setup() {
 
 
   if (FFT_ON) {
-    initFFT(0);
+    initFFT(currentSong);
     initBeat();
   }
 
@@ -87,11 +87,10 @@ void draw() {
     stroke(255);
     fill(255);
     strokeWeight(2);
-//mode = V_TRANSIT;
+
     checkScene();
-    playMode();
-    //pulseLinesCenter(700);
     
+    playMode();
 
     checkNextSong();
 
@@ -106,6 +105,7 @@ void draw() {
 //int K_CONSTELLATION = 5;
 //int K_PAINT = 6;
 //kinectMode = K_AIR_LINE;
+
     drawKinect();
 
     // if (!NEW_GRAPH) graphL.drawOrganicPath3D(17, new PVector(mouseX, mouseY, 0));
@@ -213,6 +213,7 @@ boolean hasCurrentStringPoint() {
 
 //--------------------------------------------------------------
 void keyReleased() {
+  return;
 }
 
 //--------------------------------------------------------------

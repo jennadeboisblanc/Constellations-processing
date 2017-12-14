@@ -67,7 +67,7 @@ color Wheel(int WheelPos) {
 
 void initFFT() {
   minim   = new Minim(this);
-  myAudio = minim.loadFile("data/deltaWaves.mp3");
+  myAudio = minim.loadFile("data/songForM.mp3");
   myAudio.play();
 
   myAudioFFT = new FFT(myAudio.bufferSize(), myAudio.sampleRate());

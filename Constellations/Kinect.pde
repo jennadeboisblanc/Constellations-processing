@@ -21,9 +21,12 @@ float handRDY = 0;
 float handLDY = 0;
 float handRDX = 0;
 float handLDX = 0;
+float headX = 0;
+float headZ = 0;
 
 BodyPoint [] bodyPoints;
-boolean currentlyTracked = false;
+int currentlyTracked = -1;
+long trackedTime = 0;
 
 //void drawConstellationFirst() {
 //  if (graphL.nodes.size() > 20) {
@@ -105,9 +108,9 @@ void setBodyAngles(KJoint[] joints) {
   footRAngle = getJointAngle(joints[KinectPV2.JointType_KneeRight], joints[ KinectPV2.JointType_AnkleRight]);
   spineAngle = getJointAngle(joints[KinectPV2.JointType_SpineMid], joints[ KinectPV2.JointType_SpineShoulder]);
 
-  //handRZ = joints[KinectPV2.JointType_ShoulderRight].getZ() - joints[KinectPV2.JointType_WristRight].getZ();
   handRX = joints[KinectPV2.JointType_WristRight].getX();
   handRY = joints[KinectPV2.JointType_WristRight].getY();
+  handRZ = joints[KinectPV2.JointType_WristRight].getZ();
 
   // shoulder is farther back than wrist, so shoulder minus wrist positive; so handRDZ will be positive and bigger when reaching forward
   handRDZ = joints[KinectPV2.JointType_ShoulderRight].getZ() - joints[KinectPV2.JointType_WristRight].getZ();
@@ -115,29 +118,46 @@ void setBodyAngles(KJoint[] joints) {
   handLDX = joints[KinectPV2.JointType_WristLeft].getX() - joints[KinectPV2.JointType_ShoulderLeft].getX();
   handRDY = joints[KinectPV2.JointType_WristRight].getY() - joints[KinectPV2.JointType_ShoulderRight].getY();
   handLDY = joints[KinectPV2.JointType_WristLeft].getY() - joints[KinectPV2.JointType_ShoulderLeft].getY();
+  
+  headZ = joints[KinectPV2.JointType_Head].getZ();
+  headX = joints[KinectPV2.JointType_Head].getX();
   //println(joints[KinectPV2.JointType_ShoulderRight].getZ() + " " + handRZ);
 }
 
 void drawKinect() {
   ArrayList<KSkeleton> skeletonArray =  kinect.getSkeleton3d();
   //individual joints
+  int closest = 0;
+  int numTracked = 0;
   for (int i = 0; i < skeletonArray.size(); i++) {
+    
     KSkeleton skeleton = (KSkeleton) skeletonArray.get(i);
     //if the skeleton is being tracked compute the skleton joints
     if (skeleton.isTracked()) {
-      currentlyTracked = true;
-
+      
       KJoint[] joints = skeleton.getJoints();
       color col  = skeleton.getIndexColor();
       //setBody(joints);
       setBodyAngles(joints);
-
-      playKinectModes(col);
-
-      return;
+      
+      if (headZ < 3.1 && headX > -0.7 &&  headX < 0.7) {
+        println(headX + " " + headZ);
+        if (currentlyTracked == -1) {
+          currentlyTracked = i;
+          trackedTime = millis();
+        }
+        else if (millis() - trackedTime < 3000) {
+          //pulseLineBack(500, col);
+          rainbowCycle(20);
+        }
+        else {
+          playKinectModes(col);
+        }
+        return;
+      }
     }
   }
-  currentlyTracked = false;
+  currentlyTracked = -1;
 }
 
 //--------------------------------------------------------------

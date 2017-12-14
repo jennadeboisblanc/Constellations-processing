@@ -1,0 +1,3685 @@
+{
+  "beatList": [
+    {
+      "beatType": "9",
+      "time": 278
+    },
+    {
+      "beatType": "9",
+      "time": 487
+    },
+    {
+      "beatType": "9",
+      "time": 696
+    },
+    {
+      "beatType": "9",
+      "time": 952
+    },
+    {
+      "beatType": "9",
+      "time": 1184
+    },
+    {
+      "beatType": "9",
+      "time": 1439
+    },
+    {
+      "beatType": "9",
+      "time": 1648
+    },
+    {
+      "beatType": "9",
+      "time": 1857
+    },
+    {
+      "beatType": "0",
+      "time": 1880
+    },
+    {
+      "beatType": "9",
+      "time": 2089
+    },
+    {
+      "beatType": "9",
+      "time": 2298
+    },
+    {
+      "beatType": "9",
+      "time": 2507
+    },
+    {
+      "beatType": "9",
+      "time": 2716
+    },
+    {
+      "beatType": "1",
+      "time": 2832
+    },
+    {
+      "beatType": "9",
+      "time": 2925
+    },
+    {
+      "beatType": "9",
+      "time": 3111
+    },
+    {
+      "beatType": "9",
+      "time": 3297
+    },
+    {
+      "beatType": "9",
+      "time": 3506
+    },
+    {
+      "beatType": "9",
+      "time": 3761
+    },
+    {
+      "beatType": "0",
+      "time": 3784
+    },
+    {
+      "beatType": "9",
+      "time": 3993
+    },
+    {
+      "beatType": "9",
+      "time": 4202
+    },
+    {
+      "beatType": "9",
+      "time": 4435
+    },
+    {
+      "beatType": "1",
+      "time": 4597
+    },
+    {
+      "beatType": "9",
+      "time": 4667
+    },
+    {
+      "beatType": "9",
+      "time": 4876
+    },
+    {
+      "beatType": "9",
+      "time": 5085
+    },
+    {
+      "beatType": "9",
+      "time": 5340
+    },
+    {
+      "beatType": "0",
+      "time": 5479
+    },
+    {
+      "beatType": "9",
+      "time": 5549
+    },
+    {
+      "beatType": "9",
+      "time": 5781
+    },
+    {
+      "beatType": "9",
+      "time": 5967
+    },
+    {
+      "beatType": "9",
+      "time": 6199
+    },
+    {
+      "beatType": "1",
+      "time": 6339
+    },
+    {
+      "beatType": "9",
+      "time": 6408
+    },
+    {
+      "beatType": "9",
+      "time": 6640
+    },
+    {
+      "beatType": "9",
+      "time": 6873
+    },
+    {
+      "beatType": "9",
+      "time": 7082
+    },
+    {
+      "beatType": "0",
+      "time": 7360
+    },
+    {
+      "beatType": "9",
+      "time": 7407
+    },
+    {
+      "beatType": "9",
+      "time": 7848
+    },
+    {
+      "beatType": "1",
+      "time": 7848
+    },
+    {
+      "beatType": "9",
+      "time": 8289
+    },
+    {
+      "beatType": "0",
+      "time": 8312
+    },
+    {
+      "beatType": "9",
+      "time": 8730
+    },
+    {
+      "beatType": "1",
+      "time": 8753
+    },
+    {
+      "beatType": "9",
+      "time": 8986
+    },
+    {
+      "beatType": "0",
+      "time": 8986
+    },
+    {
+      "beatType": "9",
+      "time": 9357
+    },
+    {
+      "beatType": "0",
+      "time": 9404
+    },
+    {
+      "beatType": "9",
+      "time": 9613
+    },
+    {
+      "beatType": "1",
+      "time": 9636
+    },
+    {
+      "beatType": "0",
+      "time": 10077
+    },
+    {
+      "beatType": "9",
+      "time": 10100
+    },
+    {
+      "beatType": "9",
+      "time": 10518
+    },
+    {
+      "beatType": "1",
+      "time": 10541
+    },
+    {
+      "beatType": "9",
+      "time": 11006
+    },
+    {
+      "beatType": "0",
+      "time": 11006
+    },
+    {
+      "beatType": "9",
+      "time": 11447
+    },
+    {
+      "beatType": "1",
+      "time": 11447
+    },
+    {
+      "beatType": "9",
+      "time": 11888
+    },
+    {
+      "beatType": "0",
+      "time": 11911
+    },
+    {
+      "beatType": "9",
+      "time": 12353
+    },
+    {
+      "beatType": "1",
+      "time": 12376
+    },
+    {
+      "beatType": "9",
+      "time": 12585
+    },
+    {
+      "beatType": "0",
+      "time": 12608
+    },
+    {
+      "beatType": "9",
+      "time": 13003
+    },
+    {
+      "beatType": "0",
+      "time": 13003
+    },
+    {
+      "beatType": "1",
+      "time": 13188
+    },
+    {
+      "beatType": "9",
+      "time": 13258
+    },
+    {
+      "beatType": "0",
+      "time": 13653
+    },
+    {
+      "beatType": "9",
+      "time": 13699
+    },
+    {
+      "beatType": "1",
+      "time": 14117
+    },
+    {
+      "beatType": "9",
+      "time": 14140
+    },
+    {
+      "beatType": "0",
+      "time": 14582
+    },
+    {
+      "beatType": "9",
+      "time": 14628
+    },
+    {
+      "beatType": "9",
+      "time": 14837
+    },
+    {
+      "beatType": "1",
+      "time": 15023
+    },
+    {
+      "beatType": "9",
+      "time": 15092
+    },
+    {
+      "beatType": "9",
+      "time": 15301
+    },
+    {
+      "beatType": "0",
+      "time": 15487
+    },
+    {
+      "beatType": "9",
+      "time": 15510
+    },
+    {
+      "beatType": "9",
+      "time": 15766
+    },
+    {
+      "beatType": "1",
+      "time": 15928
+    },
+    {
+      "beatType": "9",
+      "time": 15975
+    },
+    {
+      "beatType": "0",
+      "time": 16137
+    },
+    {
+      "beatType": "9",
+      "time": 16207
+    },
+    {
+      "beatType": "9",
+      "time": 16416
+    },
+    {
+      "beatType": "0",
+      "time": 16602
+    },
+    {
+      "beatType": "9",
+      "time": 16625
+    },
+    {
+      "beatType": "1",
+      "time": 16834
+    },
+    {
+      "beatType": "9",
+      "time": 16880
+    },
+    {
+      "beatType": "9",
+      "time": 17066
+    },
+    {
+      "beatType": "0",
+      "time": 17066
+    },
+    {
+      "beatType": "9",
+      "time": 17322
+    },
+    {
+      "beatType": "9",
+      "time": 17554
+    },
+    {
+      "beatType": "0",
+      "time": 17670
+    },
+    {
+      "beatType": "9",
+      "time": 17763
+    },
+    {
+      "beatType": "1",
+      "time": 17856
+    },
+    {
+      "beatType": "9",
+      "time": 17972
+    },
+    {
+      "beatType": "9",
+      "time": 18204
+    },
+    {
+      "beatType": "0",
+      "time": 18204
+    },
+    {
+      "beatType": "9",
+      "time": 18436
+    },
+    {
+      "beatType": "9",
+      "time": 18668
+    },
+    {
+      "beatType": "1",
+      "time": 18668
+    },
+    {
+      "beatType": "9",
+      "time": 18854
+    },
+    {
+      "beatType": "9",
+      "time": 19110
+    },
+    {
+      "beatType": "0",
+      "time": 19133
+    },
+    {
+      "beatType": "9",
+      "time": 19319
+    },
+    {
+      "beatType": "9",
+      "time": 19551
+    },
+    {
+      "beatType": "1",
+      "time": 19551
+    },
+    {
+      "beatType": "9",
+      "time": 19760
+    },
+    {
+      "beatType": "0",
+      "time": 19783
+    },
+    {
+      "beatType": "9",
+      "time": 19992
+    },
+    {
+      "beatType": "9",
+      "time": 20201
+    },
+    {
+      "beatType": "0",
+      "time": 20224
+    },
+    {
+      "beatType": "9",
+      "time": 20433
+    },
+    {
+      "beatType": "1",
+      "time": 20456
+    },
+    {
+      "beatType": "9",
+      "time": 20665
+    },
+    {
+      "beatType": "9",
+      "time": 20851
+    },
+    {
+      "beatType": "0",
+      "time": 20897
+    },
+    {
+      "beatType": "9",
+      "time": 21083
+    },
+    {
+      "beatType": "9",
+      "time": 21315
+    },
+    {
+      "beatType": "1",
+      "time": 21385
+    },
+    {
+      "beatType": "9",
+      "time": 21524
+    },
+    {
+      "beatType": "0",
+      "time": 21803
+    },
+    {
+      "beatType": "9",
+      "time": 21849
+    },
+    {
+      "beatType": "9",
+      "time": 22267
+    },
+    {
+      "beatType": "1",
+      "time": 22267
+    },
+    {
+      "beatType": "9",
+      "time": 22709
+    },
+    {
+      "beatType": "0",
+      "time": 22709
+    },
+    {
+      "beatType": "9",
+      "time": 23150
+    },
+    {
+      "beatType": "1",
+      "time": 23196
+    },
+    {
+      "beatType": "0",
+      "time": 23405
+    },
+    {
+      "beatType": "9",
+      "time": 23428
+    },
+    {
+      "beatType": "9",
+      "time": 23823
+    },
+    {
+      "beatType": "0",
+      "time": 23870
+    },
+    {
+      "beatType": "9",
+      "time": 24055
+    },
+    {
+      "beatType": "1",
+      "time": 24079
+    },
+    {
+      "beatType": "9",
+      "time": 24497
+    },
+    {
+      "beatType": "0",
+      "time": 24520
+    },
+    {
+      "beatType": "1",
+      "time": 24984
+    },
+    {
+      "beatType": "9",
+      "time": 25379
+    },
+    {
+      "beatType": "0",
+      "time": 25425
+    },
+    {
+      "beatType": "9",
+      "time": 25820
+    },
+    {
+      "beatType": "1",
+      "time": 25867
+    },
+    {
+      "beatType": "0",
+      "time": 26284
+    },
+    {
+      "beatType": "9",
+      "time": 26308
+    },
+    {
+      "beatType": "1",
+      "time": 26749
+    },
+    {
+      "beatType": "9",
+      "time": 26795
+    },
+    {
+      "beatType": "9",
+      "time": 27004
+    },
+    {
+      "beatType": "0",
+      "time": 27028
+    },
+    {
+      "beatType": "0",
+      "time": 27445
+    },
+    {
+      "beatType": "9",
+      "time": 27469
+    },
+    {
+      "beatType": "1",
+      "time": 27608
+    },
+    {
+      "beatType": "9",
+      "time": 27701
+    },
+    {
+      "beatType": "0",
+      "time": 28072
+    },
+    {
+      "beatType": "9",
+      "time": 28096
+    },
+    {
+      "beatType": "1",
+      "time": 28583
+    },
+    {
+      "beatType": "9",
+      "time": 29024
+    },
+    {
+      "beatType": "0",
+      "time": 29071
+    },
+    {
+      "beatType": "9",
+      "time": 29257
+    },
+    {
+      "beatType": "0",
+      "time": 29280
+    },
+    {
+      "beatType": "9",
+      "time": 29466
+    },
+    {
+      "beatType": "1",
+      "time": 29466
+    },
+    {
+      "beatType": "9",
+      "time": 29698
+    },
+    {
+      "beatType": "0",
+      "time": 29930
+    },
+    {
+      "beatType": "9",
+      "time": 29953
+    },
+    {
+      "beatType": "9",
+      "time": 30209
+    },
+    {
+      "beatType": "9",
+      "time": 30418
+    },
+    {
+      "beatType": "1",
+      "time": 30441
+    },
+    {
+      "beatType": "9",
+      "time": 30650
+    },
+    {
+      "beatType": "9",
+      "time": 30882
+    },
+    {
+      "beatType": "0",
+      "time": 30882
+    },
+    {
+      "beatType": "9",
+      "time": 31091
+    },
+    {
+      "beatType": "9",
+      "time": 31300
+    },
+    {
+      "beatType": "1",
+      "time": 31346
+    },
+    {
+      "beatType": "9",
+      "time": 31532
+    },
+    {
+      "beatType": "9",
+      "time": 31764
+    },
+    {
+      "beatType": "0",
+      "time": 31788
+    },
+    {
+      "beatType": "9",
+      "time": 31973
+    },
+    {
+      "beatType": "9",
+      "time": 32206
+    },
+    {
+      "beatType": "1",
+      "time": 32229
+    },
+    {
+      "beatType": "9",
+      "time": 32415
+    },
+    {
+      "beatType": "0",
+      "time": 32624
+    },
+    {
+      "beatType": "9",
+      "time": 32647
+    },
+    {
+      "beatType": "0",
+      "time": 32856
+    },
+    {
+      "beatType": "9",
+      "time": 32925
+    },
+    {
+      "beatType": "1",
+      "time": 33041
+    },
+    {
+      "beatType": "9",
+      "time": 33158
+    },
+    {
+      "beatType": "9",
+      "time": 33343
+    },
+    {
+      "beatType": "0",
+      "time": 33552
+    },
+    {
+      "beatType": "9",
+      "time": 33599
+    },
+    {
+      "beatType": "9",
+      "time": 33831
+    },
+    {
+      "beatType": "1",
+      "time": 33994
+    },
+    {
+      "beatType": "9",
+      "time": 34040
+    },
+    {
+      "beatType": "9",
+      "time": 34272
+    },
+    {
+      "beatType": "0",
+      "time": 34481
+    },
+    {
+      "beatType": "9",
+      "time": 34504
+    },
+    {
+      "beatType": "9",
+      "time": 34713
+    },
+    {
+      "beatType": "1",
+      "time": 34922
+    },
+    {
+      "beatType": "9",
+      "time": 34946
+    },
+    {
+      "beatType": "9",
+      "time": 35155
+    },
+    {
+      "beatType": "9",
+      "time": 35387
+    },
+    {
+      "beatType": "0",
+      "time": 35387
+    },
+    {
+      "beatType": "9",
+      "time": 35596
+    },
+    {
+      "beatType": "1",
+      "time": 35781
+    },
+    {
+      "beatType": "9",
+      "time": 35828
+    },
+    {
+      "beatType": "9",
+      "time": 36246
+    },
+    {
+      "beatType": "0",
+      "time": 36269
+    },
+    {
+      "beatType": "1",
+      "time": 36687
+    },
+    {
+      "beatType": "9",
+      "time": 36710
+    },
+    {
+      "beatType": "9",
+      "time": 36942
+    },
+    {
+      "beatType": "9",
+      "time": 37175
+    },
+    {
+      "beatType": "0",
+      "time": 37175
+    },
+    {
+      "beatType": "9",
+      "time": 37616
+    },
+    {
+      "beatType": "1",
+      "time": 37662
+    },
+    {
+      "beatType": "9",
+      "time": 37894
+    },
+    {
+      "beatType": "0",
+      "time": 38103
+    },
+    {
+      "beatType": "9",
+      "time": 38312
+    },
+    {
+      "beatType": "0",
+      "time": 38336
+    },
+    {
+      "beatType": "1",
+      "time": 38498
+    },
+    {
+      "beatType": "9",
+      "time": 38568
+    },
+    {
+      "beatType": "9",
+      "time": 38777
+    },
+    {
+      "beatType": "0",
+      "time": 38963
+    },
+    {
+      "beatType": "9",
+      "time": 39009
+    },
+    {
+      "beatType": "1",
+      "time": 39427
+    },
+    {
+      "beatType": "9",
+      "time": 39473
+    },
+    {
+      "beatType": "9",
+      "time": 39706
+    },
+    {
+      "beatType": "0",
+      "time": 39891
+    },
+    {
+      "beatType": "9",
+      "time": 40124
+    },
+    {
+      "beatType": "1",
+      "time": 40333
+    },
+    {
+      "beatType": "9",
+      "time": 40356
+    },
+    {
+      "beatType": "9",
+      "time": 40565
+    },
+    {
+      "beatType": "9",
+      "time": 40797
+    },
+    {
+      "beatType": "0",
+      "time": 40820
+    },
+    {
+      "beatType": "9",
+      "time": 41238
+    },
+    {
+      "beatType": "1",
+      "time": 41238
+    },
+    {
+      "beatType": "9",
+      "time": 41494
+    },
+    {
+      "beatType": "0",
+      "time": 41517
+    },
+    {
+      "beatType": "9",
+      "time": 41935
+    },
+    {
+      "beatType": "0",
+      "time": 41958
+    },
+    {
+      "beatType": "1",
+      "time": 42144
+    },
+    {
+      "beatType": "9",
+      "time": 42167
+    },
+    {
+      "beatType": "9",
+      "time": 42376
+    },
+    {
+      "beatType": "9",
+      "time": 42585
+    },
+    {
+      "beatType": "0",
+      "time": 42608
+    },
+    {
+      "beatType": "9",
+      "time": 43049
+    },
+    {
+      "beatType": "1",
+      "time": 43073
+    },
+    {
+      "beatType": "9",
+      "time": 43305
+    },
+    {
+      "beatType": "0",
+      "time": 43490
+    },
+    {
+      "beatType": "9",
+      "time": 43514
+    },
+    {
+      "beatType": "9",
+      "time": 43955
+    },
+    {
+      "beatType": "1",
+      "time": 43978
+    },
+    {
+      "beatType": "9",
+      "time": 44187
+    },
+    {
+      "beatType": "0",
+      "time": 44466
+    },
+    {
+      "beatType": "9",
+      "time": 44837
+    },
+    {
+      "beatType": "1",
+      "time": 44907
+    },
+    {
+      "beatType": "9",
+      "time": 45023
+    },
+    {
+      "beatType": "0",
+      "time": 45162
+    },
+    {
+      "beatType": "9",
+      "time": 45487
+    },
+    {
+      "beatType": "0",
+      "time": 45557
+    },
+    {
+      "beatType": "9",
+      "time": 45743
+    },
+    {
+      "beatType": "1",
+      "time": 45743
+    },
+    {
+      "beatType": "9",
+      "time": 45952
+    },
+    {
+      "beatType": "0",
+      "time": 46184
+    },
+    {
+      "beatType": "9",
+      "time": 46207
+    },
+    {
+      "beatType": "1",
+      "time": 46648
+    },
+    {
+      "beatType": "9",
+      "time": 46672
+    },
+    {
+      "beatType": "9",
+      "time": 46904
+    },
+    {
+      "beatType": "0",
+      "time": 47066
+    },
+    {
+      "beatType": "9",
+      "time": 47136
+    },
+    {
+      "beatType": "9",
+      "time": 47577
+    },
+    {
+      "beatType": "1",
+      "time": 47600
+    },
+    {
+      "beatType": "9",
+      "time": 47809
+    },
+    {
+      "beatType": "9",
+      "time": 48018
+    },
+    {
+      "beatType": "0",
+      "time": 48065
+    },
+    {
+      "beatType": "9",
+      "time": 48436
+    },
+    {
+      "beatType": "1",
+      "time": 48483
+    },
+    {
+      "beatType": "9",
+      "time": 48669
+    },
+    {
+      "beatType": "0",
+      "time": 48878
+    },
+    {
+      "beatType": "9",
+      "time": 49086
+    },
+    {
+      "beatType": "0",
+      "time": 49110
+    },
+    {
+      "beatType": "9",
+      "time": 49319
+    },
+    {
+      "beatType": "1",
+      "time": 49319
+    },
+    {
+      "beatType": "9",
+      "time": 49574
+    },
+    {
+      "beatType": "0",
+      "time": 49783
+    },
+    {
+      "beatType": "9",
+      "time": 49806
+    },
+    {
+      "beatType": "1",
+      "time": 50224
+    },
+    {
+      "beatType": "9",
+      "time": 50247
+    },
+    {
+      "beatType": "9",
+      "time": 50503
+    },
+    {
+      "beatType": "0",
+      "time": 50712
+    },
+    {
+      "beatType": "9",
+      "time": 50735
+    },
+    {
+      "beatType": "9",
+      "time": 51130
+    },
+    {
+      "beatType": "0",
+      "time": 51176
+    },
+    {
+      "beatType": "1",
+      "time": 51362
+    },
+    {
+      "beatType": "9",
+      "time": 51385
+    },
+    {
+      "beatType": "9",
+      "time": 51780
+    },
+    {
+      "beatType": "1",
+      "time": 51826
+    },
+    {
+      "beatType": "9",
+      "time": 52012
+    },
+    {
+      "beatType": "0",
+      "time": 52059
+    },
+    {
+      "beatType": "1",
+      "time": 52244
+    },
+    {
+      "beatType": "9",
+      "time": 52314
+    },
+    {
+      "beatType": "1",
+      "time": 52686
+    },
+    {
+      "beatType": "9",
+      "time": 52755
+    },
+    {
+      "beatType": "0",
+      "time": 52918
+    },
+    {
+      "beatType": "9",
+      "time": 52964
+    },
+    {
+      "beatType": "0",
+      "time": 53847
+    },
+    {
+      "beatType": "9",
+      "time": 54288
+    },
+    {
+      "beatType": "1",
+      "time": 54334
+    },
+    {
+      "beatType": "9",
+      "time": 54497
+    },
+    {
+      "beatType": "0",
+      "time": 54520
+    },
+    {
+      "beatType": "9",
+      "time": 54752
+    },
+    {
+      "beatType": "0",
+      "time": 54752
+    },
+    {
+      "beatType": "9",
+      "time": 55170
+    },
+    {
+      "beatType": "1",
+      "time": 55217
+    },
+    {
+      "beatType": "1",
+      "time": 55681
+    },
+    {
+      "beatType": "0",
+      "time": 55913
+    },
+    {
+      "beatType": "9",
+      "time": 55936
+    },
+    {
+      "beatType": "9",
+      "time": 56261
+    },
+    {
+      "beatType": "0",
+      "time": 56308
+    },
+    {
+      "beatType": "9",
+      "time": 56470
+    },
+    {
+      "beatType": "1",
+      "time": 56540
+    },
+    {
+      "beatType": "9",
+      "time": 56935
+    },
+    {
+      "beatType": "0",
+      "time": 56958
+    },
+    {
+      "beatType": "9",
+      "time": 57910
+    },
+    {
+      "beatType": "0",
+      "time": 57957
+    },
+    {
+      "beatType": "9",
+      "time": 58119
+    },
+    {
+      "beatType": "9",
+      "time": 58374
+    },
+    {
+      "beatType": "1",
+      "time": 58398
+    },
+    {
+      "beatType": "9",
+      "time": 58839
+    },
+    {
+      "beatType": "0",
+      "time": 58862
+    },
+    {
+      "beatType": "1",
+      "time": 59326
+    },
+    {
+      "beatType": "9",
+      "time": 59535
+    },
+    {
+      "beatType": "0",
+      "time": 59744
+    },
+    {
+      "beatType": "9",
+      "time": 59907
+    },
+    {
+      "beatType": "1",
+      "time": 60139
+    },
+    {
+      "beatType": "9",
+      "time": 60162
+    },
+    {
+      "beatType": "9",
+      "time": 60604
+    },
+    {
+      "beatType": "0",
+      "time": 60604
+    },
+    {
+      "beatType": "1",
+      "time": 61068
+    },
+    {
+      "beatType": "9",
+      "time": 61486
+    },
+    {
+      "beatType": "0",
+      "time": 61509
+    },
+    {
+      "beatType": "9",
+      "time": 61718
+    },
+    {
+      "beatType": "9",
+      "time": 61974
+    },
+    {
+      "beatType": "1",
+      "time": 61974
+    },
+    {
+      "beatType": "9",
+      "time": 62299
+    },
+    {
+      "beatType": "0",
+      "time": 62438
+    },
+    {
+      "beatType": "1",
+      "time": 62856
+    },
+    {
+      "beatType": "9",
+      "time": 63158
+    },
+    {
+      "beatType": "0",
+      "time": 63320
+    },
+    {
+      "beatType": "9",
+      "time": 63529
+    },
+    {
+      "beatType": "9",
+      "time": 63738
+    },
+    {
+      "beatType": "1",
+      "time": 63761
+    },
+    {
+      "beatType": "9",
+      "time": 64179
+    },
+    {
+      "beatType": "0",
+      "time": 64226
+    },
+    {
+      "beatType": "1",
+      "time": 64690
+    },
+    {
+      "beatType": "9",
+      "time": 65108
+    },
+    {
+      "beatType": "0",
+      "time": 65108
+    },
+    {
+      "beatType": "9",
+      "time": 65317
+    },
+    {
+      "beatType": "9",
+      "time": 65549
+    },
+    {
+      "beatType": "1",
+      "time": 65573
+    },
+    {
+      "beatType": "9",
+      "time": 66014
+    },
+    {
+      "beatType": "0",
+      "time": 66107
+    },
+    {
+      "beatType": "1",
+      "time": 66478
+    },
+    {
+      "beatType": "9",
+      "time": 66757
+    },
+    {
+      "beatType": "0",
+      "time": 66896
+    },
+    {
+      "beatType": "9",
+      "time": 67059
+    },
+    {
+      "beatType": "9",
+      "time": 67268
+    },
+    {
+      "beatType": "1",
+      "time": 67314
+    },
+    {
+      "beatType": "9",
+      "time": 67755
+    },
+    {
+      "beatType": "0",
+      "time": 67779
+    },
+    {
+      "beatType": "1",
+      "time": 68289
+    },
+    {
+      "beatType": "9",
+      "time": 68661
+    },
+    {
+      "beatType": "0",
+      "time": 68731
+    },
+    {
+      "beatType": "9",
+      "time": 69149
+    },
+    {
+      "beatType": "1",
+      "time": 69149
+    },
+    {
+      "beatType": "9",
+      "time": 69636
+    },
+    {
+      "beatType": "0",
+      "time": 69636
+    },
+    {
+      "beatType": "1",
+      "time": 70101
+    },
+    {
+      "beatType": "9",
+      "time": 70379
+    },
+    {
+      "beatType": "0",
+      "time": 70472
+    },
+    {
+      "beatType": "9",
+      "time": 70704
+    },
+    {
+      "beatType": "9",
+      "time": 70936
+    },
+    {
+      "beatType": "1",
+      "time": 70960
+    },
+    {
+      "beatType": "9",
+      "time": 71378
+    },
+    {
+      "beatType": "0",
+      "time": 71447
+    },
+    {
+      "beatType": "1",
+      "time": 71888
+    },
+    {
+      "beatType": "0",
+      "time": 72376
+    },
+    {
+      "beatType": "9",
+      "time": 72399
+    },
+    {
+      "beatType": "9",
+      "time": 72748
+    },
+    {
+      "beatType": "1",
+      "time": 72794
+    },
+    {
+      "beatType": "9",
+      "time": 73282
+    },
+    {
+      "beatType": "0",
+      "time": 73282
+    },
+    {
+      "beatType": "9",
+      "time": 73746
+    },
+    {
+      "beatType": "1",
+      "time": 73746
+    },
+    {
+      "beatType": "0",
+      "time": 74164
+    },
+    {
+      "beatType": "9",
+      "time": 74187
+    },
+    {
+      "beatType": "1",
+      "time": 74628
+    },
+    {
+      "beatType": "9",
+      "time": 74652
+    },
+    {
+      "beatType": "0",
+      "time": 75070
+    },
+    {
+      "beatType": "9",
+      "time": 75116
+    },
+    {
+      "beatType": "1",
+      "time": 75511
+    },
+    {
+      "beatType": "9",
+      "time": 75557
+    },
+    {
+      "beatType": "9",
+      "time": 75998
+    },
+    {
+      "beatType": "0",
+      "time": 75998
+    },
+    {
+      "beatType": "1",
+      "time": 76393
+    },
+    {
+      "beatType": "9",
+      "time": 76440
+    },
+    {
+      "beatType": "9",
+      "time": 76881
+    },
+    {
+      "beatType": "0",
+      "time": 76881
+    },
+    {
+      "beatType": "9",
+      "time": 77345
+    },
+    {
+      "beatType": "1",
+      "time": 77345
+    },
+    {
+      "beatType": "9",
+      "time": 77740
+    },
+    {
+      "beatType": "0",
+      "time": 77786
+    },
+    {
+      "beatType": "9",
+      "time": 78228
+    },
+    {
+      "beatType": "1",
+      "time": 78251
+    },
+    {
+      "beatType": "0",
+      "time": 78692
+    },
+    {
+      "beatType": "9",
+      "time": 78738
+    },
+    {
+      "beatType": "9",
+      "time": 79133
+    },
+    {
+      "beatType": "1",
+      "time": 79133
+    },
+    {
+      "beatType": "0",
+      "time": 79551
+    },
+    {
+      "beatType": "9",
+      "time": 79574
+    },
+    {
+      "beatType": "9",
+      "time": 80015
+    },
+    {
+      "beatType": "1",
+      "time": 80062
+    },
+    {
+      "beatType": "0",
+      "time": 80457
+    },
+    {
+      "beatType": "9",
+      "time": 80480
+    },
+    {
+      "beatType": "9",
+      "time": 80944
+    },
+    {
+      "beatType": "1",
+      "time": 80967
+    },
+    {
+      "beatType": "9",
+      "time": 81316
+    },
+    {
+      "beatType": "0",
+      "time": 81455
+    },
+    {
+      "beatType": "9",
+      "time": 81780
+    },
+    {
+      "beatType": "1",
+      "time": 81873
+    },
+    {
+      "beatType": "9",
+      "time": 82268
+    },
+    {
+      "beatType": "0",
+      "time": 82291
+    },
+    {
+      "beatType": "9",
+      "time": 82709
+    },
+    {
+      "beatType": "1",
+      "time": 82732
+    },
+    {
+      "beatType": "9",
+      "time": 83197
+    },
+    {
+      "beatType": "0",
+      "time": 83243
+    },
+    {
+      "beatType": "9",
+      "time": 83638
+    },
+    {
+      "beatType": "1",
+      "time": 83638
+    },
+    {
+      "beatType": "9",
+      "time": 84056
+    },
+    {
+      "beatType": "0",
+      "time": 84056
+    },
+    {
+      "beatType": "9",
+      "time": 84520
+    },
+    {
+      "beatType": "1",
+      "time": 84543
+    },
+    {
+      "beatType": "9",
+      "time": 84938
+    },
+    {
+      "beatType": "0",
+      "time": 84961
+    },
+    {
+      "beatType": "1",
+      "time": 85402
+    },
+    {
+      "beatType": "9",
+      "time": 85426
+    },
+    {
+      "beatType": "0",
+      "time": 85867
+    },
+    {
+      "beatType": "9",
+      "time": 85890
+    },
+    {
+      "beatType": "1",
+      "time": 86308
+    },
+    {
+      "beatType": "9",
+      "time": 86331
+    },
+    {
+      "beatType": "0",
+      "time": 86703
+    },
+    {
+      "beatType": "9",
+      "time": 86796
+    },
+    {
+      "beatType": "1",
+      "time": 87190
+    },
+    {
+      "beatType": "9",
+      "time": 87260
+    },
+    {
+      "beatType": "0",
+      "time": 87678
+    },
+    {
+      "beatType": "9",
+      "time": 87748
+    },
+    {
+      "beatType": "9",
+      "time": 88119
+    },
+    {
+      "beatType": "1",
+      "time": 88119
+    },
+    {
+      "beatType": "9",
+      "time": 88537
+    },
+    {
+      "beatType": "0",
+      "time": 88607
+    },
+    {
+      "beatType": "9",
+      "time": 89002
+    },
+    {
+      "beatType": "1",
+      "time": 89071
+    },
+    {
+      "beatType": "9",
+      "time": 89466
+    },
+    {
+      "beatType": "0",
+      "time": 89489
+    },
+    {
+      "beatType": "9",
+      "time": 89930
+    },
+    {
+      "beatType": "1",
+      "time": 89954
+    },
+    {
+      "beatType": "9",
+      "time": 90395
+    },
+    {
+      "beatType": "0",
+      "time": 90418
+    },
+    {
+      "beatType": "9",
+      "time": 90813
+    },
+    {
+      "beatType": "1",
+      "time": 90813
+    },
+    {
+      "beatType": "0",
+      "time": 91231
+    },
+    {
+      "beatType": "9",
+      "time": 91254
+    },
+    {
+      "beatType": "1",
+      "time": 91718
+    },
+    {
+      "beatType": "9",
+      "time": 91742
+    },
+    {
+      "beatType": "0",
+      "time": 92160
+    },
+    {
+      "beatType": "9",
+      "time": 92183
+    },
+    {
+      "beatType": "9",
+      "time": 92647
+    },
+    {
+      "beatType": "1",
+      "time": 92647
+    },
+    {
+      "beatType": "0",
+      "time": 93088
+    },
+    {
+      "beatType": "9",
+      "time": 93158
+    },
+    {
+      "beatType": "9",
+      "time": 93576
+    },
+    {
+      "beatType": "1",
+      "time": 93576
+    },
+    {
+      "beatType": "0",
+      "time": 93994
+    },
+    {
+      "beatType": "9",
+      "time": 94017
+    },
+    {
+      "beatType": "9",
+      "time": 94458
+    },
+    {
+      "beatType": "1",
+      "time": 94458
+    },
+    {
+      "beatType": "9",
+      "time": 94876
+    },
+    {
+      "beatType": "0",
+      "time": 94923
+    },
+    {
+      "beatType": "9",
+      "time": 95364
+    },
+    {
+      "beatType": "1",
+      "time": 95364
+    },
+    {
+      "beatType": "9",
+      "time": 95759
+    },
+    {
+      "beatType": "0",
+      "time": 95759
+    },
+    {
+      "beatType": "9",
+      "time": 96177
+    },
+    {
+      "beatType": "1",
+      "time": 96200
+    },
+    {
+      "beatType": "9",
+      "time": 96571
+    },
+    {
+      "beatType": "0",
+      "time": 96618
+    },
+    {
+      "beatType": "9",
+      "time": 97036
+    },
+    {
+      "beatType": "1",
+      "time": 97129
+    },
+    {
+      "beatType": "9",
+      "time": 97523
+    },
+    {
+      "beatType": "0",
+      "time": 97616
+    },
+    {
+      "beatType": "9",
+      "time": 98011
+    },
+    {
+      "beatType": "1",
+      "time": 98034
+    },
+    {
+      "beatType": "9",
+      "time": 98475
+    },
+    {
+      "beatType": "0",
+      "time": 98499
+    },
+    {
+      "beatType": "9",
+      "time": 98893
+    },
+    {
+      "beatType": "1",
+      "time": 98893
+    },
+    {
+      "beatType": "0",
+      "time": 99334
+    },
+    {
+      "beatType": "9",
+      "time": 99404
+    },
+    {
+      "beatType": "9",
+      "time": 99799
+    },
+    {
+      "beatType": "1",
+      "time": 99822
+    },
+    {
+      "beatType": "0",
+      "time": 100240
+    },
+    {
+      "beatType": "9",
+      "time": 100286
+    },
+    {
+      "beatType": "1",
+      "time": 100751
+    },
+    {
+      "beatType": "9",
+      "time": 100797
+    },
+    {
+      "beatType": "9",
+      "time": 101239
+    },
+    {
+      "beatType": "0",
+      "time": 101239
+    },
+    {
+      "beatType": "9",
+      "time": 101447
+    },
+    {
+      "beatType": "9",
+      "time": 101656
+    },
+    {
+      "beatType": "9",
+      "time": 102167
+    },
+    {
+      "beatType": "1",
+      "time": 102167
+    },
+    {
+      "beatType": "9",
+      "time": 102817
+    },
+    {
+      "beatType": "0",
+      "time": 102934
+    },
+    {
+      "beatType": "9",
+      "time": 103259
+    },
+    {
+      "beatType": "9",
+      "time": 103653
+    },
+    {
+      "beatType": "1",
+      "time": 103886
+    },
+    {
+      "beatType": "9",
+      "time": 104838
+    },
+    {
+      "beatType": "0",
+      "time": 104838
+    },
+    {
+      "beatType": "9",
+      "time": 105047
+    },
+    {
+      "beatType": "9",
+      "time": 105302
+    },
+    {
+      "beatType": "9",
+      "time": 105697
+    },
+    {
+      "beatType": "1",
+      "time": 105720
+    },
+    {
+      "beatType": "9",
+      "time": 106184
+    },
+    {
+      "beatType": "9",
+      "time": 106440
+    },
+    {
+      "beatType": "0",
+      "time": 106626
+    },
+    {
+      "beatType": "9",
+      "time": 106858
+    },
+    {
+      "beatType": "9",
+      "time": 107299
+    },
+    {
+      "beatType": "1",
+      "time": 107508
+    },
+    {
+      "beatType": "9",
+      "time": 108437
+    },
+    {
+      "beatType": "0",
+      "time": 108483
+    },
+    {
+      "beatType": "9",
+      "time": 108878
+    },
+    {
+      "beatType": "0",
+      "time": 108924
+    },
+    {
+      "beatType": "1",
+      "time": 109319
+    },
+    {
+      "beatType": "9",
+      "time": 109342
+    },
+    {
+      "beatType": "9",
+      "time": 110016
+    },
+    {
+      "beatType": "0",
+      "time": 110085
+    },
+    {
+      "beatType": "9",
+      "time": 110364
+    },
+    {
+      "beatType": "0",
+      "time": 110457
+    },
+    {
+      "beatType": "9",
+      "time": 110619
+    },
+    {
+      "beatType": "1",
+      "time": 110689
+    },
+    {
+      "beatType": "0",
+      "time": 111153
+    },
+    {
+      "beatType": "9",
+      "time": 111989
+    },
+    {
+      "beatType": "1",
+      "time": 112059
+    },
+    {
+      "beatType": "9",
+      "time": 112431
+    },
+    {
+      "beatType": "0",
+      "time": 112523
+    },
+    {
+      "beatType": "9",
+      "time": 112941
+    },
+    {
+      "beatType": "0",
+      "time": 112965
+    },
+    {
+      "beatType": "1",
+      "time": 113406
+    },
+    {
+      "beatType": "9",
+      "time": 113615
+    },
+    {
+      "beatType": "0",
+      "time": 113615
+    },
+    {
+      "beatType": "1",
+      "time": 115217
+    },
+    {
+      "beatType": "9",
+      "time": 115658
+    },
+    {
+      "beatType": "0",
+      "time": 115705
+    },
+    {
+      "beatType": "9",
+      "time": 116146
+    },
+    {
+      "beatType": "1",
+      "time": 116517
+    },
+    {
+      "beatType": "9",
+      "time": 116540
+    },
+    {
+      "beatType": "9",
+      "time": 117028
+    },
+    {
+      "beatType": "9",
+      "time": 117260
+    },
+    {
+      "beatType": "0",
+      "time": 117353
+    },
+    {
+      "beatType": "9",
+      "time": 117678
+    },
+    {
+      "beatType": "9",
+      "time": 117910
+    },
+    {
+      "beatType": "1",
+      "time": 118282
+    },
+    {
+      "beatType": "9",
+      "time": 118328
+    },
+    {
+      "beatType": "9",
+      "time": 119257
+    },
+    {
+      "beatType": "0",
+      "time": 119280
+    },
+    {
+      "beatType": "9",
+      "time": 119698
+    },
+    {
+      "beatType": "1",
+      "time": 120116
+    },
+    {
+      "beatType": "9",
+      "time": 120186
+    },
+    {
+      "beatType": "9",
+      "time": 120627
+    },
+    {
+      "beatType": "9",
+      "time": 120859
+    },
+    {
+      "beatType": "0",
+      "time": 121068
+    },
+    {
+      "beatType": "9",
+      "time": 121277
+    },
+    {
+      "beatType": "9",
+      "time": 121556
+    },
+    {
+      "beatType": "1",
+      "time": 121881
+    },
+    {
+      "beatType": "9",
+      "time": 121927
+    },
+    {
+      "beatType": "9",
+      "time": 122856
+    },
+    {
+      "beatType": "0",
+      "time": 122856
+    },
+    {
+      "beatType": "9",
+      "time": 123297
+    },
+    {
+      "beatType": "0",
+      "time": 123390
+    },
+    {
+      "beatType": "1",
+      "time": 123576
+    },
+    {
+      "beatType": "9",
+      "time": 123762
+    },
+    {
+      "beatType": "9",
+      "time": 124226
+    },
+    {
+      "beatType": "0",
+      "time": 124273
+    },
+    {
+      "beatType": "9",
+      "time": 124458
+    },
+    {
+      "beatType": "1",
+      "time": 124528
+    },
+    {
+      "beatType": "9",
+      "time": 124876
+    },
+    {
+      "beatType": "1",
+      "time": 124946
+    },
+    {
+      "beatType": "9",
+      "time": 125132
+    },
+    {
+      "beatType": "0",
+      "time": 125178
+    },
+    {
+      "beatType": "9",
+      "time": 125550
+    },
+    {
+      "beatType": "1",
+      "time": 125573
+    },
+    {
+      "beatType": "0",
+      "time": 126455
+    },
+    {
+      "beatType": "9",
+      "time": 126479
+    },
+    {
+      "beatType": "9",
+      "time": 126920
+    },
+    {
+      "beatType": "0",
+      "time": 126943
+    },
+    {
+      "beatType": "1",
+      "time": 127384
+    },
+    {
+      "beatType": "9",
+      "time": 127407
+    },
+    {
+      "beatType": "0",
+      "time": 127849
+    },
+    {
+      "beatType": "9",
+      "time": 127872
+    },
+    {
+      "beatType": "1",
+      "time": 128034
+    },
+    {
+      "beatType": "9",
+      "time": 128104
+    },
+    {
+      "beatType": "1",
+      "time": 128476
+    },
+    {
+      "beatType": "9",
+      "time": 128568
+    },
+    {
+      "beatType": "0",
+      "time": 128731
+    },
+    {
+      "beatType": "9",
+      "time": 128801
+    },
+    {
+      "beatType": "1",
+      "time": 129172
+    },
+    {
+      "beatType": "9",
+      "time": 129219
+    },
+    {
+      "beatType": "0",
+      "time": 130031
+    },
+    {
+      "beatType": "9",
+      "time": 130078
+    },
+    {
+      "beatType": "9",
+      "time": 130519
+    },
+    {
+      "beatType": "0",
+      "time": 130542
+    },
+    {
+      "beatType": "1",
+      "time": 130983
+    },
+    {
+      "beatType": "9",
+      "time": 131030
+    },
+    {
+      "beatType": "9",
+      "time": 131471
+    },
+    {
+      "beatType": "0",
+      "time": 131471
+    },
+    {
+      "beatType": "1",
+      "time": 131657
+    },
+    {
+      "beatType": "9",
+      "time": 131726
+    },
+    {
+      "beatType": "9",
+      "time": 132098
+    },
+    {
+      "beatType": "1",
+      "time": 132098
+    },
+    {
+      "beatType": "9",
+      "time": 132353
+    },
+    {
+      "beatType": "0",
+      "time": 132376
+    },
+    {
+      "beatType": "1",
+      "time": 132748
+    },
+    {
+      "beatType": "9",
+      "time": 132794
+    },
+    {
+      "beatType": "0",
+      "time": 133654
+    },
+    {
+      "beatType": "9",
+      "time": 133723
+    },
+    {
+      "beatType": "0",
+      "time": 134164
+    },
+    {
+      "beatType": "1",
+      "time": 134397
+    },
+    {
+      "beatType": "9",
+      "time": 134559
+    },
+    {
+      "beatType": "0",
+      "time": 134931
+    },
+    {
+      "beatType": "1",
+      "time": 135140
+    },
+    {
+      "beatType": "0",
+      "time": 135465
+    },
+    {
+      "beatType": "1",
+      "time": 135906
+    },
+    {
+      "beatType": "9",
+      "time": 136324
+    },
+    {
+      "beatType": "0",
+      "time": 136394
+    },
+    {
+      "beatType": "9",
+      "time": 136811
+    },
+    {
+      "beatType": "1",
+      "time": 136881
+    },
+    {
+      "beatType": "9",
+      "time": 137276
+    },
+    {
+      "beatType": "0",
+      "time": 137322
+    },
+    {
+      "beatType": "9",
+      "time": 137740
+    },
+    {
+      "beatType": "1",
+      "time": 137810
+    },
+    {
+      "beatType": "9",
+      "time": 138228
+    },
+    {
+      "beatType": "0",
+      "time": 138228
+    },
+    {
+      "beatType": "9",
+      "time": 138692
+    },
+    {
+      "beatType": "1",
+      "time": 138692
+    },
+    {
+      "beatType": "9",
+      "time": 138994
+    },
+    {
+      "beatType": "0",
+      "time": 139110
+    },
+    {
+      "beatType": "9",
+      "time": 139342
+    },
+    {
+      "beatType": "9",
+      "time": 139575
+    },
+    {
+      "beatType": "1",
+      "time": 139575
+    },
+    {
+      "beatType": "9",
+      "time": 139993
+    },
+    {
+      "beatType": "0",
+      "time": 140016
+    },
+    {
+      "beatType": "9",
+      "time": 140434
+    },
+    {
+      "beatType": "1",
+      "time": 140503
+    },
+    {
+      "beatType": "0",
+      "time": 140898
+    },
+    {
+      "beatType": "9",
+      "time": 140921
+    },
+    {
+      "beatType": "9",
+      "time": 141363
+    },
+    {
+      "beatType": "1",
+      "time": 141409
+    },
+    {
+      "beatType": "9",
+      "time": 141618
+    },
+    {
+      "beatType": "9",
+      "time": 141827
+    },
+    {
+      "beatType": "0",
+      "time": 141827
+    },
+    {
+      "beatType": "9",
+      "time": 142245
+    },
+    {
+      "beatType": "1",
+      "time": 142315
+    },
+    {
+      "beatType": "9",
+      "time": 142500
+    },
+    {
+      "beatType": "0",
+      "time": 142663
+    },
+    {
+      "beatType": "9",
+      "time": 142918
+    },
+    {
+      "beatType": "9",
+      "time": 143151
+    },
+    {
+      "beatType": "1",
+      "time": 143151
+    },
+    {
+      "beatType": "9",
+      "time": 143592
+    },
+    {
+      "beatType": "0",
+      "time": 143615
+    },
+    {
+      "beatType": "1",
+      "time": 144033
+    },
+    {
+      "beatType": "9",
+      "time": 144079
+    },
+    {
+      "beatType": "9",
+      "time": 144544
+    },
+    {
+      "beatType": "0",
+      "time": 144544
+    },
+    {
+      "beatType": "1",
+      "time": 144962
+    },
+    {
+      "beatType": "9",
+      "time": 144985
+    },
+    {
+      "beatType": "0",
+      "time": 145426
+    },
+    {
+      "beatType": "9",
+      "time": 145449
+    },
+    {
+      "beatType": "1",
+      "time": 145890
+    },
+    {
+      "beatType": "9",
+      "time": 145914
+    },
+    {
+      "beatType": "9",
+      "time": 146146
+    },
+    {
+      "beatType": "0",
+      "time": 146308
+    },
+    {
+      "beatType": "9",
+      "time": 146587
+    },
+    {
+      "beatType": "1",
+      "time": 146726
+    },
+    {
+      "beatType": "9",
+      "time": 146796
+    },
+    {
+      "beatType": "0",
+      "time": 147214
+    },
+    {
+      "beatType": "9",
+      "time": 147260
+    },
+    {
+      "beatType": "9",
+      "time": 147678
+    },
+    {
+      "beatType": "1",
+      "time": 147702
+    },
+    {
+      "beatType": "9",
+      "time": 148120
+    },
+    {
+      "beatType": "0",
+      "time": 148120
+    },
+    {
+      "beatType": "9",
+      "time": 148375
+    },
+    {
+      "beatType": "9",
+      "time": 148584
+    },
+    {
+      "beatType": "1",
+      "time": 148630
+    },
+    {
+      "beatType": "9",
+      "time": 149048
+    },
+    {
+      "beatType": "0",
+      "time": 149048
+    },
+    {
+      "beatType": "1",
+      "time": 149513
+    },
+    {
+      "beatType": "9",
+      "time": 149559
+    },
+    {
+      "beatType": "9",
+      "time": 149815
+    },
+    {
+      "beatType": "0",
+      "time": 149954
+    },
+    {
+      "beatType": "9",
+      "time": 150256
+    },
+    {
+      "beatType": "1",
+      "time": 150349
+    },
+    {
+      "beatType": "9",
+      "time": 150511
+    },
+    {
+      "beatType": "0",
+      "time": 150860
+    },
+    {
+      "beatType": "9",
+      "time": 150883
+    },
+    {
+      "beatType": "9",
+      "time": 151278
+    },
+    {
+      "beatType": "1",
+      "time": 151278
+    },
+    {
+      "beatType": "0",
+      "time": 151719
+    },
+    {
+      "beatType": "9",
+      "time": 151742
+    },
+    {
+      "beatType": "1",
+      "time": 152183
+    },
+    {
+      "beatType": "9",
+      "time": 152230
+    },
+    {
+      "beatType": "9",
+      "time": 152647
+    },
+    {
+      "beatType": "0",
+      "time": 152647
+    },
+    {
+      "beatType": "1",
+      "time": 153089
+    },
+    {
+      "beatType": "9",
+      "time": 153112
+    },
+    {
+      "beatType": "9",
+      "time": 153321
+    },
+    {
+      "beatType": "0",
+      "time": 153553
+    },
+    {
+      "beatType": "9",
+      "time": 153762
+    },
+    {
+      "beatType": "1",
+      "time": 153994
+    },
+    {
+      "beatType": "9",
+      "time": 154017
+    },
+    {
+      "beatType": "0",
+      "time": 154366
+    },
+    {
+      "beatType": "9",
+      "time": 154459
+    },
+    {
+      "beatType": "1",
+      "time": 154853
+    },
+    {
+      "beatType": "9",
+      "time": 154923
+    },
+    {
+      "beatType": "9",
+      "time": 155341
+    },
+    {
+      "beatType": "0",
+      "time": 155364
+    },
+    {
+      "beatType": "9",
+      "time": 155782
+    },
+    {
+      "beatType": "1",
+      "time": 155805
+    },
+    {
+      "beatType": "9",
+      "time": 156038
+    },
+    {
+      "beatType": "9",
+      "time": 156247
+    },
+    {
+      "beatType": "0",
+      "time": 156247
+    },
+    {
+      "beatType": "9",
+      "time": 156711
+    },
+    {
+      "beatType": "0",
+      "time": 156757
+    },
+    {
+      "beatType": "9",
+      "time": 156966
+    },
+    {
+      "beatType": "1",
+      "time": 157013
+    },
+    {
+      "beatType": "9",
+      "time": 157338
+    },
+    {
+      "beatType": "1",
+      "time": 157408
+    },
+    {
+      "beatType": "9",
+      "time": 157593
+    },
+    {
+      "beatType": "0",
+      "time": 157593
+    },
+    {
+      "beatType": "1",
+      "time": 158035
+    },
+    {
+      "beatType": "9",
+      "time": 158058
+    },
+    {
+      "beatType": "9",
+      "time": 158476
+    },
+    {
+      "beatType": "0",
+      "time": 158522
+    },
+    {
+      "beatType": "1",
+      "time": 158940
+    },
+    {
+      "beatType": "9",
+      "time": 159010
+    },
+    {
+      "beatType": "0",
+      "time": 159381
+    },
+    {
+      "beatType": "9",
+      "time": 159404
+    },
+    {
+      "beatType": "1",
+      "time": 159846
+    },
+    {
+      "beatType": "9",
+      "time": 159892
+    },
+    {
+      "beatType": "0",
+      "time": 160310
+    },
+    {
+      "beatType": "9",
+      "time": 160333
+    },
+    {
+      "beatType": "9",
+      "time": 160542
+    },
+    {
+      "beatType": "1",
+      "time": 160728
+    },
+    {
+      "beatType": "9",
+      "time": 161007
+    },
+    {
+      "beatType": "0",
+      "time": 161146
+    },
+    {
+      "beatType": "9",
+      "time": 161216
+    },
+    {
+      "beatType": "9",
+      "time": 161448
+    },
+    {
+      "beatType": "1",
+      "time": 161680
+    },
+    {
+      "beatType": "9",
+      "time": 161912
+    },
+    {
+      "beatType": "0",
+      "time": 162098
+    },
+    {
+      "beatType": "9",
+      "time": 162400
+    },
+    {
+      "beatType": "1",
+      "time": 162516
+    },
+    {
+      "beatType": "9",
+      "time": 162980
+    },
+    {
+      "beatType": "0",
+      "time": 163004
+    },
+    {
+      "beatType": "9",
+      "time": 163236
+    },
+    {
+      "beatType": "1",
+      "time": 163422
+    },
+    {
+      "beatType": "9",
+      "time": 163468
+    },
+    {
+      "beatType": "9",
+      "time": 163747
+    },
+    {
+      "beatType": "0",
+      "time": 163886
+    },
+    {
+      "beatType": "9",
+      "time": 164234
+    },
+    {
+      "beatType": "1",
+      "time": 164397
+    },
+    {
+      "beatType": "9",
+      "time": 164629
+    },
+    {
+      "beatType": "0",
+      "time": 164768
+    },
+    {
+      "beatType": "9",
+      "time": 164861
+    },
+    {
+      "beatType": "1",
+      "time": 165233
+    },
+    {
+      "beatType": "9",
+      "time": 165302
+    },
+    {
+      "beatType": "0",
+      "time": 165651
+    },
+    {
+      "beatType": "9",
+      "time": 165697
+    },
+    {
+      "beatType": "1",
+      "time": 165999
+    },
+    {
+      "beatType": "9",
+      "time": 166208
+    },
+    {
+      "beatType": "0",
+      "time": 166278
+    },
+    {
+      "beatType": "9",
+      "time": 166440
+    },
+    {
+      "beatType": "0",
+      "time": 166463
+    },
+    {
+      "beatType": "1",
+      "time": 166649
+    },
+    {
+      "beatType": "9",
+      "time": 166672
+    },
+    {
+      "beatType": "9",
+      "time": 167090
+    },
+    {
+      "beatType": "0",
+      "time": 167114
+    },
+    {
+      "beatType": "9",
+      "time": 167508
+    },
+    {
+      "beatType": "1",
+      "time": 167555
+    },
+    {
+      "beatType": "9",
+      "time": 167787
+    },
+    {
+      "beatType": "0",
+      "time": 167810
+    },
+    {
+      "beatType": "0",
+      "time": 168205
+    },
+    {
+      "beatType": "1",
+      "time": 168460
+    },
+    {
+      "beatType": "0",
+      "time": 168878
+    },
+    {
+      "beatType": "0",
+      "time": 169134
+    },
+    {
+      "beatType": "9",
+      "time": 169296
+    },
+    {
+      "beatType": "1",
+      "time": 169343
+    },
+    {
+      "beatType": "0",
+      "time": 169761
+    },
+    {
+      "beatType": "9",
+      "time": 169807
+    },
+    {
+      "beatType": "9",
+      "time": 170016
+    },
+    {
+      "beatType": "0",
+      "time": 170016
+    },
+    {
+      "beatType": "1",
+      "time": 170202
+    },
+    {
+      "beatType": "9",
+      "time": 170248
+    },
+    {
+      "beatType": "9",
+      "time": 170666
+    },
+    {
+      "beatType": "0",
+      "time": 170666
+    },
+    {
+      "beatType": "9",
+      "time": 171107
+    },
+    {
+      "beatType": "1",
+      "time": 171177
+    },
+    {
+      "beatType": "9",
+      "time": 171316
+    },
+    {
+      "beatType": "0",
+      "time": 171386
+    },
+    {
+      "beatType": "9",
+      "time": 171850
+    },
+    {
+      "beatType": "0",
+      "time": 171850
+    },
+    {
+      "beatType": "9",
+      "time": 172083
+    },
+    {
+      "beatType": "1",
+      "time": 172083
+    },
+    {
+      "beatType": "0",
+      "time": 172268
+    },
+    {
+      "beatType": "1",
+      "time": 172477
+    },
+    {
+      "beatType": "9",
+      "time": 172547
+    },
+    {
+      "beatType": "9",
+      "time": 172733
+    },
+    {
+      "beatType": "0",
+      "time": 172826
+    },
+    {
+      "beatType": "9",
+      "time": 172942
+    },
+    {
+      "beatType": "0",
+      "time": 173035
+    },
+    {
+      "beatType": "9",
+      "time": 173406
+    },
+    {
+      "beatType": "1",
+      "time": 173406
+    },
+    {
+      "beatType": "9",
+      "time": 173638
+    },
+    {
+      "beatType": "9",
+      "time": 173847
+    },
+    {
+      "beatType": "0",
+      "time": 173847
+    },
+    {
+      "beatType": "9",
+      "time": 174288
+    },
+    {
+      "beatType": "1",
+      "time": 174312
+    },
+    {
+      "beatType": "9",
+      "time": 174776
+    },
+    {
+      "beatType": "0",
+      "time": 174776
+    },
+    {
+      "beatType": "9",
+      "time": 175008
+    },
+    {
+      "beatType": "1",
+      "time": 175148
+    },
+    {
+      "beatType": "9",
+      "time": 175496
+    },
+    {
+      "beatType": "0",
+      "time": 175658
+    },
+    {
+      "beatType": "9",
+      "time": 175728
+    },
+    {
+      "beatType": "1",
+      "time": 176053
+    },
+    {
+      "beatType": "9",
+      "time": 176169
+    },
+    {
+      "beatType": "9",
+      "time": 176402
+    },
+    {
+      "beatType": "0",
+      "time": 176541
+    },
+    {
+      "beatType": "9",
+      "time": 176634
+    },
+    {
+      "beatType": "1",
+      "time": 177005
+    },
+    {
+      "beatType": "9",
+      "time": 177075
+    },
+    {
+      "beatType": "9",
+      "time": 177284
+    },
+    {
+      "beatType": "9",
+      "time": 177470
+    },
+    {
+      "beatType": "0",
+      "time": 177493
+    },
+    {
+      "beatType": "1",
+      "time": 177911
+    },
+    {
+      "beatType": "9",
+      "time": 177934
+    },
+    {
+      "beatType": "9",
+      "time": 178352
+    },
+    {
+      "beatType": "0",
+      "time": 178398
+    },
+    {
+      "beatType": "9",
+      "time": 178607
+    },
+    {
+      "beatType": "1",
+      "time": 178816
+    },
+    {
+      "beatType": "9",
+      "time": 179049
+    },
+    {
+      "beatType": "0",
+      "time": 179281
+    },
+    {
+      "beatType": "9",
+      "time": 179304
+    },
+    {
+      "beatType": "9",
+      "time": 179513
+    },
+    {
+      "beatType": "1",
+      "time": 179722
+    },
+    {
+      "beatType": "9",
+      "time": 179768
+    },
+    {
+      "beatType": "9",
+      "time": 180163
+    },
+    {
+      "beatType": "0",
+      "time": 180186
+    },
+    {
+      "beatType": "9",
+      "time": 180604
+    },
+    {
+      "beatType": "1",
+      "time": 180604
+    },
+    {
+      "beatType": "9",
+      "time": 180813
+    },
+    {
+      "beatType": "9",
+      "time": 181069
+    },
+    {
+      "beatType": "0",
+      "time": 181069
+    },
+    {
+      "beatType": "9",
+      "time": 181510
+    },
+    {
+      "beatType": "1",
+      "time": 181510
+    },
+    {
+      "beatType": "9",
+      "time": 181974
+    },
+    {
+      "beatType": "0",
+      "time": 181998
+    },
+    {
+      "beatType": "9",
+      "time": 182183
+    },
+    {
+      "beatType": "1",
+      "time": 182415
+    },
+    {
+      "beatType": "9",
+      "time": 182648
+    },
+    {
+      "beatType": "9",
+      "time": 182880
+    },
+    {
+      "beatType": "0",
+      "time": 182880
+    },
+    {
+      "beatType": "1",
+      "time": 183344
+    },
+    {
+      "beatType": "9",
+      "time": 183367
+    },
+    {
+      "beatType": "0",
+      "time": 183762
+    },
+    {
+      "beatType": "1",
+      "time": 184157
+    },
+    {
+      "beatType": "9",
+      "time": 184203
+    },
+    {
+      "beatType": "0",
+      "time": 184645
+    },
+    {
+      "beatType": "9",
+      "time": 184668
+    },
+    {
+      "beatType": "9",
+      "time": 184877
+    },
+    {
+      "beatType": "1",
+      "time": 185063
+    },
+    {
+      "beatType": "9",
+      "time": 185434
+    },
+    {
+      "beatType": "0",
+      "time": 185527
+    },
+    {
+      "beatType": "1",
+      "time": 185945
+    },
+    {
+      "beatType": "0",
+      "time": 186386
+    },
+    {
+      "beatType": "9",
+      "time": 186525
+    },
+    {
+      "beatType": "1",
+      "time": 186874
+    },
+    {
+      "beatType": "9",
+      "time": 186967
+    },
+    {
+      "beatType": "0",
+      "time": 187385
+    },
+    {
+      "beatType": "1",
+      "time": 187779
+    },
+    {
+      "beatType": "9",
+      "time": 187826
+    },
+    {
+      "beatType": "0",
+      "time": 188267
+    },
+    {
+      "beatType": "9",
+      "time": 188708
+    },
+    {
+      "beatType": "1",
+      "time": 188731
+    },
+    {
+      "beatType": "0",
+      "time": 189219
+    },
+    {
+      "beatType": "9",
+      "time": 189335
+    },
+    {
+      "beatType": "9",
+      "time": 189567
+    },
+    {
+      "beatType": "1",
+      "time": 189660
+    },
+    {
+      "beatType": "0",
+      "time": 190078
+    },
+    {
+      "beatType": "9",
+      "time": 190264
+    },
+    {
+      "beatType": "1",
+      "time": 190496
+    },
+    {
+      "beatType": "9",
+      "time": 190960
+    },
+    {
+      "beatType": "0",
+      "time": 190984
+    },
+    {
+      "beatType": "9",
+      "time": 191448
+    },
+    {
+      "beatType": "1",
+      "time": 191471
+    },
+    {
+      "beatType": "0",
+      "time": 191889
+    },
+    {
+      "beatType": "9",
+      "time": 192145
+    },
+    {
+      "beatType": "1",
+      "time": 192354
+    },
+    {
+      "beatType": "9",
+      "time": 192772
+    },
+    {
+      "beatType": "0",
+      "time": 192841
+    }
+  ],
+  "numBeats": 920
+}

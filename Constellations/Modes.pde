@@ -21,6 +21,7 @@ int V_SNAKE = 16;
 int V_SEGMENT_SHIFT = 17;
 int V_FADE = 18;
 int V_TRANSIT = 19;
+int V_TWINKLE = 20;
 
 /////////////////////
 // KINECT MODES
@@ -80,95 +81,99 @@ void initDeltaWaves() {
   deltaScenes = new Scene[14];
 
   deltaScenes[0] = new Scene(0.0, V_SHOW_ONE, K_NONE, PanelMode.STARS);
-  deltaScenes[1] = new Scene(0.07, V_SEESAW, K_CONSTELLATION, PanelMode.STARS);
-  deltaScenes[2] = new Scene(0.14, V_LINE_EQUALIZER, K_TRANSIT_X, PanelMode.STARS);
-  deltaScenes[3] = new Scene(0.29, V_PULSING_ON_LINE, K_AIR_LINE, PanelMode.STARS);
-  deltaScenes[4] = new Scene(0.36, V_PULSE_LINE_LEFT, K_AIR_Z, PanelMode.LINES);
-  deltaScenes[5] = new Scene(0.50, V_ROTATE_ANGLE, K_AIR_BRIGHT, PanelMode.PULSING);
-  deltaScenes[6] = new Scene(1.12, V_LINE_PERCENT, K_SPOTLIGHT, PanelMode.FFT_CIRCLE);
-  //deltaScenes[7] = new Scene(1.25, V_TRANSIT, K_CONSTELLATION, PanelMode.FFT_LINES);
-  deltaScenes[7] = new Scene(1.42, V_PULSING, K_TRANSIT_X, PanelMode.BACKFORTH);
-  deltaScenes[8] = new Scene(1.53, V_PULSE_LINE_BACK, K_AIR_LINE, PanelMode.CONSTELLATIONS);
-  deltaScenes[9] = new Scene(2.14, V_LINE_PERCENT, K_AIR_Z, PanelMode.STRIPED);
-  deltaScenes[10] = new Scene(2.17, V_SHOW_ONE, K_SPOTLIGHT, PanelMode.UPDOWN);
-  deltaScenes[11] = new Scene(2.46, V_ROTATE_ANGLE, K_TRANSIT_X, PanelMode.STARS);
-  deltaScenes[12] = new Scene(3.01, V_PULSE_LINE_BACK, K_CONSTELLATION, PanelMode.LINES);
-  deltaScenes[13] = new Scene(3.13, V_TRANSIT, K_NONE, PanelMode.FFT_LINES);
+  deltaScenes[1] = new Scene(0.07, V_SEESAW, K_SPOTLIGHT, PanelMode.LINES);
+  deltaScenes[2] = new Scene(0.14, V_LINE_EQUALIZER, K_SPOTLIGHT, PanelMode.FFT_CIRCLE);
+  deltaScenes[3] = new Scene(0.29, V_PULSING_ON_LINE, K_AIR_LINE, PanelMode.FFT_LINES);
+  deltaScenes[4] = new Scene(0.36, V_PULSE_LINE_LEFT, K_AIR_LINE, PanelMode.CONSTELLATIONS);
+  deltaScenes[5] = new Scene(0.50, V_ROTATE_ANGLE, K_AIR_Z, PanelMode.STARS);
+  deltaScenes[6] = new Scene(1.12, V_LINE_PERCENT, K_AIR_Z, PanelMode.LINES);
+  deltaScenes[7] = new Scene(1.42, V_PULSING, K_TRANSIT_X, PanelMode.STRIPED);
+  deltaScenes[8] = new Scene(1.53, V_PULSE_LINE_BACK, K_TRANSIT_X, PanelMode.CONSTELLATIONS);
+  deltaScenes[9] = new Scene(2.14, V_LINE_PERCENT,K_SPOTLIGHT, PanelMode.FFT_LINES);
+  deltaScenes[10] = new Scene(2.17, V_SHOW_ONE, K_SPOTLIGHT, PanelMode.STARS);
+  deltaScenes[11] = new Scene(2.46, V_ROTATE_ANGLE, K_AIR_LINE, PanelMode.FFT_CIRCLE);
+  deltaScenes[12] = new Scene(3.01, V_PULSE_LINE_BACK, K_AIR_LINE, PanelMode.FFT_LINES);
+  deltaScenes[13] = new Scene(3.13, V_TRANSIT, K_TRANSIT_X, PanelMode.LINES);
   // randomPath = graphL.getRandomPath(11, 5);
 }
 
 void initSongForM() {
   songScenes = new Scene[13];
-  songScenes[0] = new Scene(0, V_PULSING_ON_LINE, K_NONE, PanelMode.LINES);
-  songScenes[1] = new Scene(0.18, V_SEESAW, K_CONSTELLATION, PanelMode.STARS);
-  songScenes[2] = new Scene(0.34, V_LINE_EQUALIZER, K_TRANSIT_X, PanelMode.STARS);
-  songScenes[3] = new Scene(0.50, V_PULSING_ON_LINE, K_AIR_LINE, PanelMode.STARS);
-  songScenes[4] = new Scene(1.14, V_PULSE_LINE_LEFT, K_AIR_Z, PanelMode.LINES);
-  songScenes[5] = new Scene(1.22, V_ROTATE_ANGLE, K_AIR_BRIGHT, PanelMode.PULSING);
-  songScenes[6] = new Scene(1.40, V_LINE_PERCENT, K_SPOTLIGHT, PanelMode.FFT_CIRCLE);
-  songScenes[7] = new Scene(1.52, V_TRANSIT, K_CONSTELLATION, PanelMode.FFT_LINES);
-  songScenes[8] = new Scene(2.10, V_PULSE_LINE_BACK, K_AIR_LINE, PanelMode.CONSTELLATIONS);
-  songScenes[9] = new Scene(2.26, V_LINE_PERCENT, K_AIR_Z, PanelMode.STRIPED);
-  songScenes[10] = new Scene(2.42, V_SHOW_ONE, K_SPOTLIGHT, PanelMode.UPDOWN);
-  songScenes[11] = new Scene(2.58, V_TRANSIT, K_NONE, PanelMode.FFT_LINES);
-  songScenes[12] = new Scene(3.01, V_PULSE_LINE_BACK, K_CONSTELLATION, PanelMode.LINES);
+  songScenes[0] = new Scene(0, V_PULSING_ON_LINE, K_NONE, PanelMode.STRIPED);
+  songScenes[1] = new Scene(0.18, V_PULSING, K_SPOTLIGHT, PanelMode.STARS);
+  songScenes[2] = new Scene(0.34, V_SHOW_ONE, K_SPOTLIGHT, PanelMode.LINES);
+  songScenes[3] = new Scene(0.49, V_LINE_EQUALIZER, K_AIR_LINE, PanelMode.FFT_LINES);
+  songScenes[4] = new Scene(1.14, V_PULSE_LINE_LEFT, K_AIR_LINE, PanelMode.FFT_CIRCLE);
+  songScenes[5] = new Scene(1.22, V_ROTATE_ANGLE, K_AIR_Z, PanelMode.PULSING);
+  songScenes[6] = new Scene(1.40, V_PULSE_LINE_BACK,K_AIR_Z, PanelMode.STRIPED);
+  songScenes[7] = new Scene(1.52, V_TRANSIT, K_TRANSIT_X, PanelMode.FFT_LINES);
+  songScenes[8] = new Scene(2.10, V_PULSE_LINE_BACK,K_TRANSIT_X, PanelMode.CONSTELLATIONS);
+  songScenes[9] = new Scene(2.26, V_LINE_PERCENT, K_AIR_LINE, PanelMode.LINES);
+  songScenes[10] = new Scene(2.42, V_SHOW_ONE, K_AIR_LINE, PanelMode.STARS);
+  songScenes[11] = new Scene(2.58, V_TRANSIT, K_NONE, PanelMode.STRIPED);
+  songScenes[12] = new Scene(3.05, V_TWINKLE, K_NONE, PanelMode.STARS);
 }
 
 void initRiteOfSpring() {
-  riteScenes = new Scene[12];
-  riteScenes[0] = new Scene(0, V_PULSING_ON_LINE, K_NONE, PanelMode.LINES);
-  riteScenes[1] = new Scene(0.08, V_SEESAW, K_CONSTELLATION, PanelMode.STARS);
-  riteScenes[2] = new Scene(0.24, V_LINE_EQUALIZER, K_TRANSIT_X, PanelMode.STARS);
-  riteScenes[3] = new Scene(0.40, V_PULSING_ON_LINE, K_AIR_LINE, PanelMode.STARS);
-  riteScenes[4] = new Scene(0.48, V_PULSE_LINE_LEFT, K_AIR_Z, PanelMode.LINES);
-  riteScenes[5] = new Scene(1.04, V_ROTATE_ANGLE, K_AIR_BRIGHT, PanelMode.PULSING);
+  riteScenes = new Scene[13];
+  riteScenes[0] = new Scene(0, V_TWINKLE, K_NONE, PanelMode.STARS);
+  riteScenes[1] = new Scene(0.08, V_PULSING, K_TRANSIT_X, PanelMode.LINES);
+  riteScenes[2] = new Scene(0.24, V_PULSING_ON_LINE, K_TRANSIT_X, PanelMode.FFT_LINES);
+  riteScenes[3] = new Scene(0.40, V_LINE_EQUALIZER,  K_AIR_Z, PanelMode.CONSTELLATIONS);
+  riteScenes[4] = new Scene(0.48, V_PULSE_LINE_LEFT, K_AIR_Z, PanelMode.STRIPED);
+  riteScenes[5] = new Scene(1.04, V_ROTATE_ANGLE,K_SPOTLIGHT, PanelMode.STARS);
   riteScenes[6] = new Scene(1.19, V_LINE_PERCENT, K_SPOTLIGHT, PanelMode.FFT_CIRCLE);
-  riteScenes[7] = new Scene(1.35, V_TRANSIT, K_CONSTELLATION, PanelMode.FFT_LINES);
+  riteScenes[7] = new Scene(1.35, V_TRANSIT,  K_AIR_LINE, PanelMode.LINES);
   riteScenes[8] = new Scene(1.51, V_PULSE_LINE_BACK, K_AIR_LINE, PanelMode.CONSTELLATIONS);
   riteScenes[9] = new Scene(2.07, V_LINE_PERCENT, K_AIR_Z, PanelMode.STRIPED);
-  riteScenes[10] = new Scene(2.23, V_SHOW_ONE, K_SPOTLIGHT, PanelMode.UPDOWN);
+  riteScenes[10] = new Scene(2.23, V_SHOW_ONE, K_AIR_Z, PanelMode.STARS);
   riteScenes[11] = new Scene(2.38, V_TRANSIT, K_NONE, PanelMode.FFT_LINES);
+  riteScenes[12] = new Scene(2.54, V_TWINKLE, K_NONE, PanelMode.STARS);
 }
 
 
 void initCycles() {
   cyclesScenes = new Scene[11];
   cyclesScenes[0] = new Scene(0, V_PULSING_ON_LINE, K_NONE, PanelMode.LINES);
-  cyclesScenes[1] = new Scene(0.24, V_SEESAW, K_CONSTELLATION, PanelMode.STARS);
-  cyclesScenes[2] = new Scene(0.49, V_LINE_EQUALIZER, K_TRANSIT_X, PanelMode.STARS);
-  cyclesScenes[3] = new Scene(1.08, V_PULSING_ON_LINE, K_AIR_LINE, PanelMode.STARS);
-  cyclesScenes[4] = new Scene(1.33, V_PULSE_LINE_LEFT, K_AIR_Z, PanelMode.LINES);
-  cyclesScenes[5] = new Scene(1.47, V_ROTATE_ANGLE, K_AIR_BRIGHT, PanelMode.PULSING);
-  cyclesScenes[6] = new Scene(1.55, V_LINE_PERCENT, K_SPOTLIGHT, PanelMode.FFT_CIRCLE);
-  deltaScenes[7] = new Scene(2.14, V_TRANSIT, K_CONSTELLATION, PanelMode.FFT_LINES);
-  cyclesScenes[8] = new Scene(2.32, V_PULSE_LINE_BACK, K_AIR_LINE, PanelMode.CONSTELLATIONS);
-  cyclesScenes[9] = new Scene(2.42, V_LINE_PERCENT, K_AIR_Z, PanelMode.STRIPED);
-  cyclesScenes[10] = new Scene(2.49, V_SHOW_ONE, K_SPOTLIGHT, PanelMode.UPDOWN);
+  cyclesScenes[1] = new Scene(0.24, V_TRANSIT, K_TRANSIT_X, PanelMode.STARS);
+  cyclesScenes[2] = new Scene(0.49, V_LINE_EQUALIZER, K_TRANSIT_X, PanelMode.CONSTELLATIONS);
+  cyclesScenes[3] = new Scene(1.08, V_PULSING_ON_LINE, K_AIR_LINE, PanelMode.FFT_LINES);
+  cyclesScenes[4] = new Scene(1.33, V_PULSE_LINE_LEFT,K_AIR_LINE, PanelMode.STRIPED);
+  cyclesScenes[5] = new Scene(1.47, V_ROTATE_ANGLE,  K_AIR_Z, PanelMode.STARS);
+  cyclesScenes[6] = new Scene(1.55, V_LINE_PERCENT,  K_AIR_Z, PanelMode.FFT_CIRCLE);
+  cyclesScenes[7] = new Scene(2.14, V_SHOW_ONE, K_SPOTLIGHT, PanelMode.LINES);
+  cyclesScenes[8] = new Scene(2.32, V_PULSE_LINE_BACK, K_SPOTLIGHT, PanelMode.CONSTELLATIONS);
+  cyclesScenes[9] = new Scene(2.42, V_LINE_PERCENT, K_AIR_LINE, PanelMode.STRIPED);
+  cyclesScenes[10] = new Scene(2.49, V_TRANSIT, K_AIR_LINE, PanelMode.STARS);
 }
 
 void initKirasu() {
-  kirasuScenes = new Scene[10];
-  kirasuScenes[0] = new Scene(0.36, V_SHOW_ONE, K_NONE, PanelMode.UPDOWN);
-  kirasuScenes[1] = new Scene(0.58, V_SEESAW, K_CONSTELLATION, PanelMode.STARS);
-  kirasuScenes[2] = new Scene(1.22, V_LINE_EQUALIZER, K_TRANSIT_X, PanelMode.STARS);
-  kirasuScenes[3] = new Scene(1.35, V_PULSING_ON_LINE, K_AIR_LINE, PanelMode.STARS);
-  kirasuScenes[4] = new Scene(1.58, V_PULSE_LINE_LEFT, K_AIR_Z, PanelMode.LINES);
-  kirasuScenes[5] = new Scene(2.22, V_ROTATE_ANGLE, K_AIR_BRIGHT, PanelMode.PULSING);
-  kirasuScenes[6] = new Scene(2.46, V_LINE_PERCENT, K_SPOTLIGHT, PanelMode.FFT_CIRCLE);
-  kirasuScenes[7] = new Scene(3.00, V_TRANSIT, K_CONSTELLATION, PanelMode.FFT_LINES);
-  kirasuScenes[8] = new Scene(3.22, V_PULSE_LINE_BACK, K_AIR_LINE, PanelMode.CONSTELLATIONS);
-  kirasuScenes[9] = new Scene(3.46, V_LINE_PERCENT, K_AIR_Z, PanelMode.STRIPED);
+  kirasuScenes = new Scene[12];
+  kirasuScenes[0] = new Scene(0.0, V_TWINKLE, K_NONE, PanelMode.STARS);
+  kirasuScenes[1] = new Scene(0.10, V_PULSING, K_TRANSIT_X, PanelMode.CONSTELLATIONS);
+  kirasuScenes[2] = new Scene(0.36, V_TRANSIT, K_TRANSIT_X, PanelMode.LINES);
+  kirasuScenes[3] = new Scene(0.58, V_SHOW_ONE, K_SPOTLIGHT, PanelMode.STARS);
+  kirasuScenes[4] = new Scene(1.22, V_PULSING_ON_LINE, K_SPOTLIGHT, PanelMode.STRIPED);
+  kirasuScenes[5] = new Scene(1.35, V_ROTATE_ANGLE, K_AIR_LINE, PanelMode.CONSTELLATIONS);
+  kirasuScenes[6] = new Scene(1.58, V_PULSE_LINE_LEFT, K_AIR_LINE, PanelMode.FFT_LINES);
+  kirasuScenes[7] = new Scene(2.22, V_LINE_EQUALIZER, K_AIR_Z, PanelMode.STARS);
+  kirasuScenes[8] = new Scene(2.46, V_LINE_PERCENT, K_AIR_Z, PanelMode.FFT_CIRCLE);
+  kirasuScenes[9] = new Scene(3.00, V_TRANSIT, K_SPOTLIGHT, PanelMode.LINES);
+  kirasuScenes[10] = new Scene(3.22, V_PULSE_LINE_BACK, K_SPOTLIGHT, PanelMode.CONSTELLATIONS);
+  kirasuScenes[11] = new Scene(3.46, V_LINE_PERCENT, K_SPOTLIGHT, PanelMode.STRIPED);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 void startScene() {
   currentScene = 0;
+  println("current song " + songs[currentSong]);
   if (currentSong == 0) deltaScenes[0].setModes();
   else if (currentSong == 1) cyclesScenes[0].setModes();
   else if (currentSong == 2) kirasuScenes[0].setModes();
   else if (currentSong == 3) riteScenes[0].setModes();
   else if (currentSong == 4) songScenes[0].setModes();
+  setBeats();
 
   //  Cycles
   //Deltawaves
@@ -216,6 +221,10 @@ void checkScene() {
         songScenes[currentScene].setModes();
       }
     }
+    //else {
+    //  currentScene = 0;
+    //  currentSong = 0;
+    //}
   }
 }
 
@@ -237,6 +246,7 @@ void playMode() {
   else if (visualMode == V_PULSING_ON_LINE) pulseLinesCenter(1);
   else if (visualMode == V_SEGMENT_SHIFT) segmentShift(10);
   else if (visualMode == V_TRANSIT) transit(30);
+  else if (visualMode == V_TWINKLE) twinkleLines();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -276,6 +286,7 @@ void rainbowCycle(int amt) {
   colorMode(HSB, 255);
   pulseIndex+= amt;
   if (pulseIndex > 255) pulseIndex = 0;
+  else if (pulseIndex < 0) pulseIndex = 0;
   for (int i=0; i< lines.size(); i++) {
     //color c =  color(((i * 256 / lines.size()) + pulseIndex) % 255, 255, 255);
     lines.get(i).displayRainbowCycle(pulseIndex);
@@ -571,6 +582,10 @@ void pulseLineDown(int rate, int bandSize) {
 }
 
 void pulseLineBack(int rate) {
+  pulseLineBack(rate, color(255));
+}
+
+void pulseLineBack(int rate, color c) {
   if (millis() - lastCheckedPulse > rate) {
     pulseIndex++;
     if (pulseIndex > 9) {
@@ -579,7 +594,7 @@ void pulseLineBack(int rate) {
     lastCheckedPulse = millis();
   }
   for (int i = 0; i < lines.size(); i++) {
-    lines.get(i).displayBandZ(pulseIndex, color(255));
+    lines.get(i).displayBandZ(pulseIndex, c);
   }
 }
 
@@ -600,6 +615,7 @@ void showOne(int rate) {
     lastCheckedPulse = millis();
   }
   if (pulseIndex >= lines.size()) pulseIndex = 0;
+  else if (pulseIndex < 0) pulseIndex = 0;
   lines.get(pulseIndex).display();
 }
 
@@ -616,11 +632,11 @@ void fftConstellations(int rate) {
 void pulsing(int rate) {
   pulseIndex += rate;
   pulseIndex %= 510;
-  int b = pulseIndex;
-  if (pulseIndex > 255) b = int(map(pulseIndex, 255, 510, 255, 0));
+  //int b = pulseIndex;
+  //if (pulseIndex > 255) b = int(map(pulseIndex, 255, 510, 255, 0));
   for (int i = 0; i < lines.size(); i++) {
-    stroke(b);
-    fill(b);
+    //stroke(b);
+    //fill(b);
     lines.get(i).display();
   }
 }
@@ -682,15 +698,20 @@ void resetConstellationG() {
 
 void playKinectModes(color c) {
   if (kinectMode == K_SPOTLIGHT) drawSpotlightLR(50, c);
-  else if (kinectMode == K_CONSTELLATION) {
-    checkConstellations();
-    if (triggered >= 0) playConstellations(2000);
-    else drawOrganicConstellation(19, c);
-  } else if (kinectMode == K_AIR_Z) airBenderZ(c);
+  //else if (kinectMode == K_CONSTELLATION) {
+  //checkConstellations();
+  //if (triggered >= 0) playConstellations(2000);
+  //else drawOrganicConstellation(24, c);
+  //drawOrganicConstellation(24, c);
+  //} 
+  else if (kinectMode == K_AIR_Z) airBenderZ(c);
   else if (kinectMode == K_TRANSIT_X) airBenderX(c);
   else if (kinectMode == K_AIR_BRIGHT) brightnessAirBenderY(c);
-  else if (kinectMode == K_AIR_LINE) linesXY(c);
+  if (kinectMode == K_AIR_LINE) linesXY(c);
   else if (kinectMode == K_PAINT) paint(50, c);
+  else {
+    drawSpotlightLR(50, c);
+  }
 }
 
 
@@ -711,7 +732,7 @@ void airBenderZ(color c) {
 }
 
 void airBenderX(color c) {
-  float x = map(handRDX, -2, 2, 0, 1);
+  float x = map(handRDX, -.5, .5, 0, 1);
   transitHand(x, c);
 }
 
